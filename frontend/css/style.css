@@ -184,6 +184,11 @@ img {
     color: var(--laranja);
 }
 
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
 .nav-list {
     display: flex;
     gap: 25px;
@@ -1051,6 +1056,11 @@ section {
 .footer-brand .logo-icon {
     background: var(--branco);
     color: var(--verde-principal);
+}
+
+.footer-brand .logo-img {
+    height: 60px;
+    filter: brightness(0) invert(1);
 }
 
 .footer-links h4,
