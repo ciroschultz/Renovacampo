@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Renova Campo — Plataforma</title>
+<meta name="description" content="Renova Campo — conectando proprietários, produtores e investidores para agricultura regenerativa.">
+<style>
+:root{
+  --verde-esc:#0f4f3a;
+  --verde:#1f6a45;
+  --laranja:#f07f10;
+  --muted:#4c6658;
+  --bg:#f4faf7;
+  --card:#ffffff;
+  --radius:14px;
+  --maxw:1200px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter, "Segoe UI", Roboto, Arial; background:var(--bg); color:#123827;-webkit-font-smoothing:antialiased}
+.container{max-width:var(--maxw);margin:18px auto;padding:0 20px}
+
+/* header */
+.header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 0}
+.header-left{display:flex;align-items:center;gap:12px}
+.logo-img{height:56px;width:auto}
+.nav{display:flex;gap:12px;align-items:center}
+.nav a{text-decoration:none;color:var(--verde-esc);font-weight:600;padding:8px;border-radius:8px}
+.nav a:hover{color:var(--laranja)}
+
+/* hero / carousel */
+.hero{position:relative;border-radius:16px;overflow:hidden;height:68vh;min-height:380px;box-shadow:0 30px 80px rgba(6,20,12,0.06);margin-bottom:22px}
+.slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .8s ease}
+.slide.active{opacity:1}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,40,30,0.42), rgba(10,40,30,0.06));z-index:2}
+.hero-content{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;color:#fff;max-width:920px;padding:20px;text-align:center}
+.hero-content h1{font-size:40px;line-height:1.02;margin:0 0 8px;text-shadow:0 10px 30px rgba(0,0,0,0.45)}
+.hero-content p{margin:0 0 18px;text-shadow:0 6px 18px rgba(0,0,0,0.35)}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{background:var(--verde);color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block}
+.btn.alt{background:#fff;color:var(--verde);padding:10px 16px;border-radius:10px;border:2px solid rgba(255,255,255,0.08)}
+.btn.orange{background:var(--laranja);color:#fff;border:0}
+
+/* arrows */
+.arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;background:rgba(255,255,255,0.95);border:0;border-radius:50%;width:48px;height:48px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.12)}
+.arrow.left{left:14px}
+.arrow.right{right:14px}
+
+/* counters */
+.counters{display:flex;gap:16px;margin-top:18px;justify-content:space-between}
+.counter{background:#fff;padding:16px;border-radius:12px;flex:1;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.05)}
+.counter h3{margin:0;color:var(--verde)}
+
+/* main sections */
+.section{padding:36px 0}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.section-title h2{color:var(--verde);margin:0}
+.lead{color:var(--muted);margin-bottom:18px}
+
+/* profiles */
+.profile-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.card{background:var(--card);border-radius:12px;padding:20px;width:320px;box-shadow:0 12px 28px rgba(0,0,0,0.06);text-align:left}
+.icon-circle{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:rgba(240,127,16,0.12)}
+.card h3{color:var(--verde);margin:0 0 8px}
+.card p{color:var(--muted);line-height:1.5}
+.action-row{display:flex;gap:10px;margin-top:12px}
+.icon-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:#fff;border:1px solid rgba(0,0,0,0.04);cursor:pointer;text-decoration:none;color:var(--verde);font-weight:700}
+.icon-circle-orange{width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:var(--laranja);color:#fff;margin-right:8px}
+
+/* grid tiles */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tile{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,0.06)}
+.tile .media{height:170px;background-size:cover;background-position:center}
+.tile .meta{padding:14px}
+.badge{padding:6px 10px;border-radius:14px;font-weight:700;font-size:13px}
+
+/* about / tabs */
+.about{background:linear-gradient(180deg,#f4faf7,#eef7ee);padding:28px;border-radius:12px;margin:24px 0}
+.tabs{display:flex;gap:12px;border-bottom:1px solid rgba(0,0,0,0.04);padding-bottom:12px}
+.tab{cursor:pointer;padding:8px 10px;font-weight:700;color:var(--muted);border-radius:8px}
+.tab.active{color:var(--verde);border-bottom:3px solid var(--verde);background:rgba(31,122,106,0.02)}
+.benefits{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
+.benefit{background:#fff;padding:18px;border-radius:12px;flex:1;min-width:240px;box-shadow:0 10px 28px rgba(0,0,0,0.04)}
+.benefit h4{margin:0;color:var(--verde)}
+.benefit ul{color:var(--muted);margin-left:18px}
+
+/* testimonials */
+.testimonials{padding:18px 0}
+.testimonial{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;display:flex;gap:14px;align-items:center;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
+.testimonial img{width:70px;height:70px;border-radius:50%;object-fit:cover}
+.stars{color:var(--laranja);font-size:16px}
+
+/* contact */
+.contact-wrap{display:flex;gap:18px;flex-wrap:wrap}
+.form-card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.06);flex:1;min-width:280px}
+.aside-card{width:320px;background:#fff;padding:18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.06)}
+
+/* footer */
+footer{background:var(--verde-esc);color:#fff;padding:18px;border-radius:8px;margin-top:18px;text-align:center}
+
+/* responsive */
+@media(max-width:1000px){.grid{grid-template-columns:1fr 1fr}.counters{flex-direction:column}}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.profile-grid{flex-direction:column}.hero{height:44vh}.hero-content h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header" role="banner">
+    <div class="header-left">
+      <!-- LOGO: coloque o arquivo nesta localização -->
+      <img class="logo-img" src="assets/Captura de tela 2025-10-07 210445.png" alt="Renova Campo">
+    </div>
+
+    <nav class="nav" role="navigation" aria-label="principal">
+      <a href="#inicio">Início</a>
+      <a href="#perfis">Perfis</a>
+      <a href="#terras">Terras</a>
+      <a href="#empreendimentos">Projetos</a>
+      <a href="#sobre">O que é</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <!-- HERO / CARROSSEL -->
+  <section id="inicio" class="hero" aria-label="Banner principal">
+    <!-- imagens agrícolas (Unsplash, licença livre) -->
+    <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1597848212624-eee7a3d68b66?auto=format&fit=crop&w=2000&q=80')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=2000&q=80')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1524594154908-edd3486bfcf8?auto=format&fit=crop&w=2000&q=80')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1569025690938-a00729c9e8d8?auto=format&fit=crop&w=2000&q=80')"></div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1>Renova Campo — Agricultura Regenerativa</h1>
+      <p>Conectamos proprietários, produtores e investidores para transformar terras em projetos produtivos, regenerativos e rentáveis.</p>
+      <div class="cta-row">
+        <a class="btn" href="formulario_terra.html" target="_blank">Tenho Terra</a>
+        <a class="btn orange" href="formulario_produtor.html" target="_blank">Quero Produzir</a>
+        <a class="btn alt" href="formulario_investidor.html" target="_blank">Quero Investir</a>
+      </div>
+    </div>
+
+    <button class="arrow left" id="prev" aria-label="anterior">◀</button>
+    <button class="arrow right" id="next" aria-label="próximo">▶</button>
+  </section>
+
+  <!-- counters -->
+  <div class="counters" aria-hidden="true" style="margin-bottom:18px">
+    <div class="counter"><h3>1.250+</h3><p style="color:var(--muted)">Hectares arrendados</p></div>
+    <div class="counter"><h3>350+</h3><p style="color:var(--muted)">Produtores ativos</p></div>
+    <div class="counter"><h3>R$ 15M+</h3><p style="color:var(--muted)">Investimentos realizados</p></div>
+  </div>
+
+  <!-- profiles -->
+  <section id="perfis" class="section" aria-labelledby="perfisTitle">
+    <div class="section-title"><h2 id="perfisTitle">Escolha seu perfil</h2></div>
+    <p class="lead">Selecione o perfil que melhor representa sua atuação — iremos direcioná-lo para o formulário correto.</p>
+
+    <div class="profile-grid" role="list">
+      <!-- Proprietário -->
+      <div class="card" role="listitem">
+        <div class="icon-circle" aria-hidden="true">
+          <!-- ícone simples laranja -->
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8v8a1 1 0 0 1-1 1h-4v-6H8v6H4a1 1 0 0 1-1-1v-8z" fill="currentColor" style="color:var(--laranja)"/></svg>
+        </div>
+        <h3>Proprietário de Terra</h3>
+        <p>Cadastre suas propriedades, receba propostas de produtores e valorize seu patrimônio.</p>
+        <div class="action-row">
+          <a class="icon-btn" href="formulario_terra.html" target="_blank"><span class="icon-circle-orange">🏷️</span> Cadastrar minha terra</a>
+        </div>
+      </div>
+
+      <!-- Produtor -->
+      <div class="card">
+        <div class="icon-circle">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M2 13h10l3 3h5v-3h1V9l-3-3H8v7H2zM6 17a2 2 0 100 4 2 2 0 000-4zM16 17a2 2 0 100 4 2 2 0 000-4z" fill="currentColor" style="color:var(--laranja)"/></svg>
+        </div>
+        <h3>Produtor Rural</h3>
+        <p>Encontre terras adequadas, submeta projetos sustentáveis e receba financiamento.</p>
+        <div class="action-row">
+          <a class="icon-btn" href="formulario_produtor.html" target="_blank"><span class="icon-circle-orange">🚜</span> Submeter projeto</a>
+        </div>
+      </div>
+
+      <!-- Investidor -->
+      <div class="card">
+        <div class="icon-circle">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M3 21h18v-2H3v2zM8 11l3-4 4 6h4v2H7l1-4z" fill="currentColor" style="color:var(--laranja)"/></svg>
+        </div>
+        <h3>Investidor</h3>
+        <p>Explore projetos certificados, invista com segurança e acompanhe seus retornos sustentáveis.</p>
+        <div class="action-row">
+          <a class="icon-btn" href="formulario_investidor.html" target="_blank"><span class="icon-circle-orange">💼</span> Ver oportunidades</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Terras -->
+  <section id="terras" class="section">
+    <div class="section-title"><h2>Terras Disponíveis</h2></div>
+    <p class="lead">Propriedades cadastradas — exemplos prontos para proposta.</p>
+    <div class="grid" style="margin-top:12px">
+      <article class="tile">
+        <div class="media" style="background-image:url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80')"></div>
+        <div class="meta">
+          <strong>Fazenda Boa Esperança</strong>
+          <div style="color:var(--muted);font-size:13px">Ribeirão Preto, SP · 120 ha</div>
+          <p style="color:var(--muted);margin-top:8px">Solo fértil, acesso à água e logística para escoamento — ideal para SAF.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div class="badge" style="background:#eaf6ee;color:var(--verde)">Disponível</div>
+            <button onclick="alert('Ver detalhes (demo)')" style="background:var(--verde);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Ver detalhes</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <div class="media" style="background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80')"></div>
+        <div class="meta">
+          <strong>Sítio Recanto Verde</strong>
+          <div style="color:var(--muted);font-size:13px">Bragança Paulista, SP · 45 ha</div>
+          <p style="color:var(--muted);margin-top:8px">Pomar agroflorestal com nascentes preservadas.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div class="badge" style="background:#fff7e8;color:#c37013">Em captação</div>
+            <button onclick="alert('Ver detalhes (demo)')" style="background:#fff7e8;color:#c37013;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Ver detalhes</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <div class="media" style="background-image:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80')"></div>
+        <div class="meta">
+          <strong>Fazenda Horizonte</strong>
+          <div style="color:var(--muted);font-size:13px">Rio Verde, GO · 320 ha</div>
+          <p style="color:var(--muted);margin-top:8px">Área com infraestrutura para irrigação e recuperação ecológica.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div class="badge" style="background:#eaf6ee;color:var(--verde)">Disponível</div>
+            <button onclick="alert('Ver detalhes (demo)')" style="background:var(--verde);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Ver detalhes</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Projetos -->
+  <section id="empreendimentos" class="section">
+    <div class="section-title"><h2>Projetos & Oportunidades</h2></div>
+    <p class="lead">Projetos em busca de parceiros e investimento.</p>
+    <div class="grid" style="margin-top:12px">
+      <article class="tile">
+        <div class="media" style="background-image:url('https://images.unsplash.com/photo-1543163521-1bf539c55f8b?auto=format&fit=crop&w=1200&q=80')"></div>
+        <div class="meta">
+          <strong>Soja Orgânica em Rotação</strong>
+          <div style="color:var(--muted);font-size:13px">Eng. Agrônomo • Certificado</div>
+          <p style="color:var(--muted);margin-top:8px">Projeto de rotação com adubação verde para recuperação do solo.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div style="font-weight:700;color:var(--verde)">R$ 500.000</div>
+            <button onclick="alert('Investir (demo)')" style="background:var(--laranja);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Investir</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <div class="media" style="background-image:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80')"></div>
+        <div class="meta">
+          <strong>Pomar Agroflorestal</strong>
+          <div style="color:var(--muted);font-size:13px">Cooperativa • Certificado</div>
+          <p style="color:var(--muted);margin-top:8px">Sistema agroflorestal com frutíferas nativas e manejo regenerativo.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div style="font-weight:700;color:var(--verde)">R$ 280.000</div>
+            <button onclick="alert('Investir (demo)')" style="background:var(--laranja);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Investir</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <div class="media" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80')"></div>
+        <div class="meta">
+          <strong>Pecuária Regenerativa</strong>
+          <div style="color:var(--muted);font-size:13px">Universidade • Pesquisa</div>
+          <p style="color:var(--muted);margin-top:8px">Integração lavoura-pecuária-floresta com rotação para recuperação.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div style="font-weight:700;color:var(--verde)">R$ 420.000</div>
+            <button onclick="alert('Investir (demo)')" style="background:var(--laranja);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Investir</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- O que é -->
+  <section id="sobre" class="about">
+    <h2 style="text-align:center;color:var(--verde)">O que é a Renova Campo?</h2>
+    <p style="text-align:center;color:var(--muted);max-width:900px;margin:6px auto 18px">Conectamos terras, produtores e investidores para viabilizar projetos de agricultura regenerativa com impacto ambiental e retorno econômico.</p>
+
+    <div class="tabs" role="tablist">
+      <div class="tab active" data-target="tab-prod">Para Produtores</div>
+      <div class="tab" data-target="tab-dono">Para Donos de Terra</div>
+      <div class="tab" data-target="tab-inv">Para Investidores</div>
+    </div>
+
+    <div id="tab-prod" class="benefits" role="tabpanel">
+      <div class="benefit"><h4>Assistência Técnica</h4><ul><li>Consultoria personalizada</li><li>Acompanhamento técnico contínuo</li><li>Práticas regenerativas</li></ul></div>
+      <div class="benefit"><h4>Certificação & Mercado</h4><ul><li>Selo Renova Campo</li><li>Acesso a compradores</li></ul></div>
+      <div class="benefit"><h4>Financiamento</h4><ul><li>Conexão com investidores</li><li>Linhas verdes</li></ul></div>
+    </div>
+
+    <div id="tab-dono" class="benefits" style="display:none">
+      <div class="benefit"><h4>Valorização</h4><ul><li>Aumento do valor da propriedade</li><li>Recuperação de áreas degradadas</li></ul></div>
+      <div class="benefit"><h4>Parcerias</h4><ul><li>Contratos seguros</li><li>Gestão de riscos</li></ul></div>
+      <div class="benefit"><h4>Monitoramento</h4><ul><li>Relatórios</li><li>Acompanhamento</li></ul></div>
+    </div>
+
+    <div id="tab-inv" class="benefits" style="display:none">
+      <div class="benefit"><h4>Retorno</h4><ul><li>Modelos de retorno</li><li>Projeções</li></ul></div>
+      <div class="benefit"><h4>Diversificação</h4><ul><li>Portfólios sustentáveis</li></ul></div>
+      <div class="benefit"><h4>Impacto</h4><ul><li>Sequestro de carbono</li><li>Relatórios ODS</li></ul></div>
+    </div>
+  </section>
+
+  <!-- Depoimentos -->
+  <section class="testimonials">
+    <h2 style="color:var(--verde);text-align:center;margin-bottom:16px">Depoimentos</h2>
+
+    <div class="testimonial">
+      <img src="https://randomuser.me/api/portraits/men/31.jpg" alt="João">
+      <div>
+        <div class="stars">★★★★★</div>
+        <p><strong>João Silva — Produtor Rural</strong></p>
+        <p style="color:var(--muted)">“Com a Renova Campo consegui acesso a terras ideais e apoio técnico completo para iniciar meu projeto regenerativo.”</p>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ana">
+      <div>
+        <div class="stars">★★★★★</div>
+        <p><strong>Ana Pereira — Investidora</strong></p>
+        <p style="color:var(--muted)">“É inspirador ver o retorno financeiro e ambiental dos projetos apoiados pela plataforma. Transparência total.”</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato" class="section">
+    <div class="contact-wrap">
+      <form id="contactForm" class="form-card">
+        <h3>Fale conosco</h3>
+        <label>Nome</label>
+        <input id="name" required style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6f0ea;margin-top:6px">
+        <label style="margin-top:8px">Email</label>
+        <input id="email" type="email" required style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6f0ea;margin-top:6px">
+        <label style="margin-top:8px">Mensagem</label>
+        <textarea id="message" rows="5" required style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6f0ea;margin-top:6px"></textarea>
+        <button class="btn" style="margin-top:12px">Enviar mensagem</button>
+      </form>
+
+      <aside class="aside-card">
+        <h4 style="color:var(--verde)">Contato</h4>
+        <p style="color:var(--muted)">renovacampo@renovacampo.com.br</p>
+        <p style="color:var(--muted)">+55 (11) 9 9999-9999</p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Renova Campo — Agricultura Regenerativa • renovacampo@renovacampo.com.br
+  </footer>
+
+</div>
+
+<script>
+/* Carousel */
+const slides = Array.from(document.querySelectorAll('.slide'));
+let cur = 0;
+function show(i){ slides.forEach((s,idx)=> s.classList.toggle('active', idx===i)); }
+document.getElementById('next').addEventListener('click', ()=>{ cur=(cur+1)%slides.length; show(cur); });
+document.getElementById('prev').addEventListener('click', ()=>{ cur=(cur-1+slides.length)%slides.length; show(cur); });
+let auto = setInterval(()=>{ cur=(cur+1)%slides.length; show(cur); }, 6000);
+document.getElementById('next').addEventListener('click', ()=>{ clearInterval(auto); auto = setInterval(()=>{ cur=(cur+1)%slides.length; show(cur); }, 6000); });
+document.getElementById('prev').addEventListener('click', ()=>{ clearInterval(auto); auto = setInterval(()=>{ cur=(cur+1)%slides.length; show(cur); }, 6000); });
+
+/* Tabs */
+document.querySelectorAll('.tabs .tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const target = t.dataset.target;
+    ['tab-prod','tab-dono','tab-inv'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.style.display = (id===target) ? 'flex' : 'none';
+    });
+  });
+});
+(function initTabs(){ document.getElementById('tab-prod').style.display='flex'; document.getElementById('tab-dono').style.display='none'; document.getElementById('tab-inv').style.display='none'; })();
+
+/* Contact demo -> localStorage */
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  if(!name || !email || !message){ alert('Preencha nome, email e mensagem'); return; }
+  const arr = JSON.parse(localStorage.getItem('rc_contacts') || '[]');
+  arr.push({name,email,message,when:new Date().toISOString()});
+  localStorage.setItem('rc_contacts', JSON.stringify(arr));
+  alert('Mensagem registrada (demo). Em produção será enviada ao backend.');
+  this.reset();
+});
+
+/* initial show */
+show(0);
+</script>
+</body>
+</html>
