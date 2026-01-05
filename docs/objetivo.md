@@ -1,5 +1,34 @@
 # Objetivo do Projeto - Renova Campo
 
+---
+
+## Configurações do Projeto
+
+| Configuração | Valor |
+|--------------|-------|
+| **Pasta Oficial** | `C:/Users/ciroa/Renovacampo` |
+| **Sistema Operacional** | Windows |
+| **Versão do Projeto** | 1.0.0 |
+| **Data de Início** | Janeiro/2025 |
+
+> **IMPORTANTE:** Todo o desenvolvimento deve ser feito dentro desta pasta.
+
+---
+
+## Instruções para o Claude
+
+### Ao INICIALIZAR o projeto:
+1. Ler arquivos de documentação (`.md`)
+2. Ver estrutura de arquivos do projeto
+3. Ler histórico do git (`git log`)
+
+### Ao ENCERRAR a sessão:
+1. `git add .` - Adicionar alterações
+2. `git commit -m "mensagem"` - Fazer commit
+3. `git push` - Empurrar para repositório remoto
+
+---
+
 ## Meta Principal
 
 Desenvolver o sistema completo da plataforma **Renova Campo**, que conecta proprietários de terras, produtores rurais e investidores para agricultura regenerativa e sustentável.
@@ -22,7 +51,7 @@ Desenvolver o sistema completo da plataforma **Renova Campo**, que conecta propr
 | **Spring Boot** | Framework backend |
 | **Spring Data JPA** | Persistência de dados |
 | **Spring Security** | Autenticação e autorização |
-| **Maven/Gradle** | Gerenciamento de dependências |
+| **Maven** | Gerenciamento de dependências |
 
 ### Banco de Dados
 | Tecnologia | Uso |
@@ -78,159 +107,69 @@ Desenvolver o sistema completo da plataforma **Renova Campo**, que conecta propr
 ## Estrutura do Projeto
 
 ```
-renova-campo/
+C:/Users/ciroa/Renovacampo/
 ├── frontend/
 │   ├── index.html
 │   ├── css/
-│   │   ├── style.css
-│   │   ├── components.css
-│   │   └── responsive.css
+│   │   └── style.css
 │   ├── js/
-│   │   ├── main.js
-│   │   ├── api.js
-│   │   ├── auth.js
-│   │   └── utils.js
-│   └── pages/
-│       ├── login.html
-│       ├── cadastro.html
-│       ├── propriedades.html
-│       ├── projetos.html
-│       ├── investidores.html
-│       ├── simulador.html
-│       └── dashboard.html
+│   │   └── main.js
+│   ├── pages/
+│   └── assets/
 │
 ├── backend/
 │   └── renovacampo/
-│       ├── src/
-│       │   ├── main/
-│       │   │   ├── java/com/renovacampo/
-│       │   │   │   ├── RenovaCampoApplication.java
-│       │   │   │   ├── config/
-│       │   │   │   ├── controller/
-│       │   │   │   ├── service/
-│       │   │   │   ├── repository/
-│       │   │   │   ├── model/
-│       │   │   │   ├── dto/
-│       │   │   │   └── exception/
-│       │   │   └── resources/
-│       │   │       ├── application.properties
-│       │   │       └── data.sql
-│       │   └── test/
-│       ├── pom.xml
-│       └── README.md
+│       ├── src/main/java/com/renovacampo/
+│       │   ├── controller/
+│       │   ├── service/
+│       │   ├── repository/
+│       │   ├── model/
+│       │   └── dto/
+│       ├── src/main/resources/
+│       └── pom.xml
 │
 └── docs/
     ├── RESUMO_RENOVACAMPO.md
-    ├── objetivo.md
-    └── API.md
+    └── objetivo.md
 ```
 
 ---
 
-## API REST - Endpoints Planejados
+## API REST - Endpoints
 
 ### Autenticação
 ```
-POST /api/auth/register     - Cadastro de usuário
-POST /api/auth/login        - Login
-POST /api/auth/logout       - Logout
-POST /api/auth/refresh      - Refresh token
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/logout
 ```
 
 ### Propriedades
 ```
-GET    /api/v1/properties          - Listar todas
-GET    /api/v1/properties/{id}     - Buscar por ID
-POST   /api/v1/properties          - Criar nova
-PUT    /api/v1/properties/{id}     - Atualizar
-DELETE /api/v1/properties/{id}     - Deletar
+GET    /api/v1/properties
+GET    /api/v1/properties/{id}
+POST   /api/v1/properties
+PUT    /api/v1/properties/{id}
+DELETE /api/v1/properties/{id}
 ```
 
 ### Projetos
 ```
-GET    /api/v1/projects            - Listar todos
-GET    /api/v1/projects/{id}       - Buscar por ID
-POST   /api/v1/projects            - Criar novo
-PUT    /api/v1/projects/{id}       - Atualizar
-DELETE /api/v1/projects/{id}       - Deletar
+GET    /api/v1/projects
+GET    /api/v1/projects/{id}
+POST   /api/v1/projects
+PUT    /api/v1/projects/{id}
+DELETE /api/v1/projects/{id}
 ```
 
 ### Investidores
 ```
-GET    /api/v1/investors           - Listar todos
-GET    /api/v1/investors/{id}      - Buscar por ID
-GET    /api/v1/investors/tax/{cpf} - Buscar por CPF/CNPJ
-POST   /api/v1/investors           - Criar novo
-PUT    /api/v1/investors/{id}      - Atualizar
-DELETE /api/v1/investors/{id}      - Deletar
+GET    /api/v1/investors
+GET    /api/v1/investors/{id}
+POST   /api/v1/investors
+PUT    /api/v1/investors/{id}
+DELETE /api/v1/investors/{id}
 ```
-
-### Empreendimentos
-```
-GET    /api/v1/enterprises         - Listar todos
-GET    /api/v1/enterprises/{id}    - Buscar por ID
-POST   /api/v1/enterprises         - Criar novo
-PUT    /api/v1/enterprises/{id}    - Atualizar
-DELETE /api/v1/enterprises/{id}    - Deletar
-```
-
-### Simulador
-```
-POST   /api/v1/simulator/calculate - Calcular rentabilidade
-GET    /api/v1/simulator/cultures  - Listar culturas disponíveis
-```
-
----
-
-## Padrões e Boas Práticas
-
-### Backend
-- Arquitetura em camadas (Controller → Service → Repository)
-- DTOs para transferência de dados
-- Validação com Bean Validation
-- Tratamento centralizado de exceções
-- Documentação com Swagger/OpenAPI
-
-### Frontend
-- Código semântico e acessível
-- CSS com variáveis (custom properties)
-- JavaScript modular
-- Responsividade (mobile-first)
-- Consumo de API via Fetch API
-
-### Segurança
-- Autenticação JWT
-- Validação de entrada de dados
-- Proteção contra SQL Injection
-- Proteção contra XSS
-- CORS configurado
-
----
-
-## Fases de Desenvolvimento
-
-### Fase 1 - Setup e Autenticação
-1. Configurar projeto Spring Boot
-2. Configurar banco de dados
-3. Implementar autenticação
-4. Criar páginas de login/cadastro
-
-### Fase 2 - Módulos Core
-1. CRUD de Propriedades
-2. CRUD de Projetos
-3. CRUD de Investidores
-4. Integração frontend/backend
-
-### Fase 3 - Funcionalidades Avançadas
-1. Módulo de Empreendimentos
-2. Simulador de investimentos
-3. Dashboard com estatísticas
-
-### Fase 4 - Refinamento
-1. Testes
-2. Documentação da API
-3. Otimizações de performance
-4. Deploy
 
 ---
 
@@ -248,13 +187,12 @@ GET    /api/v1/simulator/cultures  - Listar culturas disponíveis
 
 ---
 
-## Próximos Passos
+## Fases de Desenvolvimento
 
-1. **Criar estrutura de pastas** do projeto
-2. **Inicializar projeto Spring Boot** com dependências
-3. **Criar páginas HTML** base do frontend
-4. **Configurar banco de dados**
-5. **Implementar primeiro módulo** (Autenticação)
+1. **Fase 1** - Setup e Autenticação
+2. **Fase 2** - Módulos Core (Propriedades, Projetos, Investidores)
+3. **Fase 3** - Funcionalidades Avançadas (Empreendimentos, Simulador, Dashboard)
+4. **Fase 4** - Testes e Deploy
 
 ---
 
