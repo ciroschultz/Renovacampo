@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastre-se - Renova Campo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .cadastro-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            padding: 40px 20px;
+        }
+
+        .cadastro-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cadastro-header .logo img {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .cadastro-header h1 {
+            color: var(--branco);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .cadastro-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--branco);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .back-home:hover {
+            opacity: 0.8;
+        }
+
+        .cadastro-options {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .cadastro-card {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 35px 30px;
+            text-align: center;
+            box-shadow: var(--sombra-hover);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .cadastro-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .cadastro-card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .cadastro-card-icon i {
+            font-size: 32px;
+            color: var(--branco);
+        }
+
+        .cadastro-card h3 {
+            font-size: 22px;
+            color: var(--verde-principal);
+            margin-bottom: 15px;
+        }
+
+        .cadastro-card p {
+            color: var(--texto-claro);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .cadastro-card ul {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .cadastro-card ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--texto);
+        }
+
+        .cadastro-card ul li i {
+            color: var(--laranja);
+            margin-top: 3px;
+        }
+
+        .cadastro-card .btn {
+            width: 100%;
+        }
+
+        .cadastro-footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 15px;
+        }
+
+        .cadastro-footer a {
+            color: var(--branco);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .cadastro-footer a:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 900px) {
+            .cadastro-options {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cadastro-header h1 {
+                font-size: 26px;
+            }
+
+            .cadastro-header p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cadastro-page">
+        <a href="../index.html" class="back-home">
+            <i class="fas fa-arrow-left"></i> Voltar ao site
+        </a>
+
+        <div class="cadastro-header">
+            <a href="../index.html" class="logo">
+                <img src="../imagens/logo renova campo.png" alt="Renova Campo">
+            </a>
+            <h1>Comece sua jornada sustentvel</h1>
+            <p>Escolha como voc deseja participar da transformao da agricultura brasileira</p>
+        </div>
+
+        <div class="cadastro-options">
+            <!-- Proprietrio de Terra -->
+            <div class="cadastro-card" onclick="window.location.href='cadastro-terra.html'">
+                <div class="cadastro-card-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3>Sou Proprietrio de Terra</h3>
+                <p>Tenho terras disponveis e quero arrendar para projetos de agricultura sustentvel.</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Renda passiva da sua propriedade</li>
+                    <li><i class="fas fa-check"></i> Recuperao ambiental do solo</li>
+                    <li><i class="fas fa-check"></i> Assessoria jurdica inclusa</li>
+                    <li><i class="fas fa-check"></i> Acompanhamento tcnico</li>
+                </ul>
+                <a href="cadastro-terra.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Cadastrar Minha Terra
+                </a>
+            </div>
+
+            <!-- Produtor -->
+            <div class="cadastro-card" onclick="window.location.href='cadastro-projeto.html'">
+                <div class="cadastro-card-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h3>Sou Produtor</h3>
+                <p>Quero desenvolver projetos de agricultura regenerativa em terras arrendadas.</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Acesso a terras qualificadas</li>
+                    <li><i class="fas fa-check"></i> Captao de investimentos</li>
+                    <li><i class="fas fa-check"></i> Certificao de sustentabilidade</li>
+                    <li><i class="fas fa-check"></i> Suporte tcnico especializado</li>
+                </ul>
+                <a href="cadastro-projeto.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Cadastrar Projeto
+                </a>
+            </div>
+
+            <!-- Investidor -->
+            <div class="cadastro-card" onclick="window.location.href='cadastro-investidor.html'">
+                <div class="cadastro-card-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3>Sou Investidor</h3>
+                <p>Quero investir em projetos sustentveis com retorno financeiro e impacto positivo.</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Projetos certificados e validados</li>
+                    <li><i class="fas fa-check"></i> Retornos atrativos (15-20% a.a.)</li>
+                    <li><i class="fas fa-check"></i> Impacto ambiental positivo</li>
+                    <li><i class="fas fa-check"></i> Acompanhamento transparente</li>
+                </ul>
+                <a href="cadastro-investidor.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Quero Investir
+                </a>
+            </div>
+        </div>
+
+        <p class="cadastro-footer">
+            J tem uma conta? <a href="login.html">Faa login</a>
+        </p>
+    </div>
+</body>
+</html>

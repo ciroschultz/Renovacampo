@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcerias - Renova Campo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-content {
+            padding-top: 80px;
+        }
+
+        /* Hero */
+        .hero-parcerias {
+            background: linear-gradient(135deg, rgba(0, 79, 59, 0.85) 0%, rgba(0, 107, 79, 0.85) 100%),
+                        url('../imagens/imagens gerais/imagem geral 4.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
+            color: var(--branco);
+            text-align: center;
+        }
+
+        .hero-parcerias h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .hero-parcerias p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        /* Tipos de Parceria */
+        .tipos-parceria {
+            padding: 80px 0;
+            background: var(--branco);
+        }
+
+        .tipos-parceria h2 {
+            text-align: center;
+            font-size: 32px;
+            color: var(--verde-principal);
+            margin-bottom: 50px;
+        }
+
+        .tipos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .tipo-card {
+            padding: 40px 30px;
+            background: var(--fundo);
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .tipo-card:hover {
+            border-color: var(--laranja);
+            transform: translateY(-5px);
+            box-shadow: var(--sombra);
+        }
+
+        .tipo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--laranja) 0%, var(--laranja-hover) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .tipo-icon i {
+            font-size: 32px;
+            color: var(--branco);
+        }
+
+        .tipo-card h3 {
+            font-size: 22px;
+            color: var(--verde-principal);
+            margin-bottom: 15px;
+        }
+
+        .tipo-card p {
+            color: var(--texto-claro);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .tipo-card ul {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .tipo-card ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--texto);
+        }
+
+        .tipo-card ul li i {
+            color: var(--verde-principal);
+            margin-top: 3px;
+        }
+
+        /* Parceiros Atuais */
+        .parceiros-section {
+            padding: 80px 0;
+            background: var(--fundo);
+        }
+
+        .parceiros-section h2 {
+            text-align: center;
+            font-size: 32px;
+            color: var(--verde-principal);
+            margin-bottom: 20px;
+        }
+
+        .parceiros-subtitle {
+            text-align: center;
+            color: var(--texto-claro);
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+
+        .parceiros-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .parceiro-card {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--sombra);
+            transition: var(--transition);
+        }
+
+        .parceiro-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .parceiro-logo {
+            width: 100px;
+            height: 100px;
+            background: var(--cinza-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .parceiro-logo i {
+            font-size: 40px;
+            color: var(--verde-principal);
+        }
+
+        .parceiro-card h4 {
+            font-size: 18px;
+            color: var(--verde-principal);
+            margin-bottom: 8px;
+        }
+
+        .parceiro-card .tipo {
+            font-size: 13px;
+            color: var(--laranja);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .parceiro-card p {
+            font-size: 14px;
+            color: var(--texto-claro);
+            line-height: 1.5;
+        }
+
+        /* Benefícios */
+        .beneficios-section {
+            padding: 80px 0;
+            background: var(--branco);
+        }
+
+        .beneficios-section h2 {
+            text-align: center;
+            font-size: 32px;
+            color: var(--verde-principal);
+            margin-bottom: 50px;
+        }
+
+        .beneficios-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .beneficio-item {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: var(--fundo);
+            border-radius: var(--border-radius);
+        }
+
+        .beneficio-item i {
+            font-size: 28px;
+            color: var(--laranja);
+            flex-shrink: 0;
+        }
+
+        .beneficio-item h4 {
+            font-size: 18px;
+            color: var(--verde-principal);
+            margin-bottom: 10px;
+        }
+
+        .beneficio-item p {
+            font-size: 14px;
+            color: var(--texto-claro);
+            line-height: 1.6;
+        }
+
+        /* Formulário */
+        .form-section {
+            padding: 80px 0;
+            background: var(--fundo);
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 50px;
+            box-shadow: var(--sombra);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            font-size: 28px;
+            color: var(--verde-principal);
+            margin-bottom: 10px;
+        }
+
+        .form-container > p {
+            text-align: center;
+            color: var(--texto-claro);
+            margin-bottom: 35px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--texto);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--cinza-claro);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--verde-principal);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .form-submit .btn {
+            min-width: 200px;
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            text-align: center;
+            color: var(--branco);
+        }
+
+        .cta-section h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 900px) {
+            .tipos-grid,
+            .parceiros-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .beneficios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-parcerias h1 {
+                font-size: 30px;
+            }
+
+            .tipos-grid,
+            .parceiros-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="logo">
+                    <img src="../imagens/logo renova campo.png" alt="Renova Campo" class="logo-img">
+                </a>
+
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="../index.html#inicio">Início</a></li>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                        <li><a href="../index.html#depoimentos">Depoimentos</a></li>
+                        <li><a href="parcerias.html" class="active">Parcerias</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-buttons">
+                    <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                    <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-content">
+        <!-- Hero -->
+        <section class="hero-parcerias">
+            <div class="container">
+                <h1>Parcerias</h1>
+                <p>Construímos relacionamentos sólidos com organizações que compartilham nossa visão de uma agricultura mais sustentável e regenerativa.</p>
+            </div>
+        </section>
+
+        <!-- Tipos de Parceria -->
+        <section class="tipos-parceria">
+            <div class="container">
+                <h2>Tipos de Parceria</h2>
+                <div class="tipos-grid">
+                    <div class="tipo-card">
+                        <div class="tipo-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h3>Institucional</h3>
+                        <p>Parcerias com universidades, institutos de pesquisa e órgãos governamentais.</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Pesquisa e desenvolvimento</li>
+                            <li><i class="fas fa-check"></i> Capacitação técnica</li>
+                            <li><i class="fas fa-check"></i> Certificações</li>
+                            <li><i class="fas fa-check"></i> Políticas públicas</li>
+                        </ul>
+                        <a href="#form-parceria" class="btn btn-outline">Saiba Mais</a>
+                    </div>
+
+                    <div class="tipo-card">
+                        <div class="tipo-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3>Corporativa</h3>
+                        <p>Empresas que desejam apoiar projetos sustentáveis e compensar sua pegada de carbono.</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Neutralização de carbono</li>
+                            <li><i class="fas fa-check"></i> ESG e sustentabilidade</li>
+                            <li><i class="fas fa-check"></i> Marketing verde</li>
+                            <li><i class="fas fa-check"></i> Cadeia de suprimentos</li>
+                        </ul>
+                        <a href="#form-parceria" class="btn btn-outline">Saiba Mais</a>
+                    </div>
+
+                    <div class="tipo-card">
+                        <div class="tipo-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Tecnológica</h3>
+                        <p>Empresas de tecnologia que podem agregar valor à nossa plataforma e aos projetos.</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Monitoramento por satélite</li>
+                            <li><i class="fas fa-check"></i> IoT e sensores</li>
+                            <li><i class="fas fa-check"></i> Inteligência artificial</li>
+                            <li><i class="fas fa-check"></i> Blockchain e rastreabilidade</li>
+                        </ul>
+                        <a href="#form-parceria" class="btn btn-outline">Saiba Mais</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Parceiros Atuais -->
+        <section class="parceiros-section">
+            <div class="container">
+                <h2>Nossos Parceiros</h2>
+                <p class="parceiros-subtitle">Conheça algumas das organizações que já fazem parte do ecossistema Renova Campo.</p>
+                <div class="parceiros-grid">
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h4>ESALQ/USP</h4>
+                        <p class="tipo">Institucional</p>
+                        <p>Pesquisa em solos e sistemas agroflorestais</p>
+                    </div>
+
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4>Embrapa</h4>
+                        <p class="tipo">Institucional</p>
+                        <p>Desenvolvimento de tecnologias sustentáveis</p>
+                    </div>
+
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h4>Instituto Terra</h4>
+                        <p class="tipo">ONG</p>
+                        <p>Restauração ecológica e educação ambiental</p>
+                    </div>
+
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-satellite"></i>
+                        </div>
+                        <h4>AgroSat</h4>
+                        <p class="tipo">Tecnologia</p>
+                        <p>Monitoramento por satélite das áreas</p>
+                    </div>
+
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h4>Certifica Brasil</h4>
+                        <p class="tipo">Certificação</p>
+                        <p>Auditoria e certificação de projetos</p>
+                    </div>
+
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <h4>Banco Verde</h4>
+                        <p class="tipo">Financeiro</p>
+                        <p>Crédito especial para agricultura sustentável</p>
+                    </div>
+
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h4>LogVerde</h4>
+                        <p class="tipo">Logística</p>
+                        <p>Distribuição com baixa emissão de carbono</p>
+                    </div>
+
+                    <div class="parceiro-card">
+                        <div class="parceiro-logo">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h4>Orgânico & Cia</h4>
+                        <p class="tipo">Comercial</p>
+                        <p>Distribuição de produtos orgânicos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefícios -->
+        <section class="beneficios-section">
+            <div class="container">
+                <h2>Benefícios de ser Parceiro</h2>
+                <div class="beneficios-grid">
+                    <div class="beneficio-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h4>Visibilidade de Marca</h4>
+                            <p>Associe sua marca a projetos de impacto positivo e sustentabilidade, fortalecendo seu posicionamento ESG.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <i class="fas fa-network-wired"></i>
+                        <div>
+                            <h4>Acesso à Rede</h4>
+                            <p>Conecte-se com produtores, investidores e outras organizações comprometidas com a agricultura regenerativa.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <i class="fas fa-certificate"></i>
+                        <div>
+                            <h4>Certificação de Impacto</h4>
+                            <p>Receba relatórios detalhados sobre o impacto ambiental e social gerado pela parceria.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <i class="fas fa-bullhorn"></i>
+                        <div>
+                            <h4>Co-marketing</h4>
+                            <p>Desenvolva ações conjuntas de comunicação e marketing que destacam o compromisso sustentável.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <i class="fas fa-cloud"></i>
+                        <div>
+                            <h4>Compensação de Carbono</h4>
+                            <p>Utilize projetos certificados para compensar as emissões de carbono da sua organização.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <h4>Inovação Aberta</h4>
+                            <p>Participe de projetos de inovação colaborativa em agricultura sustentável e tecnologia verde.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulário -->
+        <section class="form-section" id="form-parceria">
+            <div class="container">
+                <div class="form-container">
+                    <h2>Seja um Parceiro</h2>
+                    <p>Preencha o formulário abaixo e nossa equipe entrará em contato.</p>
+
+                    <form id="parceriaForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empresa">Nome da Empresa/Organização *</label>
+                                <input type="text" id="empresa" name="empresa" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cnpj">CNPJ</label>
+                                <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="responsavel">Nome do Responsável *</label>
+                                <input type="text" id="responsavel" name="responsavel" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cargo">Cargo</label>
+                                <input type="text" id="cargo" name="cargo">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">E-mail *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Telefone *</label>
+                                <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo-parceria">Tipo de Parceria *</label>
+                            <select id="tipo-parceria" name="tipo-parceria" required>
+                                <option value="">Selecione...</option>
+                                <option value="institucional">Institucional (Universidades, Institutos)</option>
+                                <option value="corporativa">Corporativa (Empresas)</option>
+                                <option value="tecnologica">Tecnológica</option>
+                                <option value="ong">ONG / Terceiro Setor</option>
+                                <option value="financeira">Financeira</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interesse">Área de Interesse</label>
+                            <select id="interesse" name="interesse">
+                                <option value="">Selecione...</option>
+                                <option value="pesquisa">Pesquisa e Desenvolvimento</option>
+                                <option value="carbono">Compensação de Carbono</option>
+                                <option value="cadeia">Cadeia de Suprimentos</option>
+                                <option value="tecnologia">Soluções Tecnológicas</option>
+                                <option value="certificacao">Certificação</option>
+                                <option value="investimento">Investimento de Impacto</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mensagem">Conte-nos mais sobre sua organização e interesse *</label>
+                            <textarea id="mensagem" name="mensagem" placeholder="Descreva brevemente sua organização e como gostaria de contribuir..." required></textarea>
+                        </div>
+
+                        <div class="form-submit">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Enviar Proposta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Dúvidas sobre parcerias?</h2>
+                <p>Entre em contato com nossa equipe de parcerias</p>
+                <a href="mailto:parcerias@renovacampo.com.br" class="btn btn-white">
+                    <i class="fas fa-envelope"></i> parcerias@renovacampo.com.br
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <img src="../imagens/Logo front end rodape.jpeg" alt="Renova Campo" class="footer-logo-img">
+                    </a>
+                    <p>Conectando proprietários de terras, produtores e investidores para uma agricultura regenerativa e sustentável.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                        <li><a href="../index.html#depoimentos">Depoimentos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Cadastro</h4>
+                    <ul>
+                        <li><a href="cadastro-terra.html">Cadastro Propriedades</a></li>
+                        <li><a href="cadastro-projeto.html">Cadastro Projetos</a></li>
+                        <li><a href="cadastro-investidor.html">Investir Agora</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000, São Paulo - SP</li>
+                        <li><i class="fas fa-envelope"></i> contato@renovacampo.com.br</li>
+                        <li><i class="fas fa-phone"></i> (11) 9 8448-9104</li>
+                    </ul>
+
+                    <h4>Nossas Redes</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Renova Campo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('parceriaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Proposta enviada com sucesso! Nossa equipe entrará em contato em breve.');
+            this.reset();
+        });
+
+        // Máscara CNPJ
+        document.getElementById('cnpj').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 14) value = value.slice(0, 14);
+            value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            e.target.value = value;
+        });
+
+        // Máscara telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length > 6) {
+                value = value.replace(/^(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+            } else if (value.length > 0) {
+                value = value.replace(/^(\d{0,2})/, '($1');
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

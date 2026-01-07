@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quem Somos - Renova Campo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-content {
+            padding-top: 80px;
+        }
+
+        /* Hero Institucional */
+        .hero-institucional {
+            background: linear-gradient(135deg, rgba(0, 79, 59, 0.85) 0%, rgba(0, 107, 79, 0.85) 100%),
+                        url('../imagens/imagens gerais/imagem geral 5.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            color: var(--branco);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-institucional::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .hero-institucional::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+
+        .hero-institucional .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-institucional h1 {
+            font-size: 48px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .hero-institucional .lead {
+            font-size: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+
+        .hero-tagline {
+            margin-top: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.15);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+        }
+
+        .hero-tagline i {
+            color: var(--laranja);
+        }
+
+        /* Seção Contexto */
+        .contexto-section {
+            padding: 80px 0;
+            background: var(--branco);
+        }
+
+        .contexto-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .contexto-text h2 {
+            font-size: 36px;
+            color: var(--verde-principal);
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+
+        .contexto-text h2 span {
+            color: var(--laranja);
+        }
+
+        .contexto-text p {
+            color: var(--texto);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .contexto-text p.destaque {
+            font-size: 18px;
+            color: var(--verde-principal);
+            font-weight: 500;
+            border-left: 4px solid var(--laranja);
+            padding-left: 20px;
+            margin: 30px 0;
+        }
+
+        .contexto-image {
+            position: relative;
+        }
+
+        .contexto-image img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra-hover);
+        }
+
+        /* Mapa Conceitual */
+        .mapa-section {
+            padding: 100px 0;
+            background: var(--fundo);
+        }
+
+        .mapa-section h2 {
+            text-align: center;
+            font-size: 36px;
+            color: var(--verde-principal);
+            margin-bottom: 20px;
+        }
+
+        .mapa-section .section-subtitle {
+            text-align: center;
+            color: var(--texto-claro);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-size: 18px;
+        }
+
+        .mapa-conceitual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .mapa-item {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 35px 30px;
+            text-align: center;
+            width: 280px;
+            box-shadow: var(--sombra);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .mapa-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--sombra-hover);
+        }
+
+        .mapa-item.central {
+            width: 320px;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            color: var(--branco);
+            transform: scale(1.05);
+        }
+
+        .mapa-item.central:hover {
+            transform: scale(1.08);
+        }
+
+        .mapa-item-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--laranja) 0%, var(--laranja-hover) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .mapa-item.central .mapa-item-icon {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .mapa-item-icon i {
+            font-size: 32px;
+            color: var(--branco);
+        }
+
+        .mapa-item h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--verde-principal);
+        }
+
+        .mapa-item.central h3 {
+            color: var(--branco);
+        }
+
+        .mapa-item p {
+            font-size: 14px;
+            color: var(--texto-claro);
+            line-height: 1.6;
+        }
+
+        .mapa-item.central p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .mapa-connector {
+            font-size: 30px;
+            color: var(--laranja);
+        }
+
+        /* Diferenciais */
+        .diferenciais-section {
+            padding: 100px 0;
+            background: var(--branco);
+        }
+
+        .diferenciais-section h2 {
+            text-align: center;
+            font-size: 36px;
+            color: var(--verde-principal);
+            margin-bottom: 60px;
+        }
+
+        .diferenciais-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .diferencial-card {
+            display: flex;
+            gap: 20px;
+            padding: 30px;
+            background: var(--fundo);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            border-left: 4px solid var(--laranja);
+        }
+
+        .diferencial-card:hover {
+            transform: translateX(10px);
+            box-shadow: var(--sombra);
+        }
+
+        .diferencial-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .diferencial-icon i {
+            font-size: 24px;
+            color: var(--branco);
+        }
+
+        .diferencial-content h4 {
+            font-size: 18px;
+            color: var(--verde-principal);
+            margin-bottom: 10px;
+        }
+
+        .diferencial-content p {
+            font-size: 14px;
+            color: var(--texto-claro);
+            line-height: 1.6;
+        }
+
+        /* Propósito */
+        .proposito-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            color: var(--branco);
+            text-align: center;
+            position: relative;
+        }
+
+        .proposito-section::before {
+            content: '"';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 150px;
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+
+        .proposito-section h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .proposito-text {
+            font-size: 28px;
+            max-width: 900px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .proposito-tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.15);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+        }
+
+        .proposito-tagline i {
+            font-size: 24px;
+        }
+
+        /* Equipe */
+        .equipe-section {
+            padding: 100px 0;
+            background: var(--fundo);
+        }
+
+        .equipe-section h2 {
+            text-align: center;
+            font-size: 36px;
+            color: var(--verde-principal);
+            margin-bottom: 20px;
+        }
+
+        .equipe-section .section-subtitle {
+            text-align: center;
+            color: var(--texto-claro);
+            max-width: 600px;
+            margin: 0 auto 60px;
+            font-size: 18px;
+        }
+
+        .equipe-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .socio-card {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: var(--transition);
+        }
+
+        .socio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--sombra-hover);
+        }
+
+        .socio-header {
+            background: linear-gradient(135deg, var(--laranja) 0%, var(--laranja-hover) 100%);
+            padding: 40px 30px 80px;
+            position: relative;
+        }
+
+        .socio-foto {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid var(--branco);
+            overflow: hidden;
+            position: absolute;
+            bottom: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--cinza-bg);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .socio-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .socio-content {
+            padding: 90px 30px 40px;
+            text-align: center;
+        }
+
+        .socio-content h3 {
+            font-size: 24px;
+            color: var(--verde-principal);
+            margin-bottom: 8px;
+        }
+
+        .socio-content .cargo {
+            color: var(--laranja);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .socio-formacao {
+            background: var(--fundo);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .socio-formacao h4 {
+            font-size: 13px;
+            color: var(--texto-claro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .socio-formacao p {
+            font-size: 14px;
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        .socio-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .socio-social a {
+            width: 40px;
+            height: 40px;
+            background: var(--fundo);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--verde-principal);
+            transition: var(--transition);
+        }
+
+        .socio-social a:hover {
+            background: var(--verde-principal);
+            color: var(--branco);
+        }
+
+        /* Timeline/Processo Visual */
+        .processo-section {
+            padding: 80px 0;
+            background: var(--branco);
+        }
+
+        .processo-section h2 {
+            text-align: center;
+            font-size: 36px;
+            color: var(--verde-principal);
+            margin-bottom: 60px;
+        }
+
+        .processo-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .processo-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--laranja) 0%, var(--verde-principal) 100%);
+            border-radius: 2px;
+        }
+
+        .processo-step {
+            text-align: center;
+            width: 200px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .processo-step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--branco);
+            border: 4px solid var(--laranja);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--laranja);
+            box-shadow: var(--sombra);
+        }
+
+        .processo-step h4 {
+            font-size: 16px;
+            color: var(--verde-principal);
+            margin-bottom: 10px;
+        }
+
+        .processo-step p {
+            font-size: 13px;
+            color: var(--texto-claro);
+            line-height: 1.5;
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            text-align: center;
+            color: var(--branco);
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Responsivo */
+        @media (max-width: 900px) {
+            .contexto-content {
+                grid-template-columns: 1fr;
+            }
+
+            .mapa-conceitual {
+                flex-direction: column;
+            }
+
+            .mapa-connector {
+                transform: rotate(90deg);
+            }
+
+            .diferenciais-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .equipe-grid {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+            }
+
+            .processo-timeline {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+
+            .processo-timeline::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-institucional h1 {
+                font-size: 32px;
+            }
+
+            .hero-institucional .lead {
+                font-size: 16px;
+            }
+
+            .contexto-text h2,
+            .mapa-section h2,
+            .diferenciais-section h2,
+            .equipe-section h2 {
+                font-size: 28px;
+            }
+
+            .proposito-text {
+                font-size: 20px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mapa-item {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .mapa-item.central {
+                width: 100%;
+                max-width: 300px;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="logo">
+                    <img src="../imagens/logo renova campo.png" alt="Renova Campo" class="logo-img">
+                </a>
+
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="../index.html#inicio">Início</a></li>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                        <li><a href="quem-somos.html" class="active">Quem Somos</a></li>
+                        <li><a href="../index.html#depoimentos">Depoimentos</a></li>
+                        <li><a href="parcerias.html">Parcerias</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-buttons">
+                    <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                    <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-content">
+        <!-- Hero -->
+        <section class="hero-institucional">
+            <div class="container">
+                <h1>Quem Somos</h1>
+                <p class="lead">A Renova Campo é uma plataforma que conecta terras ociosas, produtores rurais e investidores para transformar áreas improdutivas em ativos agrícolas regenerativos, rentáveis e mensuráveis.</p>
+                <div class="hero-tagline">
+                    <i class="fas fa-seedling"></i>
+                    <span>Terra regenerada. Pessoas conectadas. Valor sustentável.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contexto -->
+        <section class="contexto-section">
+            <div class="container">
+                <div class="contexto-content">
+                    <div class="contexto-text">
+                        <h2>Por que <span>existimos</span></h2>
+                        <p>Surgimos a partir de uma realidade comum no Brasil: milhões de hectares de terras paradas - muitas vezes oriundas de heranças ou falta de sucessão - enquanto produtores capacitados não têm acesso à terra e investidores buscam oportunidades reais, sustentáveis e com impacto positivo.</p>
+
+                        <p class="destaque">Acreditamos que a roça pode - e deve - ser um trabalho atrativo, bem remunerado e tecnicamente estruturado.</p>
+
+                        <p>Nosso papel é organizar, viabilizar e profissionalizar essa conexão. A Renova Campo atua como gestora técnica e estratégica, estruturando projetos de agricultura regenerativa desde o diagnóstico da terra até a execução, monitoramento e retorno econômico, sempre com indicadores ambientais claros.</p>
+                    </div>
+                    <div class="contexto-image">
+                        <img src="../imagens/carrossel/carrocel-2.png" alt="Agricultura Regenerativa">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mapa Conceitual -->
+        <section class="mapa-section">
+            <div class="container">
+                <h2>Nosso Modelo de Conexão</h2>
+                <p class="section-subtitle">Conectamos três pilares fundamentais para transformar áreas improdutivas em ativos regenerativos</p>
+
+                <div class="mapa-conceitual">
+                    <div class="mapa-item">
+                        <div class="mapa-item-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>Terras Ociosas</h3>
+                        <p>Proprietários com áreas improdutivas que buscam renda e valorização sem vender a propriedade</p>
+                    </div>
+
+                    <div class="mapa-connector">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+
+                    <div class="mapa-item central">
+                        <div class="mapa-item-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3>Renova Campo</h3>
+                        <p>Gestão técnica e estratégica: diagnóstico, planejamento, execução, monitoramento e governança</p>
+                    </div>
+
+                    <div class="mapa-connector">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+
+                    <div class="mapa-item">
+                        <div class="mapa-item-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Produtores + Investidores</h3>
+                        <p>Produtores com conhecimento e investidores buscando ativos reais com impacto positivo</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diferenciais -->
+        <section class="diferenciais-section">
+            <div class="container">
+                <h2>O Que Fazemos de Diferente</h2>
+
+                <div class="diferenciais-grid">
+                    <div class="diferencial-card">
+                        <div class="diferencial-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="diferencial-content">
+                            <h4>Valorização sem Venda</h4>
+                            <p>Recuperamos e valorizamos terras ociosas sem exigir venda da propriedade. O proprietário mantém a posse e gera renda.</p>
+                        </div>
+                    </div>
+
+                    <div class="diferencial-card">
+                        <div class="diferencial-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="diferencial-content">
+                            <h4>Oportunidades para Produtores</h4>
+                            <p>Criamos acesso à terra, tecnologia e renda justa para produtores comprometidos com práticas sustentáveis.</p>
+                        </div>
+                    </div>
+
+                    <div class="diferencial-card">
+                        <div class="diferencial-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="diferencial-content">
+                            <h4>Projetos Seguros</h4>
+                            <p>Estruturamos projetos seguros para investidores que buscam ativos reais, impacto ambiental e retorno financeiro.</p>
+                        </div>
+                    </div>
+
+                    <div class="diferencial-card">
+                        <div class="diferencial-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="diferencial-content">
+                            <h4>Agricultura Regenerativa</h4>
+                            <p>Aplicamos práticas de agricultura regenerativa com monitoramento de solo, carbono e produtividade.</p>
+                        </div>
+                    </div>
+
+                    <div class="diferencial-card">
+                        <div class="diferencial-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="diferencial-content">
+                            <h4>Transparência Total</h4>
+                            <p>Entregamos transparência, dados e governança, do campo ao relatório. Tudo documentado e rastreável.</p>
+                        </div>
+                    </div>
+
+                    <div class="diferencial-card">
+                        <div class="diferencial-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="diferencial-content">
+                            <h4>Impacto Mensurável</h4>
+                            <p>Indicadores ambientais claros que comprovam o impacto positivo de cada projeto para investidores e sociedade.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Processo -->
+        <section class="processo-section">
+            <div class="container">
+                <h2>Como Atuamos</h2>
+
+                <div class="processo-timeline">
+                    <div class="processo-step">
+                        <div class="processo-step-number">1</div>
+                        <h4>Diagnóstico</h4>
+                        <p>Análise completa da terra: solo, água, topografia e potencial produtivo</p>
+                    </div>
+
+                    <div class="processo-step">
+                        <div class="processo-step-number">2</div>
+                        <h4>Planejamento</h4>
+                        <p>Desenho do projeto regenerativo com metas e indicadores</p>
+                    </div>
+
+                    <div class="processo-step">
+                        <div class="processo-step-number">3</div>
+                        <h4>Conexão</h4>
+                        <p>Match entre proprietários, produtores e investidores</p>
+                    </div>
+
+                    <div class="processo-step">
+                        <div class="processo-step-number">4</div>
+                        <h4>Execução</h4>
+                        <p>Implementação com acompanhamento técnico contínuo</p>
+                    </div>
+
+                    <div class="processo-step">
+                        <div class="processo-step-number">5</div>
+                        <h4>Resultados</h4>
+                        <p>Monitoramento, relatorios e distribuicao de retornos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Propósito -->
+        <section class="proposito-section">
+            <div class="container">
+                <h2>Nosso Propósito</h2>
+                <p class="proposito-text">Regenerar o solo, reconectar pessoas ao campo e provar que é possível produzir mais valor - econômico, ambiental e social - a partir do que hoje está parado.</p>
+                <div class="proposito-tagline">
+                    <i class="fas fa-seedling"></i>
+                    <span>Terra regenerada. Pessoas conectadas. Valor sustentável.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Equipe -->
+        <section class="equipe-section">
+            <div class="container">
+                <h2>Nossa Equipe</h2>
+                <p class="section-subtitle">Conheca os fundadores que estao transformando a agricultura brasileira</p>
+
+                <div class="equipe-grid">
+                    <!-- Ciro Schultz -->
+                    <div class="socio-card">
+                        <div class="socio-header">
+                            <div class="socio-foto">
+                                <img src="../imagens/ciro-schultz.png" alt="Ciro Schultz" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-user\' style=\'font-size:60px;color:#ccc;display:flex;align-items:center;justify-content:center;height:100%;\'></i>';">
+                            </div>
+                        </div>
+                        <div class="socio-content">
+                            <h3>Ciro Schultz</h3>
+                            <span class="cargo">Responsável Técnico e Operações</span>
+
+                            <div class="socio-formacao">
+                                <h4>Formação Acadêmica</h4>
+                                <p>Formado em Ciências Biológicas pela PUC-SP e Mestre em Química com foco em Sustentabilidade pela UNIFESP.</p>
+                            </div>
+
+                            <div class="socio-social">
+                                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" title="E-mail"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Everton Schultz -->
+                    <div class="socio-card">
+                        <div class="socio-header">
+                            <div class="socio-foto">
+                                <img src="../imagens/everton-schultz.png" alt="Everton Schultz" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-user\' style=\'font-size:60px;color:#ccc;display:flex;align-items:center;justify-content:center;height:100%;\'></i>';">
+                            </div>
+                        </div>
+                        <div class="socio-content">
+                            <h3>Everton Schultz</h3>
+                            <span class="cargo">Desenvolvimento de Negócios e Parcerias</span>
+
+                            <div class="socio-formacao">
+                                <h4>Formação Acadêmica</h4>
+                                <p>Formado em Comunicação Social com ênfase em Relações Públicas. Mestrado em Inovação e Tecnologia, além de especialização em Comunicação Digital.</p>
+                            </div>
+
+                            <div class="socio-social">
+                                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" title="E-mail"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Faca parte dessa transformacao</h2>
+                <p>Junte-se a nos na missao de regenerar a agricultura brasileira</p>
+                <div class="cta-buttons">
+                    <a href="cadastro.html" class="btn btn-white">Cadastre-se Agora</a>
+                    <a href="../index.html#como-funciona" class="btn btn-outline-white">Saiba Como Funciona</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <img src="../imagens/Logo front end rodape.jpeg" alt="Renova Campo" class="footer-logo-img">
+                    </a>
+                    <p>Conectando proprietários de terras, produtores e investidores para uma agricultura regenerativa e sustentável.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                        <li><a href="../index.html#depoimentos">Depoimentos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Cadastro</h4>
+                    <ul>
+                        <li><a href="cadastro-terra.html">Cadastro Propriedades</a></li>
+                        <li><a href="cadastro-projeto.html">Cadastro Projetos</a></li>
+                        <li><a href="cadastro-investidor.html">Investir Agora</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Sao Paulo - SP</li>
+                        <li><i class="fas fa-envelope"></i> contato@renovacampo.com.br</li>
+                    </ul>
+
+                    <h4>Nossas Redes</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Renova Campo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

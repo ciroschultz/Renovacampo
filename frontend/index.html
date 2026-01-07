@@ -19,19 +19,19 @@
 
                 <nav class="nav">
                     <ul class="nav-list">
-                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#inicio" class="active">Início</a></li>
                         <li><a href="#como-funciona">Como Funciona</a></li>
                         <li><a href="#terras">Terras Disponíveis</a></li>
                         <li><a href="#projetos">Mural de Projetos</a></li>
                         <li><a href="#simulador">Simulador</a></li>
-                        <li><a href="#selo">Selo</a></li>
+                        <li><a href="pages/quem-somos.html">Quem Somos</a></li>
                         <li><a href="#depoimentos">Depoimentos</a></li>
-                        <li><a href="#parcerias">Parcerias</a></li>
+                        <li><a href="pages/parcerias.html">Parcerias</a></li>
                     </ul>
                 </nav>
 
                 <div class="header-buttons">
-                    <a href="pages/login.html" class="btn btn-outline">Entrar</a>
+                    <a href="pages/login.html" class="btn btn-outline-orange">Entrar</a>
                     <a href="pages/cadastro.html" class="btn btn-primary">Cadastrar</a>
                 </div>
 
@@ -44,33 +44,50 @@
 
     <!-- Hero Section -->
     <section class="hero" id="inicio">
-        <div class="hero-background"></div>
+        <div class="hero-carousel">
+            <div class="carousel-slides">
+                <div class="carousel-slide active">
+                    <img src="imagens/carrossel/carrocel-1.png" alt="Agricultura Regenerativa">
+                </div>
+                <div class="carousel-slide">
+                    <img src="imagens/carrossel/carrocel-2.png" alt="Producao Sustentavel">
+                </div>
+                <div class="carousel-slide">
+                    <img src="imagens/carrossel/carrocel-3.png" alt="Terras Ferteis">
+                </div>
+                <div class="carousel-slide">
+                    <img src="imagens/carrossel/carrocel-4.png" alt="Investimento Verde">
+                </div>
+                <div class="carousel-slide">
+                    <img src="imagens/carrossel/carrocel-5.png" alt="Futuro Sustentavel">
+                </div>
+                <div class="carousel-slide">
+                    <img src="imagens/carrossel/carrocel-6.png" alt="Campo Renovado">
+                </div>
+            </div>
+            <div class="carousel-overlay"></div>
+        </div>
+
         <div class="container">
             <div class="hero-content">
                 <h1>Agricultura Regenerativa<br>para um <span class="highlight">Futuro Sustentável</span></h1>
-                <p class="hero-subtitle">Conectamos proprietários de terras ociosas com produtores e investidores comprometidos com práticas agrícolas sustentáveis.</p>
+                <p class="hero-subtitle">Conectamos <strong>proprietários</strong> de terras ociosas com <strong>produtores</strong> e <strong>investidores</strong> comprometidos e práticas agrícolas sustentáveis.</p>
 
                 <div class="hero-buttons">
-                    <a href="#" class="btn btn-secondary">Tenho terra para arrendar</a>
-                    <a href="#" class="btn btn-outline-white">Quero Produzir</a>
-                    <a href="#" class="btn btn-outline-white">Quero Investir</a>
+                    <a href="pages/cadastro-terra.html" class="btn btn-primary">Tenho terra para arrendar</a>
+                    <a href="pages/cadastro-projeto.html" class="btn btn-white">Quero Produzir</a>
+                    <a href="pages/cadastro-investidor.html" class="btn btn-outline-green">Quero Investir</a>
                 </div>
             </div>
+        </div>
 
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <span class="stat-number">1.250+</span>
-                    <span class="stat-label">Hectares Arrendados</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">350+</span>
-                    <span class="stat-label">Produtores Ativos</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">R$ 15M+</span>
-                    <span class="stat-label">Investimentos Realizados</span>
-                </div>
-            </div>
+        <div class="carousel-indicators">
+            <span class="indicator active" data-slide="0"></span>
+            <span class="indicator" data-slide="1"></span>
+            <span class="indicator" data-slide="2"></span>
+            <span class="indicator" data-slide="3"></span>
+            <span class="indicator" data-slide="4"></span>
+            <span class="indicator" data-slide="5"></span>
         </div>
     </section>
 
@@ -92,7 +109,7 @@
                         <li><span class="step-number">2</span> Receba propostas de produtores interessados em práticas sustentáveis</li>
                         <li><span class="step-number">3</span> Escolha o melhor projeto e formalize o arrendamento com nossa assessoria</li>
                     </ul>
-                    <a href="#" class="btn btn-primary">Cadastrar Minha Terra</a>
+                    <a href="pages/cadastro-terra.html" class="btn btn-primary">Cadastrar Minha Terra</a>
                 </div>
 
                 <!-- Para Produtores -->
@@ -107,7 +124,7 @@
                         <li><span class="step-number">2</span> Submeta seu projeto detalhado com práticas sustentáveis</li>
                         <li><span class="step-number">3</span> Receba financiamento de investidores e inicie sua produção com nosso suporte</li>
                     </ul>
-                    <a href="#terras" class="btn btn-primary">Encontrar Terras</a>
+                    <a href="pages/cadastro-projeto.html" class="btn btn-primary">Cadastrar Projeto</a>
                 </div>
 
                 <!-- Para Investidores -->
@@ -122,7 +139,7 @@
                         <li><span class="step-number">2</span> Escolha quanto investir através do sistema de cotas acessíveis</li>
                         <li><span class="step-number">3</span> Acompanhe o desenvolvimento e receba retornos de projetos certificados</li>
                     </ul>
-                    <a href="#projetos" class="btn btn-primary">Ver Projetos</a>
+                    <a href="pages/cadastro-investidor.html" class="btn btn-primary">Quero Investir</a>
                 </div>
             </div>
         </div>
@@ -144,80 +161,10 @@
                 </div>
             </div>
 
-            <div class="terras-grid">
-                <!-- Card 1 -->
-                <div class="terra-card">
-                    <div class="terra-image">
-                        <img src="assets/images/fazenda1.jpg" alt="Fazenda Boa Esperança">
-                        <span class="terra-badge disponivel">Disponível</span>
-                    </div>
-                    <div class="terra-content">
-                        <h3>Fazenda Boa Esperança</h3>
-                        <p class="terra-location"><i class="fas fa-map-marker-alt"></i> Ribeirão Preto, SP</p>
-                        <p class="terra-description">Terra fértil com acesso a água, ideal para cultivo de grãos e hortaliças orgânicas.</p>
-                        <div class="terra-tags">
-                            <span class="tag"><i class="fas fa-tint"></i> Água abundante</span>
-                            <span class="tag"><i class="fas fa-mountain"></i> Solo argiloso</span>
-                            <span class="tag"><i class="fas fa-road"></i> Acesso pavimentado</span>
-                        </div>
-                        <div class="terra-footer">
-                            <div class="terra-info">
-                                <span class="terra-size"><strong>120</strong> hectares</span>
-                                <span class="terra-price"><strong>R$ 1.200</strong>/ha/ano</span>
-                            </div>
-                            <a href="#" class="btn btn-sm btn-primary">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="terra-card">
-                    <div class="terra-image">
-                        <img src="assets/images/sitio1.jpg" alt="Sítio Recanto Verde">
-                        <span class="terra-badge disponivel">Disponível</span>
-                    </div>
-                    <div class="terra-content">
-                        <h3>Sítio Recanto Verde</h3>
-                        <p class="terra-location"><i class="fas fa-map-marker-alt"></i> Bragança Paulista, SP</p>
-                        <p class="terra-description">Área com nascentes preservadas, ideal para sistemas agroflorestais.</p>
-                        <div class="terra-tags">
-                            <span class="tag"><i class="fas fa-tint"></i> Água abundante</span>
-                            <span class="tag"><i class="fas fa-mountain"></i> Solo argiloso</span>
-                            <span class="tag"><i class="fas fa-road"></i> Acesso pavimentado</span>
-                        </div>
-                        <div class="terra-footer">
-                            <div class="terra-info">
-                                <span class="terra-size"><strong>45</strong> hectares</span>
-                                <span class="terra-price"><strong>R$ 950</strong>/ha/ano</span>
-                            </div>
-                            <a href="#" class="btn btn-sm btn-primary">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="terra-card">
-                    <div class="terra-image">
-                        <img src="assets/images/fazenda2.jpg" alt="Fazenda Horizonte">
-                        <span class="terra-badge disponivel">Disponível</span>
-                    </div>
-                    <div class="terra-content">
-                        <h3>Fazenda Horizonte</h3>
-                        <p class="terra-location"><i class="fas fa-map-marker-alt"></i> Rio Verde, GO</p>
-                        <p class="terra-description">Área plana com infraestrutura para irrigação, ideal para produção em larga escala.</p>
-                        <div class="terra-tags">
-                            <span class="tag"><i class="fas fa-tint"></i> Água abundante</span>
-                            <span class="tag"><i class="fas fa-mountain"></i> Solo argiloso</span>
-                            <span class="tag"><i class="fas fa-road"></i> Acesso pavimentado</span>
-                        </div>
-                        <div class="terra-footer">
-                            <div class="terra-info">
-                                <span class="terra-size"><strong>320</strong> hectares</span>
-                                <span class="terra-price"><strong>R$ 1.500</strong>/ha/ano</span>
-                            </div>
-                            <a href="#" class="btn btn-sm btn-primary">Ver Detalhes</a>
-                        </div>
-                    </div>
+            <div class="terras-grid" id="terras-grid">
+                <!-- Cards serão carregados dinamicamente da API -->
+                <div class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando terras disponíveis...
                 </div>
             </div>
 
@@ -243,110 +190,10 @@
                 </div>
             </div>
 
-            <div class="projetos-grid">
-                <!-- Projeto 1 -->
-                <div class="projeto-card">
-                    <div class="projeto-image">
-                        <img src="assets/images/projeto1.jpg" alt="Soja Orgânica">
-                        <span class="projeto-badge certificado"><i class="fas fa-check-circle"></i> Certificado</span>
-                    </div>
-                    <div class="projeto-content">
-                        <h3>Soja Orgânica em Rotação</h3>
-                        <p>Projeto de produção de soja orgânica com rotação de culturas e adubação verde para recuperação do solo.</p>
-
-                        <div class="projeto-financeiro">
-                            <div class="financeiro-item">
-                                <span class="label">Investimento necessário</span>
-                                <span class="value">R$ 500.000</span>
-                            </div>
-                            <div class="financeiro-item">
-                                <span class="label">Retorno estimado</span>
-                                <span class="value highlight">18% a.a.</span>
-                            </div>
-                        </div>
-
-                        <div class="projeto-progress">
-                            <div class="progress-header">
-                                <span>Progresso de captação</span>
-                                <span class="progress-percent">65%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 65%"></div>
-                            </div>
-                        </div>
-
-                        <a href="#" class="btn btn-primary btn-block">Investir Agora</a>
-                    </div>
-                </div>
-
-                <!-- Projeto 2 -->
-                <div class="projeto-card">
-                    <div class="projeto-image">
-                        <img src="assets/images/projeto2.jpg" alt="Pomar Agroflorestal">
-                        <span class="projeto-badge certificado"><i class="fas fa-check-circle"></i> Certificado</span>
-                    </div>
-                    <div class="projeto-content">
-                        <h3>Pomar Agroflorestal</h3>
-                        <p>Sistema agroflorestal com frutíferas nativas e exóticas em consórcio com culturas anuais e adubadeiras.</p>
-
-                        <div class="projeto-financeiro">
-                            <div class="financeiro-item">
-                                <span class="label">Investimento necessário</span>
-                                <span class="value">R$ 280.000</span>
-                            </div>
-                            <div class="financeiro-item">
-                                <span class="label">Retorno estimado</span>
-                                <span class="value highlight">15% a.a.</span>
-                            </div>
-                        </div>
-
-                        <div class="projeto-progress">
-                            <div class="progress-header">
-                                <span>Progresso de captação</span>
-                                <span class="progress-percent">42%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 42%"></div>
-                            </div>
-                        </div>
-
-                        <a href="#" class="btn btn-primary btn-block">Investir Agora</a>
-                    </div>
-                </div>
-
-                <!-- Projeto 3 -->
-                <div class="projeto-card">
-                    <div class="projeto-image">
-                        <img src="assets/images/projeto3.jpg" alt="Pecuária Regenerativa">
-                        <span class="projeto-badge certificado"><i class="fas fa-check-circle"></i> Certificado</span>
-                    </div>
-                    <div class="projeto-content">
-                        <h3>Pecuária Regenerativa</h3>
-                        <p>Projeto de pesquisa e produção com manejo rotacional de pastagens e integração lavoura-pecuária-floresta.</p>
-
-                        <div class="projeto-financeiro">
-                            <div class="financeiro-item">
-                                <span class="label">Investimento necessário</span>
-                                <span class="value">R$ 420.000</span>
-                            </div>
-                            <div class="financeiro-item">
-                                <span class="label">Retorno estimado</span>
-                                <span class="value highlight">16% a.a.</span>
-                            </div>
-                        </div>
-
-                        <div class="projeto-progress">
-                            <div class="progress-header">
-                                <span>Progresso de captação</span>
-                                <span class="progress-percent">78%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 78%"></div>
-                            </div>
-                        </div>
-
-                        <a href="#" class="btn btn-primary btn-block">Investir Agora</a>
-                    </div>
+            <div class="projetos-grid" id="projetos-grid">
+                <!-- Cards serão carregados dinamicamente da API -->
+                <div class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando projetos...
                 </div>
             </div>
 
@@ -430,53 +277,60 @@
 
     <!-- Selo -->
     <section class="selo" id="selo">
+        <div class="selo-background"></div>
         <div class="container">
             <div class="selo-grid">
                 <div class="selo-content">
                     <span class="selo-tag">Selo</span>
-                    <h2 class="selo-title">renova<br>campo</h2>
-                    <p>Nosso selo certifica que o projeto segue práticas de agricultura regenerativa e garantindo:</p>
-                    <a href="#" class="btn btn-outline">Saiba mais sobre o selo</a>
+                    <h2 class="selo-title"><span class="titulo-renova">renova</span><br><span class="titulo-campo">campo</span></h2>
+                    <p>Nosso selo certifica que o projeto segue práticas de <strong>agricultura regenerativa</strong> e garantindo:</p>
+                    <a href="#" class="btn btn-outline-orange">Saiba mais sobre o selo</a>
+
+                    <div class="selo-badge">
+                        <img src="imagens/selo renova campo.png" alt="Selo Renova Campo">
+                    </div>
                 </div>
 
                 <div class="selo-benefits">
-                    <div class="benefit-item">
-                        <div class="benefit-icon">
-                            <i class="fas fa-leaf"></i>
+                    <div class="benefits-card">
+                        <div class="benefit-item">
+                            <div class="benefit-check">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Conservação do Solo</h4>
+                                <p>Nosso selo certifica que o projeto segue práticas de <strong>agricultura regenerativa</strong> e garantindo.</p>
+                            </div>
                         </div>
-                        <div class="benefit-text">
-                            <h4>Conservação do Solo</h4>
-                            <p>Nosso selo certifica que o projeto segue práticas de agricultura regenerativa e garantindo.</p>
-                        </div>
-                    </div>
 
-                    <div class="benefit-item">
-                        <div class="benefit-icon">
-                            <i class="fas fa-tint"></i>
+                        <div class="benefit-item">
+                            <div class="benefit-check">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Gestão Responsável da Água</h4>
+                                <p>Uso eficiente dos recursos hídricos e proteção de nascentes e cursos d'água.</p>
+                            </div>
                         </div>
-                        <div class="benefit-text">
-                            <h4>Gestão Responsável da Água</h4>
-                            <p>Uso eficiente dos recursos hídricos e proteção de nascentes e cursos d'água.</p>
-                        </div>
-                    </div>
 
-                    <div class="benefit-item">
-                        <div class="benefit-icon">
-                            <i class="fas fa-users"></i>
+                        <div class="benefit-item">
+                            <div class="benefit-check">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Impacto Social Positivo</h4>
+                                <p>Condições justas de trabalho e desenvolvimento das comunidades locais.</p>
+                            </div>
                         </div>
-                        <div class="benefit-text">
-                            <h4>Impacto Social Positivo</h4>
-                            <p>Condições justas de trabalho e desenvolvimento das comunidades locais.</p>
-                        </div>
-                    </div>
 
-                    <div class="benefit-item">
-                        <div class="benefit-icon">
-                            <i class="fas fa-tree"></i>
-                        </div>
-                        <div class="benefit-text">
-                            <h4>Biodiversidade</h4>
-                            <p>Promoção da diversidade de espécies vegetais e animais no sistema produtivo.</p>
+                        <div class="benefit-item">
+                            <div class="benefit-check">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Biodiversidade</h4>
+                                <p>Promoção da diversidade de espécies vegetais e animais no sistema produtivo.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -559,8 +413,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo">
-                        <img src="imagens/logo renova campo.png" alt="Renova Campo" class="logo-img">
+                    <a href="#" class="footer-logo">
+                        <img src="imagens/Logo front end rodape.jpeg" alt="Renova Campo" class="footer-logo-img">
                     </a>
                     <p>Conectando proprietários de terras, produtores e investidores para uma agricultura regenerativa e sustentável.</p>
                 </div>
@@ -605,7 +459,7 @@
                     <ul class="contact-list">
                         <li><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000, São Paulo - SP</li>
                         <li><i class="fas fa-envelope"></i> contato@renovacampo.com.br</li>
-                        <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+                        <li><i class="fas fa-phone"></i> (11) 9 8448-9104</li>
                     </ul>
 
                     <h4>Nossas Redes</h4>
@@ -630,6 +484,183 @@
         </div>
     </footer>
 
+    <!-- Scripts de API -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/form-mappers.js"></script>
+
     <script src="js/main.js"></script>
+
+    <!-- Carrossel Hero -->
+    <script>
+    (function() {
+        var currentSlide = 0;
+        var slides = document.querySelectorAll('.carousel-slide');
+        var indicators = document.querySelectorAll('.carousel-indicators .indicator');
+        var total = slides.length;
+
+        if (total === 0) return;
+
+        function showSlide(n) {
+            for (var i = 0; i < total; i++) {
+                slides[i].style.opacity = '0';
+                if (indicators[i]) indicators[i].classList.remove('active');
+            }
+            slides[n].style.opacity = '1';
+            if (indicators[n]) indicators[n].classList.add('active');
+            currentSlide = n;
+        }
+
+        function nextSlide() {
+            showSlide((currentSlide + 1) % total);
+        }
+
+        // Clique nos indicadores
+        for (var i = 0; i < indicators.length; i++) {
+            (function(index) {
+                indicators[index].onclick = function() { showSlide(index); };
+            })(i);
+        }
+
+        // Iniciar
+        showSlide(0);
+
+        // Auto-play
+        setInterval(nextSlide, 4000);
+    })();
+    </script>
+
+    <!-- Script para carregar dados dinamicos -->
+    <script>
+        // Carregar terras disponiveis do backend
+        async function loadTerras() {
+            const grid = document.getElementById('terras-grid');
+            try {
+                const properties = await PropertyService.getAll();
+
+                if (properties.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-message" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #64748b;">
+                            <i class="fas fa-seedling" style="font-size: 3rem; margin-bottom: 1rem; color: #014C34;"></i>
+                            <h3>Nenhuma terra disponível no momento</h3>
+                            <p>Em breve teremos novas oportunidades. Cadastre-se para ser notificado!</p>
+                        </div>`;
+                    return;
+                }
+
+                grid.innerHTML = properties.map(prop => createTerraCard(prop)).join('');
+            } catch (error) {
+                console.error('Erro ao carregar terras:', error);
+                grid.innerHTML = `
+                    <div class="error-message" style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #ef4444;">
+                        <i class="fas fa-exclamation-triangle"></i> Erro ao carregar terras. Tente novamente mais tarde.
+                    </div>`;
+            }
+        }
+
+        // Criar card de terra
+        function createTerraCard(prop) {
+            const photoUrl = `${CONFIG.API_BASE_URL}/api/v1/photos/property/${prop.id}/thumbnail`;
+            const defaultImg = 'imagens/imagens gerais/terra-placeholder.jpg';
+
+            return `
+                <div class="terra-card">
+                    <div class="terra-image">
+                        <img src="${photoUrl}" alt="${prop.name}" onerror="this.src='${defaultImg}'">
+                        <span class="terra-badge disponivel">Disponível</span>
+                    </div>
+                    <div class="terra-content">
+                        <h3>${prop.name}</h3>
+                        <p class="terra-location"><i class="fas fa-map-marker-alt"></i> ${prop.city || 'Não informado'}, ${prop.state || ''}</p>
+                        <p class="terra-description">${prop.description || 'Propriedade disponível para arrendamento.'}</p>
+                        <div class="terra-tags">
+                            <span class="tag"><i class="fas fa-ruler-combined"></i> ${prop.type || 'Rural'}</span>
+                        </div>
+                        <div class="terra-footer">
+                            <div class="terra-info">
+                                <span class="terra-size"><strong>${prop.totalArea || 0}</strong> hectares</span>
+                                ${prop.availableArea ? `<span class="terra-available"><strong>${prop.availableArea}</strong> ha disponíveis</span>` : ''}
+                            </div>
+                            <a href="pages/detalhes-terra.html?id=${prop.id}" class="btn btn-sm btn-primary">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // Carregar projetos/empreendimentos do backend
+        async function loadProjetos() {
+            const grid = document.getElementById('projetos-grid');
+            try {
+                const enterprises = await EnterpriseService.getAll();
+
+                if (enterprises.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-message" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #64748b;">
+                            <i class="fas fa-project-diagram" style="font-size: 3rem; margin-bottom: 1rem; color: #014C34;"></i>
+                            <h3>Nenhum projeto disponível no momento</h3>
+                            <p>Novos projetos serão lançados em breve. Fique atento!</p>
+                            <a href="pages/cadastro-projeto.html" class="btn btn-primary" style="margin-top: 1rem;">Submeter Meu Projeto</a>
+                        </div>`;
+                    return;
+                }
+
+                grid.innerHTML = enterprises.map(ent => createProjetoCard(ent)).join('');
+            } catch (error) {
+                console.error('Erro ao carregar projetos:', error);
+                grid.innerHTML = `
+                    <div class="error-message" style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #ef4444;">
+                        <i class="fas fa-exclamation-triangle"></i> Erro ao carregar projetos. Tente novamente mais tarde.
+                    </div>`;
+            }
+        }
+
+        // Criar card de projeto/empreendimento
+        function createProjetoCard(ent) {
+            const progress = ent.fundingProgress || 0;
+            const investRequired = ent.totalInvestmentRequired || 0;
+            const returnRate = ent.expectedCommodityValueIncrease || 0;
+
+            return `
+                <div class="projeto-card">
+                    <div class="projeto-image">
+                        <img src="imagens/imagens gerais/projeto-placeholder.jpg" alt="${ent.name}">
+                        ${ent.status === 'ACTIVE' ? '<span class="projeto-badge certificado"><i class="fas fa-check-circle"></i> Ativo</span>' : ''}
+                    </div>
+                    <div class="projeto-content">
+                        <h3>${ent.name}</h3>
+                        <p>${ent.description || 'Empreendimento sustentável com foco em agricultura regenerativa.'}</p>
+
+                        <div class="projeto-financeiro">
+                            <div class="financeiro-item">
+                                <span class="label">Investimento necessário</span>
+                                <span class="value">R$ ${investRequired.toLocaleString('pt-BR')}</span>
+                            </div>
+                            <div class="financeiro-item">
+                                <span class="label">Retorno estimado</span>
+                                <span class="value highlight">${returnRate}%</span>
+                            </div>
+                        </div>
+
+                        <div class="projeto-progress">
+                            <div class="progress-header">
+                                <span>Progresso de captação</span>
+                                <span class="progress-percent">${progress.toFixed(0)}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                        </div>
+
+                        <a href="pages/detalhes-empreendimento.html?id=${ent.id}" class="btn btn-primary btn-block">Investir Agora</a>
+                    </div>
+                </div>`;
+        }
+
+        // Carregar dados quando a pagina carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTerras();
+            loadProjetos();
+        });
+    </script>
 </body>
 </html>

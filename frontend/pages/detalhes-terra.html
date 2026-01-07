@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Terra - Renova Campo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <style>
+        .detail-page {
+            padding-top: 100px;
+            min-height: 100vh;
+            background-color: var(--fundo);
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, rgba(0, 79, 59, 0.9) 0%, rgba(0, 107, 79, 0.9) 100%),
+                        url('../imagens/imagens gerais/imagem geral 1.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 60px 0;
+            margin-bottom: 40px;
+        }
+
+        .detail-header h1 {
+            color: var(--branco);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .detail-header .breadcrumb {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+        }
+
+        .detail-header .breadcrumb a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .detail-header .breadcrumb a:hover {
+            color: var(--branco);
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .detail-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .detail-card {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--sombra);
+        }
+
+        .detail-card h2 {
+            color: var(--verde-principal);
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--cinza-claro);
+        }
+
+        .detail-gallery {
+            margin-bottom: 30px;
+        }
+
+        .gallery-main {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .gallery-thumb {
+            width: 80px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .gallery-thumb:hover,
+        .gallery-thumb.active {
+            opacity: 1;
+            box-shadow: 0 0 0 3px var(--verde-principal);
+        }
+
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: var(--cinza-bg);
+            border-radius: 8px;
+        }
+
+        .info-item .label {
+            font-size: 12px;
+            color: var(--texto-claro);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--texto);
+        }
+
+        .info-item .value.highlight {
+            color: var(--verde-principal);
+        }
+
+        .description {
+            line-height: 1.8;
+            color: var(--texto);
+            margin-bottom: 20px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            padding: 8px 16px;
+            background: var(--verde-principal);
+            color: var(--branco);
+            border-radius: 999px;
+            font-size: 13px;
+        }
+
+        .sidebar-card {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--sombra);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-card h3 {
+            color: var(--verde-principal);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--texto);
+        }
+
+        .contact-info i {
+            color: var(--verde-principal);
+            width: 20px;
+        }
+
+        .btn-block {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .map-container {
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+            background: var(--cinza-bg);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-badge.disponivel {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 60px;
+        }
+
+        .loading-container i {
+            font-size: 48px;
+            color: var(--verde-principal);
+            margin-bottom: 20px;
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 60px;
+            color: #dc3545;
+        }
+
+        .error-container i {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="logo">
+                    <img src="../imagens/logo renova campo.png" alt="Renova Campo" class="logo-img">
+                </a>
+
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="../index.html#inicio">Inicio</a></li>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras" class="active">Terras Disponiveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-buttons">
+                    <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                    <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+                </div>
+
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Detail Page -->
+    <main class="detail-page">
+        <!-- Header -->
+        <div class="detail-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="../index.html">Inicio</a> /
+                    <a href="../index.html#terras">Terras Disponiveis</a> /
+                    <span id="breadcrumb-name">Detalhes</span>
+                </div>
+                <h1 id="property-title">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Carregando...</span>
+                    <span class="status-badge disponivel">Disponivel</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Loading State -->
+            <div class="loading-container" id="loadingState">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Carregando detalhes da propriedade...</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-container" id="errorState" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Propriedade nao encontrada</h2>
+                <p>A propriedade solicitada nao existe ou foi removida.</p>
+                <a href="../index.html#terras" class="btn btn-primary" style="margin-top: 20px;">Ver outras terras</a>
+            </div>
+
+            <!-- Content -->
+            <div class="detail-content" id="contentState" style="display: none;">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Gallery -->
+                    <div class="detail-card detail-gallery">
+                        <div class="gallery-main" id="galleryMain">
+                            <img src="../imagens/imagens gerais/terra-placeholder.jpg" alt="Foto da propriedade" id="mainPhoto">
+                        </div>
+                        <div class="gallery-thumbs" id="galleryThumbs">
+                            <!-- Thumbnails carregadas dinamicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="detail-card">
+                        <h2><i class="fas fa-info-circle"></i> Informacoes da Propriedade</h2>
+
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="label">Area Total</div>
+                                <div class="value highlight" id="totalArea">-- ha</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Area Disponivel</div>
+                                <div class="value" id="availableArea">-- ha</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Tipo</div>
+                                <div class="value" id="propertyType">--</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Localizacao</div>
+                                <div class="value" id="location">--</div>
+                            </div>
+                        </div>
+
+                        <h2 style="margin-top: 30px;"><i class="fas fa-align-left"></i> Descricao</h2>
+                        <p class="description" id="description">
+                            Carregando descricao...
+                        </p>
+
+                        <div class="tags" id="tags">
+                            <!-- Tags carregadas dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Contact Card -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-phone-alt"></i> Interessado?</h3>
+                        <p style="margin-bottom: 20px; color: var(--texto-claro);">
+                            Entre em contato conosco para mais informacoes sobre esta propriedade.
+                        </p>
+                        <a href="https://wa.me/5511934567890?text=Olá! Tenho interesse na propriedade que vi no site Renova Campo." class="btn btn-primary btn-block" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Falar pelo WhatsApp
+                        </a>
+                        <a href="mailto:contato@renovacampo.com.br" class="btn btn-outline btn-block">
+                            <i class="fas fa-envelope"></i> Enviar Email
+                        </a>
+                    </div>
+
+                    <!-- Location Card -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-map-marker-alt"></i> Localizacao</h3>
+                        <div class="contact-info">
+                            <p><i class="fas fa-map-pin"></i> <span id="address">--</span></p>
+                            <p><i class="fas fa-city"></i> <span id="cityState">--</span></p>
+                        </div>
+                        <div class="map-container" id="mapContainer">
+                            <p style="padding: 20px; text-align: center; color: var(--texto-claro);">
+                                <i class="fas fa-map"></i><br>
+                                Mapa em breve
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- CTA Card -->
+                    <div class="sidebar-card" style="background: linear-gradient(135deg, var(--verde-principal), #006B4F); color: white;">
+                        <h3 style="color: white;"><i class="fas fa-seedling"></i> Quer cadastrar sua terra?</h3>
+                        <p style="margin-bottom: 20px; opacity: 0.9;">
+                            Cadastre sua propriedade e conecte-se com produtores e investidores.
+                        </p>
+                        <a href="cadastro-terra.html" class="btn btn-white btn-block">
+                            Cadastrar Minha Terra
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <img src="../imagens/Logo front end rodape.jpeg" alt="Renova Campo" class="footer-logo-img">
+                    </a>
+                    <p>Conectando proprietários de terras, produtores e investidores para uma agricultura regenerativa e sustentável.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponiveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-envelope"></i> contato@renovacampo.com.br</li>
+                        <li><i class="fas fa-phone"></i> (11) 9 8448-9104</li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Renova Campo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get property ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyId = urlParams.get('id');
+
+        // Load property details
+        async function loadPropertyDetails() {
+            if (!propertyId) {
+                showError();
+                return;
+            }
+
+            try {
+                const property = await PropertyService.getById(propertyId);
+
+                if (!property) {
+                    showError();
+                    return;
+                }
+
+                // Update page content
+                displayProperty(property);
+
+                // Hide loading, show content
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('contentState').style.display = 'grid';
+
+            } catch (error) {
+                console.error('Erro ao carregar propriedade:', error);
+                showError();
+            }
+        }
+
+        function displayProperty(prop) {
+            // Title and breadcrumb
+            document.getElementById('property-title').querySelector('span').textContent = prop.name || 'Propriedade';
+            document.getElementById('breadcrumb-name').textContent = prop.name || 'Detalhes';
+            document.title = `${prop.name || 'Propriedade'} - Renova Campo`;
+
+            // Info grid
+            document.getElementById('totalArea').textContent = `${prop.totalArea || 0} ha`;
+            document.getElementById('availableArea').textContent = prop.availableArea ? `${prop.availableArea} ha` : 'Consultar';
+            document.getElementById('propertyType').textContent = prop.type || 'Rural';
+            document.getElementById('location').textContent = `${prop.city || ''}, ${prop.state || ''}`;
+
+            // Description
+            document.getElementById('description').textContent = prop.description || 'Propriedade disponivel para arrendamento. Entre em contato para mais informacoes.';
+
+            // Address
+            document.getElementById('address').textContent = prop.address || 'Endereco nao informado';
+            document.getElementById('cityState').textContent = `${prop.city || ''} - ${prop.state || ''}`;
+
+            // Tags
+            const tagsContainer = document.getElementById('tags');
+            tagsContainer.innerHTML = '';
+
+            if (prop.type) {
+                tagsContainer.innerHTML += `<span class="tag"><i class="fas fa-tag"></i> ${prop.type}</span>`;
+            }
+            if (prop.totalArea) {
+                tagsContainer.innerHTML += `<span class="tag"><i class="fas fa-ruler-combined"></i> ${prop.totalArea} hectares</span>`;
+            }
+            if (prop.state) {
+                tagsContainer.innerHTML += `<span class="tag"><i class="fas fa-map-marker-alt"></i> ${prop.state}</span>`;
+            }
+
+            // Photo
+            const photoUrl = `${CONFIG.API_BASE_URL}/api/v1/photos/property/${prop.id}/thumbnail`;
+            const mainPhoto = document.getElementById('mainPhoto');
+            mainPhoto.src = photoUrl;
+            mainPhoto.onerror = function() {
+                this.src = '../imagens/imagens gerais/terra-placeholder.jpg';
+            };
+
+            // Map (if coordinates available)
+            if (prop.latitude && prop.longitude) {
+                const mapContainer = document.getElementById('mapContainer');
+                mapContainer.innerHTML = `
+                    <iframe
+                        src="https://maps.google.com/maps?q=${prop.latitude},${prop.longitude}&z=12&output=embed"
+                        allowfullscreen>
+                    </iframe>`;
+            }
+
+            // Update WhatsApp link with property info
+            const whatsappLink = document.querySelector('a[href*="wa.me"]');
+            if (whatsappLink) {
+                const message = encodeURIComponent(`Ola! Tenho interesse na propriedade "${prop.name}" (ID: ${prop.id}) que vi no site Renova Campo.`);
+                whatsappLink.href = `https://wa.me/5511934567890?text=${message}`;
+            }
+        }
+
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadPropertyDetails);
+
+        // Mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.querySelector('.nav');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
+        }
+    </script>
+</body>
+</html>

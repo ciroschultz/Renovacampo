@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all modules
     initMobileMenu();
+    initHeroCarousel();
     initSimulador();
     initPeriodoButtons();
     initSmoothScroll();
@@ -33,6 +34,58 @@ function initMobileMenu() {
             }
         });
     }
+}
+
+/* ========================================
+   HERO CAROUSEL
+   ======================================== */
+function initHeroCarousel() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const indicators = document.querySelectorAll('.carousel-indicators .indicator');
+
+    console.log('Carrossel iniciado - slides: ' + slides.length + ', indicadores: ' + indicators.length);
+
+    if (slides.length === 0) return;
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function goToSlide(index) {
+        console.log('Mudando para slide ' + index);
+
+        // Remove active de todos
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].classList.remove('active');
+        }
+        for (let i = 0; i < indicators.length; i++) {
+            indicators[i].classList.remove('active');
+        }
+
+        // Adiciona active ao atual
+        slides[index].classList.add('active');
+        if (indicators[index]) {
+            indicators[index].classList.add('active');
+        }
+
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % totalSlides;
+        goToSlide(next);
+    }
+
+    // Click nos indicadores
+    for (let i = 0; i < indicators.length; i++) {
+        indicators[i].addEventListener('click', function() {
+            goToSlide(i);
+        });
+    }
+
+    // Auto-play a cada 4 segundos
+    setInterval(nextSlide, 4000);
+
+    console.log('Carrossel configurado com sucesso');
 }
 
 /* ========================================
