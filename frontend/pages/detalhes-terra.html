@@ -378,7 +378,7 @@
                         <p style="margin-bottom: 20px; color: var(--texto-claro);">
                             Entre em contato conosco para mais informacoes sobre esta propriedade.
                         </p>
-                        <a href="https://wa.me/5511934567890?text=Olá! Tenho interesse na propriedade que vi no site Renova Campo." class="btn btn-primary btn-block" target="_blank">
+                        <a href="https://wa.me/5511984489104?text=Olá! Tenho interesse na propriedade que vi no site Renova Campo." class="btn btn-primary btn-block" target="_blank">
                             <i class="fab fa-whatsapp"></i> Falar pelo WhatsApp
                         </a>
                         <a href="mailto:contato@renovacampo.com.br" class="btn btn-outline btn-block">
@@ -407,7 +407,7 @@
                         <p style="margin-bottom: 20px; opacity: 0.9;">
                             Cadastre sua propriedade e conecte-se com produtores e investidores.
                         </p>
-                        <a href="cadastro-terra.html" class="btn btn-white btn-block">
+                        <a href="intro-terra.html" class="btn btn-white btn-block">
                             Cadastrar Minha Terra
                         </a>
                     </div>
@@ -445,7 +445,7 @@
                     </ul>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5511984489104" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
@@ -524,13 +524,8 @@
                 tagsContainer.innerHTML += `<span class="tag"><i class="fas fa-map-marker-alt"></i> ${prop.state}</span>`;
             }
 
-            // Photo
-            const photoUrl = `${CONFIG.API_BASE_URL}/api/v1/photos/property/${prop.id}/thumbnail`;
-            const mainPhoto = document.getElementById('mainPhoto');
-            mainPhoto.src = photoUrl;
-            mainPhoto.onerror = function() {
-                this.src = '../imagens/imagens gerais/terra-placeholder.jpg';
-            };
+            // Load all photos
+            loadPropertyPhotos(prop.id);
 
             // Map (if coordinates available)
             if (prop.latitude && prop.longitude) {
@@ -546,13 +541,62 @@
             const whatsappLink = document.querySelector('a[href*="wa.me"]');
             if (whatsappLink) {
                 const message = encodeURIComponent(`Ola! Tenho interesse na propriedade "${prop.name}" (ID: ${prop.id}) que vi no site Renova Campo.`);
-                whatsappLink.href = `https://wa.me/5511934567890?text=${message}`;
+                whatsappLink.href = `https://wa.me/5511984489104?text=${message}`;
             }
         }
 
         function showError() {
             document.getElementById('loadingState').style.display = 'none';
             document.getElementById('errorState').style.display = 'block';
+        }
+
+        // Load all photos for a property
+        async function loadPropertyPhotos(propertyId) {
+            const mainPhoto = document.getElementById('mainPhoto');
+            const thumbsContainer = document.getElementById('galleryThumbs');
+
+            try {
+                // Fetch all photos from API
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/v1/photos/property/${propertyId}`);
+                const photos = await response.json();
+
+                console.log('Fotos carregadas:', photos);
+
+                if (photos && photos.length > 0) {
+                    // Set first photo as main
+                    const firstPhotoUrl = `${CONFIG.API_BASE_URL}/api/v1/photos/${photos[0].id}`;
+                    mainPhoto.src = firstPhotoUrl;
+                    mainPhoto.onerror = function() {
+                        this.src = '../imagens/imagens gerais/terra-placeholder.jpg';
+                    };
+
+                    // Create thumbnails for all photos
+                    thumbsContainer.innerHTML = '';
+                    photos.forEach((photo, index) => {
+                        const photoUrl = `${CONFIG.API_BASE_URL}/api/v1/photos/${photo.id}`;
+                        const thumb = document.createElement('div');
+                        thumb.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
+                        thumb.innerHTML = `<img src="${photoUrl}" alt="Foto ${index + 1}" onerror="this.src='../imagens/imagens gerais/terra-placeholder.jpg'">`;
+                        thumb.onclick = function() {
+                            // Update main photo
+                            mainPhoto.src = photoUrl;
+                            // Update active state
+                            document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+                            this.classList.add('active');
+                        };
+                        thumbsContainer.appendChild(thumb);
+                    });
+                } else {
+                    // No photos - use placeholder
+                    mainPhoto.src = '../imagens/imagens gerais/terra-placeholder.jpg';
+                    thumbsContainer.innerHTML = '<p style="color: var(--texto-claro); font-size: 14px;">Nenhuma foto disponivel</p>';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar fotos:', error);
+                // Use placeholder on error
+                mainPhoto.src = '../imagens/imagens gerais/terra-placeholder.jpg';
+                thumbsContainer.innerHTML = '';
+            }
         }
 
         // Initialize

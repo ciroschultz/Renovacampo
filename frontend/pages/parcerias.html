@@ -332,6 +332,25 @@
             opacity: 0.95;
         }
 
+        .btn-outline-white {
+            background: transparent;
+            border: 2px solid var(--branco);
+            color: var(--branco);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-white:hover {
+            background: var(--branco);
+            color: var(--verde-principal);
+        }
+
         @media (max-width: 900px) {
             .tipos-grid,
             .parceiros-grid {
@@ -632,9 +651,14 @@
             <div class="container">
                 <h2>Dúvidas sobre parcerias?</h2>
                 <p>Entre em contato com nossa equipe de parcerias</p>
-                <a href="mailto:parcerias@renovacampo.com.br" class="btn btn-white">
-                    <i class="fas fa-envelope"></i> parcerias@renovacampo.com.br
-                </a>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://wa.me/5511984489104?text=Olá! Gostaria de saber mais sobre parcerias com a Renova Campo." class="btn btn-white" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Falar pelo WhatsApp
+                    </a>
+                    <a href="mailto:contato@renovacampo.com.br" class="btn btn-outline-white">
+                        <i class="fas fa-envelope"></i> contato@renovacampo.com.br
+                    </a>
+                </div>
             </div>
         </section>
     </div>
@@ -681,7 +705,7 @@
                     <h4>Nossas Redes</h4>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5511984489104" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>

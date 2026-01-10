@@ -352,6 +352,96 @@
             width: 100%;
             margin-bottom: 10px;
         }
+
+        /* Documents Section */
+        .document-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: var(--cinza-bg);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .document-item:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
+        }
+
+        .document-item .doc-icon {
+            font-size: 32px;
+            color: #ef4444;
+            margin-right: 15px;
+        }
+
+        .document-item .doc-info {
+            flex: 1;
+        }
+
+        .document-item .doc-name {
+            font-weight: 600;
+            color: var(--texto);
+            margin-bottom: 4px;
+        }
+
+        .document-item .doc-meta {
+            font-size: 13px;
+            color: var(--texto-claro);
+        }
+
+        .document-item .doc-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .document-item .btn-doc {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .document-item .btn-view {
+            background: var(--verde-principal);
+            color: white;
+        }
+
+        .document-item .btn-view:hover {
+            background: #006B4F;
+        }
+
+        .document-item .btn-download {
+            background: var(--laranja);
+            color: white;
+        }
+
+        .document-item .btn-download:hover {
+            background: #d4530f;
+        }
+
+        .no-documents {
+            text-align: center;
+            padding: 30px;
+            color: var(--texto-claro);
+        }
+
+        .no-documents i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .loading-docs {
+            text-align: center;
+            padding: 20px;
+            color: var(--texto-claro);
+        }
     </style>
 </head>
 <body>
@@ -474,6 +564,16 @@
                         </p>
                     </div>
 
+                    <!-- Documents -->
+                    <div class="detail-card" id="documentsCard" style="display: none;">
+                        <h2><i class="fas fa-file-pdf"></i> Documentacao do Projeto</h2>
+                        <div id="documentsContainer">
+                            <div class="loading-docs">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando documentos...
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Timeline -->
                     <div class="detail-card">
                         <h2><i class="fas fa-calendar-alt"></i> Cronograma</h2>
@@ -513,7 +613,7 @@
                                 <strong id="remainingSlots">Disponiveis</strong>
                             </p>
                         </div>
-                        <a href="cadastro-investidor.html" class="btn-invest">
+                        <a href="intro-investidor.html" class="btn-invest">
                             <i class="fas fa-arrow-right"></i> Quero Investir
                         </a>
                     </div>
@@ -536,7 +636,7 @@
                         <p style="margin-bottom: 20px; color: var(--texto-claro);">
                             Nossa equipe esta pronta para ajudar com suas duvidas sobre este empreendimento.
                         </p>
-                        <a href="https://wa.me/5511934567890" class="btn btn-primary btn-block" target="_blank">
+                        <a href="https://wa.me/5511984489104" class="btn btn-primary btn-block" target="_blank">
                             <i class="fab fa-whatsapp"></i> Falar com Consultor
                         </a>
                         <a href="mailto:investimentos@renovacampo.com.br" class="btn btn-outline btn-block">
@@ -577,7 +677,7 @@
                     </ul>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5511984489104" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
@@ -638,6 +738,9 @@
                 if (enterprise.propertyId) {
                     loadLinkedProperty(enterprise.propertyId);
                 }
+
+                // Load documents
+                loadEnterpriseDocuments(enterpriseId);
 
                 // Hide loading, show content
                 document.getElementById('loadingState').style.display = 'none';
@@ -701,7 +804,7 @@
             const whatsappLinks = document.querySelectorAll('a[href*="wa.me"]');
             whatsappLinks.forEach(link => {
                 const message = encodeURIComponent(`Ola! Tenho interesse em investir no empreendimento "${ent.name}" (ID: ${ent.id}) que vi no site Renova Campo.`);
-                link.href = `https://wa.me/5511934567890?text=${message}`;
+                link.href = `https://wa.me/5511984489104?text=${message}`;
             });
         }
 
@@ -722,6 +825,72 @@
         function showError() {
             document.getElementById('loadingState').style.display = 'none';
             document.getElementById('errorState').style.display = 'block';
+        }
+
+        // Load enterprise documents
+        async function loadEnterpriseDocuments(entId) {
+            try {
+                const apiUrl = `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.FILES}/enterprise/${entId}`;
+                console.log('Carregando documentos de:', apiUrl);
+
+                const response = await fetch(apiUrl);
+                const files = await response.json();
+
+                console.log('Documentos encontrados:', files);
+
+                const container = document.getElementById('documentsContainer');
+                const card = document.getElementById('documentsCard');
+
+                if (files && files.length > 0) {
+                    card.style.display = 'block';
+
+                    let html = '';
+                    files.forEach(file => {
+                        const fileSize = formatFileSize(file.fileSize);
+                        const uploadDate = file.uploadDate ? new Date(file.uploadDate).toLocaleDateString('pt-BR') : '';
+                        const downloadUrl = `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.FILES}/${file.id}`;
+
+                        html += `
+                            <div class="document-item">
+                                <i class="fas fa-file-pdf doc-icon"></i>
+                                <div class="doc-info">
+                                    <div class="doc-name">${escapeHtml(file.originalFileName)}</div>
+                                    <div class="doc-meta">${fileSize} • Enviado em ${uploadDate}</div>
+                                </div>
+                                <div class="doc-actions">
+                                    <a href="${downloadUrl}" target="_blank" class="btn-doc btn-view">
+                                        <i class="fas fa-eye"></i> Visualizar
+                                    </a>
+                                    <a href="${downloadUrl}" download="${file.originalFileName}" class="btn-doc btn-download">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                } else {
+                    // No documents - hide the card
+                    card.style.display = 'none';
+                }
+            } catch (error) {
+                console.log('Erro ao carregar documentos:', error);
+                document.getElementById('documentsCard').style.display = 'none';
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 B';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // Initialize

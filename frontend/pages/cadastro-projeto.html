@@ -453,7 +453,10 @@
 
                         <div class="form-actions">
                             <div></div>
-                            <button type="button" class="btn btn-primary" onclick="nextStep()">Próximo <i class="fas fa-arrow-right"></i></button>
+                            <div style="display: flex; gap: 10px;">
+                                <button type="button" class="btn" style="background: #28a745; color: white;" onclick="quickSubmit()"><i class="fas fa-paper-plane"></i> Envio Rápido</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
                         </div>
                     </div>
 
@@ -463,8 +466,8 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Titulo do projeto <span class="required">*</span></label>
-                                <input type="text" id="titulo" required placeholder="Nome do seu projeto">
+                                <label>Titulo do projeto</label>
+                                <input type="text" id="titulo" placeholder="Nome do seu projeto">
                             </div>
                             <div class="form-group">
                                 <label>Palavras-chave</label>
@@ -474,8 +477,8 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Cultura(s) principal(is) <span class="required">*</span></label>
-                                <input type="text" id="cultura" required placeholder="Ex: Soja, Milho, Hortalicas">
+                                <label>Cultura(s) principal(is)</label>
+                                <input type="text" id="cultura" placeholder="Ex: Soja, Milho, Hortalicas">
                             </div>
                             <div class="form-group">
                                 <label>Tipo de produção</label>
@@ -495,8 +498,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Resumo do projeto (ate 300 palavras) <span class="required">*</span></label>
-                            <textarea id="resumoProjeto" required maxlength="2000" placeholder="Descreva objetivo, escala e impacto do seu projeto..."></textarea>
+                            <label>Resumo do projeto (ate 300 palavras)</label>
+                            <textarea id="resumoProjeto" maxlength="2000" placeholder="Descreva objetivo, escala e impacto do seu projeto..."></textarea>
                             <div class="note">Dica: destaque objetivo, escala, número de beneficiados e impacto ambiental.</div>
                         </div>
 
@@ -512,8 +515,8 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Área necessaria (ha) <span class="required">*</span></label>
-                                <input type="number" id="áreaNecessaria" step="0.1" min="0" required placeholder="Ex: 50">
+                                <label>Área necessaria (ha)</label>
+                                <input type="number" id="áreaNecessaria" step="0.1" min="0" placeholder="Ex: 50">
                             </div>
                             <div class="form-group">
                                 <label>Tipo de solo / condicionantes</label>
@@ -544,8 +547,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Descricao tecnica detalhada <span class="required">*</span></label>
-                            <textarea id="descricaoTec" required placeholder="Preparo do solo, adubacao, tratos culturais, espacamento, variedades, insumos técnicos..."></textarea>
+                            <label>Descricao tecnica detalhada</label>
+                            <textarea id="descricaoTec" placeholder="Preparo do solo, adubacao, tratos culturais, espacamento, variedades, insumos técnicos..."></textarea>
                         </div>
 
                         <div class="form-row">
@@ -656,8 +659,8 @@
                         <h2><i class="fas fa-leaf"></i> Ambiental & Certificacoes</h2>
 
                         <div class="form-group">
-                            <label>Praticas sustentaveis previstas <span class="required">*</span></label>
-                            <textarea id="praticasAmb" required placeholder="Ex: plantio direto, faixas de conservacao, adubacao verde..."></textarea>
+                            <label>Praticas sustentaveis previstas</label>
+                            <textarea id="praticasAmb" placeholder="Ex: plantio direto, faixas de conservacao, adubacao verde..."></textarea>
                         </div>
 
                         <div class="form-row">
@@ -707,8 +710,8 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Estimativa de custo total (R$) <span class="required">*</span></label>
-                                <input type="text" id="custoTotal" required placeholder="R$ 0,00">
+                                <label>Estimativa de custo total (R$)</label>
+                                <input type="text" id="custoTotal" placeholder="R$ 0,00">
                             </div>
                             <div class="form-group">
                                 <label>Custo por hectare estimado (R$/ha)</label>
@@ -723,8 +726,8 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Valor solicitado ao investidor (R$) <span class="required">*</span></label>
-                                <input type="text" id="valorSolicitado" required placeholder="R$ 0,00">
+                                <label>Valor solicitado ao investidor (R$)</label>
+                                <input type="text" id="valorSolicitado" placeholder="R$ 0,00">
                             </div>
                             <div class="form-group">
                                 <label>Fontes de contrapartida</label>
@@ -749,12 +752,12 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Data de inicio prevista <span class="required">*</span></label>
-                                <input type="date" id="inicioPrev" required>
+                                <label>Data de inicio prevista</label>
+                                <input type="date" id="inicioPrev">
                             </div>
                             <div class="form-group">
-                                <label>Duracao total (meses) <span class="required">*</span></label>
-                                <input type="number" id="duracao" min="0" required placeholder="Ex: 24">
+                                <label>Duracao total (meses)</label>
+                                <input type="number" id="duracao" min="0" placeholder="Ex: 24">
                             </div>
                         </div>
 
@@ -880,8 +883,8 @@
 
                         <div class="form-group" style="background: var(--cinza-bg); padding: 20px; border-radius: 8px;">
                             <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" id="declaração" required style="width: auto; margin-top: 4px;">
-                                <span>Declaro que as informações prestadas sao verdadeiras e autorizo a Renova Campo a utilizar os dados para análise e contato. <span class="required">*</span></span>
+                                <input type="checkbox" id="declaração" style="width: auto; margin-top: 4px;">
+                                <span>Declaro que as informações prestadas sao verdadeiras e autorizo a Renova Campo a utilizar os dados para análise e contato.</span>
                             </label>
                         </div>
 
@@ -908,8 +911,23 @@
                 <div class="success-message" id="successMessage">
                     <i class="fas fa-check-circle"></i>
                     <h2>Projeto Enviado com Sucesso!</h2>
-                    <p>Obrigado por cadastrar seu projeto na Renova Campo. Nossa equipe analisara as informações, buscara uma terra compativel e entrara em contato em breve.</p>
-                    <p style="color: var(--texto-claro); margin-top: 15px;">Apos a validacao do match (terra + projeto), seu projeto aparecera no <strong>Mural de Projetos</strong> para investidores.</p>
+                    <p style="font-size: 16px; line-height: 1.6; color: #374151;">
+                        Obrigado por cadastrar seu projeto na <strong>Renova Campo</strong>!
+                    </p>
+                    <div style="background: #f0fdf4; border-left: 4px solid #014C34; padding: 15px 20px; border-radius: 0 8px 8px 0; margin: 20px auto; max-width: 500px; text-align: left;">
+                        <p style="margin: 0 0 10px 0; color: #014C34; font-weight: 600;">
+                            <i class="fas fa-clock"></i> Proximos passos:
+                        </p>
+                        <ul style="margin: 0; padding-left: 20px; color: #374151; line-height: 1.8;">
+                            <li>Nossa equipe ira analisar seu projeto detalhadamente</li>
+                            <li>Entraremos em contato em ate <strong>48 horas uteis</strong> para alinhar expectativas e tirar duvidas</li>
+                            <li>Buscaremos uma terra compativel com seu projeto</li>
+                            <li>Apos a validacao do match (terra + projeto), seu projeto aparecera no <strong>Mural de Projetos</strong> para investidores</li>
+                        </ul>
+                    </div>
+                    <p style="color: #64748b; font-size: 14px;">
+                        <i class="fas fa-envelope"></i> Duvidas? Entre em contato: <a href="mailto:contato@renovacampo.com.br" style="color: #014C34;">contato@renovacampo.com.br</a>
+                    </p>
                     <p style="margin-top: 20px;">
                         <a href="../index.html" class="btn btn-primary"><i class="fas fa-home"></i> Voltar para Home</a>
                         <a href="../index.html#projetos" class="btn btn-secondary" style="margin-left: 10px;"><i class="fas fa-th-large"></i> Ver Mural de Projetos</a>
@@ -967,7 +985,7 @@
                     </ul>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5511984489104" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
@@ -1054,34 +1072,95 @@
             return true;
         }
 
-        // Submit form
-        async function submitForm() {
-            if (!validateStep(currentStep)) return;
-
-            const declaracao = document.getElementById('declaração');
-            if (!declaracao.checked) {
-                alert('E necessario concordar com a declaracao.');
-                declaracao.focus();
-                return;
-            }
+        // Envio Rapido - envia apenas os dados preenchidos ate o momento
+        async function quickSubmit() {
+            // Validar apenas campos da primeira secao
+            if (!validateStep(1)) return;
 
             // Collect form data
             const formData = collectFormData();
 
             // Map to backend format
+            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
             const projectData = {
-                name: formData.nome_projeto || formData.nomeProjeto || 'Projeto sem nome',
-                category: formData.tipo_projeto || formData.categoria || 'Agricultura Regenerativa',
-                description: formData.descricao || formData.objetivos || '',
-                startDate: formData.data_inicio || null,
-                estimatedEndDate: formData.data_fim || formData.previsao_termino || null,
-                priority: mapPriority(formData.prioridade),
+                name: formData.titulo || 'Projeto - ' + (formData.nome || 'Cadastro rápido'),
+                category: formData.tipo || 'Agricultura Regenerativa',
+                description: '', // Deixar vazio para preenchimento manual
+                startDate: null,
+                estimatedEndDate: null,
+                priority: 'MEDIUM',
                 status: 'PLANNING',
-                totalEstimatedCosts: parseFloat(formData.custo_estimado) || parseFloat(formData.investimento_necessario) || 0,
-                totalInvestment: parseFloat(formData.investimento_total) || 0,
-                estimatedReturnOverInvestment: parseFloat(formData.retorno_estimado) || 0,
-                // TODOS os dados do formulario em JSON
-                additionalData: JSON.stringify(formData)
+                totalEstimatedCosts: 0,
+                totalInvestment: 0,
+                estimatedReturnOverInvestment: 0,
+                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
+            };
+
+            // Show loading
+            const quickBtn = document.querySelector('button[onclick="quickSubmit()"]');
+            const originalText = quickBtn.innerHTML;
+            quickBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            quickBtn.disabled = true;
+
+            try {
+                const response = await ProjectService.create(projectData);
+                console.log('Projeto cadastrado (rapido):', response);
+
+                generateCSV(formData);
+                document.getElementById('projetoForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                localStorage.setItem('renova_projeto_last', JSON.stringify(formData));
+
+            } catch (error) {
+                console.error('Erro ao enviar:', error);
+                generateCSV(formData);
+                localStorage.setItem('renova_projeto_last', JSON.stringify(formData));
+                document.getElementById('projetoForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                alert('Seus dados foram salvos localmente. A conexao com o servidor apresentou problemas, mas entraremos em contato em breve.');
+            } finally {
+                quickBtn.innerHTML = originalText;
+                quickBtn.disabled = false;
+            }
+        }
+
+        // Submit form
+        async function submitForm() {
+            if (!validateStep(currentStep)) return;
+
+            // Collect form data
+            const formData = collectFormData();
+
+            // Funcao para parsear valores monetarios (remover R$ e pontos)
+            function parseMoneyValue(val) {
+                if (!val) return 0;
+                const cleaned = String(val).replace(/[R$\s.]/g, '').replace(',', '.');
+                return parseFloat(cleaned) || 0;
+            }
+
+            // Calcular data estimada de fim baseada na duracao
+            let estimatedEndDate = null;
+            if (formData.inicioPrev && formData.duracao) {
+                const startDate = new Date(formData.inicioPrev);
+                startDate.setMonth(startDate.getMonth() + parseInt(formData.duracao));
+                estimatedEndDate = startDate.toISOString().split('T')[0];
+            }
+
+            // Map to backend format
+            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
+            // Todos os dados do formulario vao para additionalData
+            const projectData = {
+                name: formData.titulo || 'Projeto - ' + (formData.nome || 'Sem nome'),
+                category: formData.tipo || 'Agricultura Regenerativa',
+                description: '', // Deixar vazio para preenchimento manual
+                startDate: formData.inicioPrev || null,
+                estimatedEndDate: estimatedEndDate,
+                priority: 'MEDIUM',
+                status: 'PLANNING',
+                totalEstimatedCosts: parseMoneyValue(formData.custoTotal),
+                totalInvestment: parseMoneyValue(formData.valorSolicitado),
+                estimatedReturnOverInvestment: parseFloat(formData.retornoEstim) || 0,
+                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
             };
 
             // Show loading
@@ -1094,6 +1173,38 @@
                 // Send to backend API
                 const response = await ProjectService.create(projectData);
                 console.log('Projeto cadastrado:', response);
+
+                // Obter o ID do projeto criado para upload de arquivos
+                const projectId = response.id || response;
+
+                // Upload de arquivos anexados (se houver)
+                if (projectId) {
+                    console.log('=== INICIANDO UPLOAD DE ARQUIVOS DO PROJETO ===');
+                    console.log('Project ID:', projectId);
+
+                    const arquivoInput = document.getElementById('arquivoProjeto');
+                    console.log('Input arquivoProjeto:', arquivoInput);
+                    console.log('Arquivos no input:', arquivoInput ? arquivoInput.files.length : 0);
+
+                    if (arquivoInput && arquivoInput.files && arquivoInput.files.length > 0) {
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando arquivos...';
+                        for (const file of arquivoInput.files) {
+                            try {
+                                // Determinar se e foto ou documento
+                                const isImage = file.type.startsWith('image/');
+                                const fileType = isImage ? 'PHOTO' : 'DOCUMENT';
+                                // Usar endpoint correto para PROJETOS (não propriedades)
+                                const uploadUrl = `/api/v1/files/upload/project/${projectId}?type=${fileType}`;
+                                console.log('Enviando arquivo:', file.name, 'para:', uploadUrl);
+                                await API.uploadDocument(uploadUrl, file);
+                                console.log('Arquivo enviado com sucesso:', file.name);
+                            } catch (uploadError) {
+                                console.error('Erro ao enviar arquivo:', file.name, uploadError);
+                            }
+                        }
+                    }
+                    console.log('=== FIM DO UPLOAD DE ARQUIVOS DO PROJETO ===');
+                }
 
                 // Generate CSV as backup
                 generateCSV(formData);
@@ -1135,22 +1246,30 @@
             const form = document.getElementById('projetoForm');
             const data = { timestamp: new Date().toISOString() };
 
-            // Get all form elements
+            console.log('Coletando dados do formulário de projeto...');
             const inputs = form.querySelectorAll('input, select, textarea');
+            console.log('Total de campos encontrados:', inputs.length);
+
             inputs.forEach(input => {
-                if (input.id) {
+                if (input.id && input.id !== '') {
                     if (input.type === 'checkbox') {
                         data[input.id] = input.checked ? 'Sim' : 'Nao';
                     } else if (input.type === 'file') {
-                        data[input.id] = input.files.length > 0
-                            ? Array.from(input.files).map(f => f.name).join('; ')
-                            : '';
+                        if (input.files && input.files.length > 0) {
+                            data[input.id] = Array.from(input.files).map(f => f.name).join('; ');
+                        }
+                    } else if (input.multiple && input.tagName === 'SELECT') {
+                        const vals = Array.from(input.selectedOptions).map(o => o.value);
+                        if (vals.length > 0) {
+                            data[input.id] = vals.join('; ');
+                        }
                     } else {
                         data[input.id] = input.value;
                     }
                 }
             });
 
+            console.log('Dados coletados:', data);
             return data;
         }
 

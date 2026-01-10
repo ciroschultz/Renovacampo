@@ -434,7 +434,10 @@
 
                         <div class="form-actions">
                             <div></div>
-                            <button type="button" class="btn btn-primary" onclick="nextStep()">Próximo <i class="fas fa-arrow-right"></i></button>
+                            <div style="display: flex; gap: 10px;">
+                                <button type="button" class="btn" style="background: #28a745; color: white;" onclick="quickSubmit()"><i class="fas fa-paper-plane"></i> Envio Rápido</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
                         </div>
                     </div>
 
@@ -449,23 +452,23 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Endereço da propriedade (município / UF) <span class="required">*</span></label>
-                                <input type="text" id="end_prop" required placeholder="Municipio / UF">
+                                <label>Endereço da propriedade (município / UF)</label>
+                                <input type="text" id="end_prop" placeholder="Municipio / UF">
                             </div>
                             <div class="form-group">
-                                <label>Área total (ha) <span class="required">*</span></label>
-                                <input type="number" id="área_total" min="0" step="0.01" required placeholder="Ex.: 120">
+                                <label>Área total (ha)</label>
+                                <input type="number" id="área_total" min="0" step="0.01" placeholder="Ex.: 120">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Área disponivel para arrendamento (ha) <span class="required">*</span></label>
-                                <input type="number" id="área_disp" min="0" step="0.01" required placeholder="Ex.: 60">
+                                <label>Área disponivel para arrendamento (ha)</label>
+                                <input type="number" id="área_disp" min="0" step="0.01" placeholder="Ex.: 60">
                             </div>
                             <div class="form-group">
-                                <label>Geolocalizacao / link Google Maps <span class="required">*</span></label>
-                                <input type="text" id="geolink" required placeholder="https://maps.google.com/... ou -23.550520,-46.633308">
+                                <label>Geolocalizacao / link Google Maps</label>
+                                <input type="text" id="geolink" placeholder="https://maps.google.com/... ou -23.550520,-46.633308">
                             </div>
                         </div>
 
@@ -477,8 +480,8 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Matricula do imovel (no / Cartorio) <span class="required">*</span></label>
-                                <input type="text" id="matricula" required placeholder="Número da matricula">
+                                <label>Matricula do imovel (no / Cartorio)</label>
+                                <input type="text" id="matricula" placeholder="Número da matricula">
                             </div>
                             <div class="form-group">
                                 <label>Situacao registral</label>
@@ -503,8 +506,8 @@
                         <h2><i class="fas fa-file-alt"></i> Documentação</h2>
 
                         <div class="form-group">
-                            <label>Upload - Certidao de Matricula atualizada (PDF) <span class="required">*</span></label>
-                            <input type="file" id="doc_matricula" accept="application/pdf" required>
+                            <label>Upload - Certidao de Matricula atualizada (PDF)</label>
+                            <input type="file" id="doc_matricula" accept="application/pdf">
                         </div>
 
                         <div class="form-group">
@@ -820,8 +823,8 @@
                         <h2><i class="fas fa-handshake"></i> Modelo de Arrendamento</h2>
 
                         <div class="form-group">
-                            <label>Modalidade de interesse <span class="required">*</span></label>
-                            <select id="modalidade_interesse" required onchange="toggleModalidade(this.value)">
+                            <label>Modalidade de interesse</label>
+                            <select id="modalidade_interesse" onchange="toggleModalidade(this.value)">
                                 <option value="modal1">Modalidade 1 - Financiamento da safra (aluguel)</option>
                                 <option value="modal2">Modalidade 2 - Estruturacao empresarial (participacao / sociedade)</option>
                                 <option value="indeciso">Indeciso / Outro</option>
@@ -922,15 +925,15 @@
 
                         <div class="form-group" style="background: var(--cinza-bg); padding: 20px; border-radius: 8px; margin-top: 30px;">
                             <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" id="declaro" required style="width: auto; margin-top: 4px;">
-                                <span>Declaro que as informações prestadas sao verdadeiras e autorizo a Renova Campo a realizar análises iniciais e visitas técnicas. <span class="required">*</span></span>
+                                <input type="checkbox" id="declaro" style="width: auto; margin-top: 4px;">
+                                <span>Declaro que as informações prestadas sao verdadeiras e autorizo a Renova Campo a realizar análises iniciais e visitas técnicas.</span>
                             </label>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Assinatura digital (nome completo) <span class="required">*</span></label>
-                                <input type="text" id="assinatura" required placeholder="Nome completo">
+                                <label>Assinatura digital (nome completo)</label>
+                                <input type="text" id="assinatura" placeholder="Nome completo">
                             </div>
                             <div class="form-group">
                                 <label>Data</label>
@@ -958,7 +961,22 @@
                 <div class="success-message" id="successMessage">
                     <i class="fas fa-check-circle"></i>
                     <h2>Cadastro Enviado com Sucesso!</h2>
-                    <p>Obrigado por cadastrar sua terra na Renova Campo. Nossa equipe analisara as informações e entrara em contato em breve.</p>
+                    <p style="font-size: 16px; line-height: 1.6; color: #374151;">
+                        Obrigado por cadastrar sua propriedade na <strong>Renova Campo</strong>!
+                    </p>
+                    <div style="background: #f0fdf4; border-left: 4px solid #014C34; padding: 15px 20px; border-radius: 0 8px 8px 0; margin: 20px auto; max-width: 500px; text-align: left;">
+                        <p style="margin: 0 0 10px 0; color: #014C34; font-weight: 600;">
+                            <i class="fas fa-clock"></i> Proximos passos:
+                        </p>
+                        <ul style="margin: 0; padding-left: 20px; color: #374151; line-height: 1.8;">
+                            <li>Nossa equipe ira analisar as informações enviadas</li>
+                            <li>Entraremos em contato em ate <strong>48 horas uteis</strong> para esclarecer duvidas e agendar uma visita tecnica, se necessario</li>
+                            <li>Apos a validação, sua terra podera ser listada no site para investidores</li>
+                        </ul>
+                    </div>
+                    <p style="color: #64748b; font-size: 14px;">
+                        <i class="fas fa-envelope"></i> Duvidas? Entre em contato: <a href="mailto:contato@renovacampo.com.br" style="color: #014C34;">contato@renovacampo.com.br</a>
+                    </p>
                     <p style="margin-top: 20px;">
                         <a href="../index.html" class="btn btn-primary"><i class="fas fa-home"></i> Voltar para Home</a>
                     </p>
@@ -1015,7 +1033,7 @@
                     </ul>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5511984489104" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
@@ -1152,35 +1170,19 @@
             }[m]));
         }
 
-        // Submit form
-        async function submitForm() {
-            if (!validateStep(currentStep)) return;
-
-            const declaro = document.getElementById('declaro');
-            if (!declaro.checked) {
-                alert('E necessario concordar com a declaracao.');
-                declaro.focus();
-                return;
-            }
-
-            const assinatura = document.getElementById('assinatura');
-            if (!assinatura.value.trim()) {
-                alert('Por favor, preencha sua assinatura digital.');
-                assinatura.focus();
-                return;
-            }
+        // Envio Rapido - envia apenas os dados preenchidos ate o momento
+        async function quickSubmit() {
+            // Validar apenas campos da primeira secao
+            if (!validateStep(1)) return;
 
             // Collect form data
             const formData = collectFormData();
 
             // Map to backend format
+            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
             const propertyData = {
-                name: formData.nome_propriedade || 'Propriedade sem nome',
-                description: [
-                    formData.uso_atual ? 'Uso atual: ' + formData.uso_atual : '',
-                    formData.benfeitorias ? 'Benfeitorias: ' + formData.benfeitorias : '',
-                    formData.modalidade ? 'Modalidade: ' + formData.modalidade : ''
-                ].filter(Boolean).join('. '),
+                name: formData.nome_propriedade || 'Propriedade - ' + (formData.nome_prop || 'Cadastro rápido'),
+                description: '', // Deixar vazio para preenchimento manual
                 totalArea: parseInt(formData.área_total) || 0,
                 availableArea: parseInt(formData.área_disp) || null,
                 type: formData.uso_atual || 'Rural',
@@ -1189,8 +1191,70 @@
                 state: extractState(formData.end_prop) || '',
                 latitude: null,
                 longitude: null,
-                // TODOS os dados do formulario em JSON
-                additionalData: JSON.stringify(formData)
+                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
+            };
+
+            // Show loading
+            const quickBtn = document.querySelector('button[onclick="quickSubmit()"]');
+            const originalText = quickBtn.innerHTML;
+            quickBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            quickBtn.disabled = true;
+
+            try {
+                const response = await PropertyService.create(propertyData);
+                console.log('Propriedade cadastrada (rapido):', response);
+
+                generateCSV(formData);
+                document.getElementById('terraForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                localStorage.setItem('renova_terra_last', JSON.stringify(formData));
+
+            } catch (error) {
+                console.error('Erro ao enviar:', error);
+                generateCSV(formData);
+                localStorage.setItem('renova_terra_last', JSON.stringify(formData));
+                document.getElementById('terraForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                alert('Seus dados foram salvos localmente. A conexao com o servidor apresentou problemas, mas entraremos em contato em breve.');
+            } finally {
+                quickBtn.innerHTML = originalText;
+                quickBtn.disabled = false;
+            }
+        }
+
+        // Submit form
+        async function submitForm() {
+            if (!validateStep(currentStep)) return;
+
+            // Collect form data
+            const formData = collectFormData();
+
+            // Extrair coordenadas do geolink
+            let latitude = null;
+            let longitude = null;
+            if (formData.geolink) {
+                const coordMatch = formData.geolink.match(/(-?\d+\.?\d*),\s*(-?\d+\.?\d*)/);
+                if (coordMatch) {
+                    latitude = parseFloat(coordMatch[1]);
+                    longitude = parseFloat(coordMatch[2]);
+                }
+            }
+
+            // Map to backend format
+            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
+            // Todos os dados do formulario vao para additionalData
+            const propertyData = {
+                name: formData.nome_propriedade || 'Propriedade - ' + (formData.nome_prop || 'Sem nome'),
+                description: '', // Deixar vazio para preenchimento manual
+                totalArea: parseInt(formData.área_total) || 0,
+                availableArea: parseInt(formData.área_disp) || null,
+                type: formData.uso_atual || 'Rural',
+                address: formData.end_prop || '',
+                city: extractCity(formData.end_prop) || '',
+                state: extractState(formData.end_prop) || '',
+                latitude: latitude,
+                longitude: longitude,
+                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
             };
 
             // Show loading
@@ -1202,7 +1266,60 @@
             try {
                 // Send to backend API
                 const response = await PropertyService.create(propertyData);
-                console.log('Propriedade cadastrada:', response);
+                console.log('Propriedade cadastrada, resposta:', response);
+
+                // Obter o ID da propriedade criada
+                // O backend retorna apenas o ID como numero, nao um objeto {id: ...}
+                const propertyId = (typeof response === 'object' && response.id) ? response.id : response;
+                console.log('Property ID extraido:', propertyId, 'Tipo:', typeof propertyId);
+
+                if (propertyId) {
+                    console.log('=== INICIANDO UPLOAD DE ARQUIVOS ===');
+                    console.log('Property ID:', propertyId);
+
+                    // Upload de fotos (campo #fotos)
+                    const fotosInput = document.getElementById('fotos');
+                    console.log('Input fotos encontrado:', fotosInput);
+                    console.log('Arquivos no input fotos:', fotosInput ? fotosInput.files : 'N/A');
+                    console.log('Quantidade de fotos:', fotosInput && fotosInput.files ? fotosInput.files.length : 0);
+
+                    if (fotosInput && fotosInput.files && fotosInput.files.length > 0) {
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando fotos...';
+                        console.log('Enviando', fotosInput.files.length, 'fotos...');
+                        try {
+                            const photoResults = await PropertyService.uploadMultiplePhotos(propertyId, Array.from(fotosInput.files));
+                            console.log('Fotos enviadas:', photoResults);
+                        } catch (photoError) {
+                            console.error('ERRO ao enviar fotos:', photoError);
+                        }
+                    } else {
+                        console.log('Nenhuma foto para enviar');
+                    }
+
+                    // Upload de documentos PDF
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando documentos...';
+                    const documentInputs = [
+                        'doc_matricula', 'doc_ccir', 'doc_cer', 'arrend_upload',
+                        'soil_files', 'outorga_upload', 'reserva_files', 'apps_upload',
+                        'mapa_upload', 'outros_docs', 'upload_kml'
+                    ];
+
+                    for (const inputId of documentInputs) {
+                        const input = document.getElementById(inputId);
+                        if (input && input.files && input.files.length > 0) {
+                            console.log(`Enviando documentos de ${inputId}:`, input.files.length, 'arquivos');
+                            try {
+                                const docResults = await PropertyService.uploadMultipleDocuments(propertyId, Array.from(input.files));
+                                console.log(`Documentos ${inputId} enviados:`, docResults);
+                            } catch (docError) {
+                                console.error(`ERRO ao enviar documentos ${inputId}:`, docError);
+                            }
+                        }
+                    }
+                    console.log('=== FIM DO UPLOAD DE ARQUIVOS ===');
+                } else {
+                    console.error('ERRO: propertyId não retornado pela API');
+                }
 
                 // Generate CSV as backup
                 generateCSV(formData);
@@ -1250,31 +1367,68 @@
         }
 
         function collectFormData() {
-            const data = {
-                timestamp: new Date().toISOString(),
-                nome: document.getElementById('nome_prop')?.value,
-                cpf_cnpj: document.getElementById('cpf_cnpj')?.value,
-                email: document.getElementById('email')?.value,
-                telefone: document.getElementById('telefone')?.value,
-                end_resid: document.getElementById('end_resid')?.value,
-                horário_contato: document.getElementById('horário_contato')?.value,
-                nome_propriedade: document.getElementById('nome_propriedade')?.value,
-                end_prop: document.getElementById('end_prop')?.value,
-                área_total: document.getElementById('área_total')?.value,
-                área_disp: document.getElementById('área_disp')?.value,
-                geolink: document.getElementById('geolink')?.value,
-                matricula: document.getElementById('matricula')?.value,
-                sit_registral: document.getElementById('sit_registral')?.value,
-                uso_atual: Array.from(document.querySelectorAll('.uso_atual:checked')).map(i => i.value).join('; '),
-                água_fontes: Array.from(document.querySelectorAll('.água_fontes:checked')).map(i => i.value).join('; '),
-                benfeitorias: Array.from(document.querySelectorAll('.benfe:checked')).map(i => i.value).join('; '),
-                modalidade: document.getElementById('modalidade_interesse')?.value,
-                aluguel: document.getElementById('aluguel_proposto')?.value,
-                prazo_min: document.getElementById('prazo_min')?.value,
-                autoriza_visita: document.getElementById('autoriza_visita')?.value,
-                assinatura: document.getElementById('assinatura')?.value,
-                data_assinatura: document.getElementById('data_assinatura')?.value
-            };
+            const form = document.getElementById('terraForm');
+            const data = { timestamp: new Date().toISOString() };
+
+            // Coletar todos os inputs, selects e textareas
+            const inputs = form.querySelectorAll('input, select, textarea');
+            console.log('Total de campos encontrados:', inputs.length);
+            inputs.forEach(input => {
+                if (input.id && input.id !== '') {
+                    if (input.type === 'checkbox') {
+                        // Para checkboxes, agrupa por classe ou nome
+                        if (input.checked) {
+                            const key = input.className.split(' ')[0] || input.name || input.id;
+                            if (!data[key]) data[key] = [];
+                            if (Array.isArray(data[key])) {
+                                data[key].push(input.value);
+                            }
+                        }
+                    } else if (input.type === 'radio') {
+                        if (input.checked) {
+                            data[input.name || input.id] = input.value;
+                        }
+                    } else if (input.type === 'file') {
+                        if (input.files && input.files.length > 0) {
+                            data[input.id] = Array.from(input.files).map(f => f.name).join('; ');
+                        }
+                    } else if (input.multiple && input.tagName === 'SELECT') {
+                        const selected = Array.from(input.selectedOptions).map(o => o.value);
+                        data[input.id] = selected.join('; ');
+                    } else {
+                        data[input.id] = input.value;
+                    }
+                }
+            });
+
+            // Converter arrays de checkboxes para strings
+            for (const key in data) {
+                if (Array.isArray(data[key])) {
+                    data[key] = data[key].join('; ');
+                }
+            }
+
+            // Coletar dados da tabela de produção (se houver)
+            const prodTable = document.querySelector('#prod_table tbody');
+            if (prodTable) {
+                const rows = prodTable.querySelectorAll('tr');
+                const producao = [];
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length >= 4) {
+                        producao.push({
+                            atividade: cells[0].textContent,
+                            area: cells[1].textContent,
+                            produtividade: cells[2].textContent,
+                            destino: cells[3].textContent
+                        });
+                    }
+                });
+                if (producao.length > 0) {
+                    data.producao_atual = JSON.stringify(producao);
+                }
+            }
+
             return data;
         }
 
