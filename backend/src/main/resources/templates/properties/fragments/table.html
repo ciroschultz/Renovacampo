@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="table">
+    <!-- Success/Error Messages -->
+    <div th:if="${deleteSuccess}" class="alert alert-success" style="margin-bottom: 1rem;">
+        <i class="fas fa-check-circle"></i>
+        Propriedade excluída com sucesso!
+    </div>
+    <div th:if="${deleteError}" class="alert alert-error" style="margin-bottom: 1rem;">
+        <i class="fas fa-exclamation-triangle"></i>
+        Erro ao excluir propriedade: <span th:text="${deleteError}"></span>
+    </div>
+    
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Localização</th>
+                    <th>Área Total</th>
+                    <th>Área Disponível</th>
+                    <th style="text-align: center;">Publicado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="property : ${properties}" 
+                    class="clickable-row" 
+                    th:onclick="'window.location.href=\'/properties/' + ${property.id} + '\''">
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div class="property-thumbnail" th:attr="data-property-id=${property.id}">
+                                <img th:src="@{'/api/v1/photos/property/' + ${property.id} + '/thumbnail'}" 
+                                     th:alt="${property.name}"
+                                     onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                                     onerror="this.style.display='none';"
+                                     style="display: none;">
+                                <div class="thumbnail-placeholder" style="display: flex;">
+                                    <i class="fas fa-image" style="font-size: 1.25rem; color: #e2e8f0;"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;" th:text="${property.name}">Nome</div>
+                                <div style="font-size: 0.875rem; color: #64748b;" 
+                                     th:text="${#strings.abbreviate(property.description, 50)}">Descrição</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="tag" th:text="${property.type}">Tipo</span>
+                    </td>
+                    <td>
+                        <div th:text="${property.city + ', ' + property.state}">Cidade, Estado</div>
+                        <div style="font-size: 0.875rem; color: #64748b;" 
+                             th:text="${property.address}">Endereço</div>
+                    </td>
+                    <td>
+                        <span th:text="${property.totalArea + ' ha'}">100 ha</span>
+                    </td>
+                    <td>
+                        <span th:if="${property.availableArea}"
+                              th:text="${property.availableArea + ' ha'}">50 ha</span>
+                        <span th:unless="${property.availableArea}"
+                              style="color: #64748b;">—</span>
+                    </td>
+                    <td onclick="event.stopPropagation();" style="text-align: center;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+                            <label class="toggle-switch">
+                                <input type="checkbox"
+                                       th:id="'approval-toggle-' + ${property.id}"
+                                       th:checked="${property.approved}"
+                                       th:onclick="'togglePropertyApproval(' + ${property.id} + ', this)'">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span th:id="'approval-label-' + ${property.id}"
+                                  th:class="${property.approved} ? 'approval-label approved' : 'approval-label pending'"
+                                  th:text="${property.approved} ? 'Sim' : 'Não'"
+                                  style="font-size: 0.75rem;">
+                            </span>
+                        </div>
+                    </td>
+                    <td onclick="event.stopPropagation();">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a th:href="@{/properties/{id}/edit(id=${property.id})}" 
+                               class="btn btn-secondary btn-sm"
+                               title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm"
+                                    title="Excluir"
+                                    hx-delete th:hx-delete="@{/properties/{id}(id=${property.id})}"
+                                    hx-confirm="Tem certeza que deseja excluir esta propriedade?"
+                                    hx-target="#properties-table"
+                                    hx-swap="outerHTML">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(properties)}">
+                    <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
+                        <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <div style="font-size: 1.125rem; margin-bottom: 0.5rem;">Nenhuma propriedade encontrada</div>
+                        <div>Comece adicionando sua primeira propriedade.</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('projects')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1><i class="fas fa-project-diagram"></i> Projetos</h1>
+                    <p class="page-description">Gerencie seus projetos de modernização e desenvolvimento</p>
+                </div>
+                <div class="page-header-actions">
+                    <a href="/projects/new" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Novo Projeto
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" th:text="${totalProjects}">0</div>
+                    <div class="stat-label">Total de Projetos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" th:text="${#numbers.formatCurrency(totalInvestment)}">R$ 0,00</div>
+                    <div class="stat-label">Investimento Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" th:text="${activeProjects}">0</div>
+                    <div class="stat-label">Projetos Ativos</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-body" style="padding: 1rem 1.5rem;">
+                    <div class="grid grid-cols-3">
+                        <div>
+                            <input type="text" 
+                                   id="search-input"
+                                   placeholder="Buscar por nome ou descrição..." 
+                                   class="form-input"
+                                   onkeyup="filterTable()">
+                        </div>
+                        <div>
+                            <select class="form-select" 
+                                    id="status-filter"
+                                    onchange="filterTable()">
+                                <option value="">Todos os status</option>
+                                <option value="PLANNING">Planejamento</option>
+                                <option value="APPROVED">Aprovado</option>
+                                <option value="IN_PROGRESS">Em Andamento</option>
+                                <option value="ON_HOLD">Suspenso</option>
+                                <option value="COMPLETED">Concluído</option>
+                                <option value="CANCELLED">Cancelado</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select class="form-select"
+                                    id="priority-filter"
+                                    onchange="filterTable()">
+                                <option value="">Todas as prioridades</option>
+                                <option value="LOW">Baixa</option>
+                                <option value="MEDIUM">Média</option>
+                                <option value="HIGH">Alta</option>
+                                <option value="CRITICAL">Crítica</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Table -->
+            <div id="projects-table">
+                <div th:replace="~{projects/fragments/table :: table}"></div>
+            </div>
+        </div>
+    </main>
+
+        <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- HTMX Config -->
+    <script>
+        htmx.config.globalViewTransitions = true;
+        
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+            console.log('Tabela atualizada');
+        });
+        
+        // Client-side table filtering
+        function filterTable() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value.toLowerCase();
+            const priorityFilter = document.getElementById('priority-filter').value.toLowerCase();
+            
+            const table = document.querySelector('#projects-table table tbody');
+            if (!table) return;
+            
+            const rows = table.querySelectorAll('tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                // Skip empty state row
+                if (row.querySelector('td[colspan]')) {
+                    row.style.display = 'none';
+                    return;
+                }
+                
+                const cells = row.querySelectorAll('td');
+                if (cells.length < 6) return;
+                
+                // Get text content from cells
+                const nameCell = cells[0];
+                const name = nameCell.querySelector('div:first-child')?.textContent?.toLowerCase() || '';
+                const description = nameCell.querySelector('div:last-child')?.textContent?.toLowerCase() || '';
+                
+                const status = cells[2]?.textContent?.toLowerCase() || '';
+                const priority = cells[3]?.textContent?.toLowerCase() || '';
+                
+                // Apply filters
+                const matchesSearch = searchInput === '' || 
+                    name.includes(searchInput) || 
+                    description.includes(searchInput);
+                
+                const matchesStatus = statusFilter === '' || status.includes(statusFilter);
+                const matchesPriority = priorityFilter === '' || priority.includes(priorityFilter);
+                
+                if (matchesSearch && matchesStatus && matchesPriority) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Show/hide empty state message
+            const emptyRow = table.querySelector('tr td[colspan]')?.parentElement;
+            if (emptyRow) {
+                if (visibleCount === 0) {
+                    emptyRow.style.display = '';
+                    emptyRow.querySelector('div:nth-child(2)').textContent = 'Nenhum projeto encontrado com os filtros aplicados.';
+                } else {
+                    emptyRow.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

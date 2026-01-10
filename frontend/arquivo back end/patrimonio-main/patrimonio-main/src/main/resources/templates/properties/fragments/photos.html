@@ -1,0 +1,49 @@
+<!-- Photos Fragment -->
+<div th:fragment="photos">
+    <!-- Success/Error Messages -->
+    <div th:if="${success}" class="alert alert-success" style="margin-bottom: 1rem;">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Sucesso</span>
+    </div>
+    
+    <div th:if="${error}" class="alert alert-error" style="margin-bottom: 1rem;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Erro</span>
+    </div>
+
+    <!-- Photos Grid -->
+    <div th:if="${photos != null and !photos.isEmpty()}" class="photos-grid">
+        <div th:each="photo : ${photos}" class="photo-item">
+            <div class="photo-container">
+                <img th:src="@{/api/v1/photos/{id}(id=${photo.id})}" 
+                     th:alt="${photo.originalFileName}"
+                     class="photo-img"
+                     loading="lazy">
+                
+                <!-- Photo overlay -->
+                <div class="photo-overlay">
+                    <div class="photo-actions">
+                        <a th:href="@{/api/v1/photos/{id}(id=${photo.id})}" 
+                           target="_blank" 
+                           class="btn-icon btn-secondary"
+                           title="Ver em tamanho real">
+                            <i class="fas fa-expand"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="photo-info">
+                        <span class="photo-name" th:text="${photo.originalFileName}">Nome do arquivo</span>
+                        <span class="photo-size" th:text="${#numbers.formatDecimal(photo.fileSize / 1024.0, 0, 0)} + ' KB'">Tamanho</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div th:if="${photos == null or photos.isEmpty()}" class="empty-state">
+        <i class="fas fa-images"></i>
+        <p>Nenhuma foto adicionada ainda.</p>
+        <p class="empty-subtitle">Adicione fotos para destacar sua propriedade.</p>
+    </div>
+</div>

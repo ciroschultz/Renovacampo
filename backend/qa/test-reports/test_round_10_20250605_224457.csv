@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+ENT-VAL-004,Enter negative financial values,Enterprises,Validation,High,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
+ENT-PROP-001,Link enterprise to property,Enterprises,Property Integration,High,Integration,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Integration test requires manual execution
+ENT-PROP-002,View property details from enterprise,Enterprises,Property Integration,Medium,Integration,/enterprises/{id},2025-06-05 22:44:56,MANUAL,,0,,Integration test requires manual execution
+ENT-PROP-003,Change linked property,Enterprises,Property Integration,Medium,Integration,/enterprises/{id}/edit,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-PROJ-001,Link enterprise to project,Enterprises,Project Integration,High,Integration,/enterprises/new,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-PROJ-002,View project details from enterprise,Enterprises,Project Integration,Medium,Integration,/enterprises/{id},2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-PROJ-003,Change linked project,Enterprises,Project Integration,Medium,Integration,/enterprises/{id}/edit,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-INV-001,Add investor to enterprise,Enterprises,Investor Management,High,Integration,/enterprises/{id}/investors,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-INV-002,Remove investor from enterprise,Enterprises,Investor Management,Medium,Integration,/enterprises/{id}/investors,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution

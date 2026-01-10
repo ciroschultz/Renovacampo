@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+INV-API-001,List investors via REST API,Investors,API,High,API,/api/v1/investors,2025-06-05 22:44:54,PASS,200,49,,API returned 2 record(s)
+INV-API-002,Get investor by ID via API,Investors,API,High,API,/api/v1/investors/{id},2025-06-05 22:44:54,FAIL,400,16,HTTP 400,
+INV-API-003,Get investor by tax ID via API,Investors,API,High,API,/api/v1/investors/tax-id/{taxId},2025-06-05 22:44:54,PASS,404,15,,Endpoint not found (expected for some tests)
+INV-API-004,Create investor via API,Investors,API,High,API,/api/v1/investors,2025-06-05 22:44:54,PASS,200,20,,API returned 2 record(s)
+INV-API-005,Update investor via API,Investors,API,High,API,/api/v1/investors/{id},2025-06-05 22:44:55,FAIL,400,13,HTTP 400,
+INV-API-006,Delete investor via API,Investors,API,Medium,API,/api/v1/investors/{id},2025-06-05 22:44:55,FAIL,400,14,HTTP 400,
+INV-API-007,Activate/deactivate via API,Investors,API,Medium,API,/api/v1/investors/{id}/activate,2025-06-05 22:44:55,FAIL,405,18,HTTP 405,
+ENT-NAV-001,Access enterprises list page,Enterprises,Navigation,High,UI,/enterprises,2025-06-05 22:44:55,PASS,200,146,,Page loaded successfully
+ENT-NAV-002,Access enterprise creation page,Enterprises,Navigation,High,UI,/enterprises/new,2025-06-05 22:44:55,FAIL,500,78,HTTP 500,

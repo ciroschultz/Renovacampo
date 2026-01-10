@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'RenovaCampo - Gestão de Propriedades'">RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="/properties" class="brand-link">
+                    <i class="fas fa-seedling"></i>
+                    RenovaCampo
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="/properties" class="nav-link" 
+                   th:classappend="${activeTab == 'properties'} ? 'active' : ''">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Propriedades
+                </a>
+                <a href="/api/v1/property" class="nav-link" target="_blank">
+                    <i class="fas fa-code"></i>
+                    API
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header" th:if="${pageHeader}">
+                <div class="page-header-content">
+                    <h1 th:text="${pageTitle}">Página</h1>
+                    <p th:if="${pageDescription}" th:text="${pageDescription}" class="page-description"></p>
+                </div>
+                <div class="page-header-actions" th:if="${headerActions}">
+                    <div th:replace="${headerActions}"></div>
+                </div>
+            </div>
+
+            <!-- Alerts -->
+            <div th:if="${success}" class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span th:text="${success}"></span>
+            </div>
+            
+            <div th:if="${error}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <div layout:fragment="content">
+                    <!-- Page content will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+        <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- HTMX Config -->
+    <script>
+        // HTMX configuration
+        htmx.config.globalViewTransitions = true;
+        
+        // Custom events
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+            // Re-apply any JavaScript behaviors after HTMX swaps
+            console.log('HTMX swap completed');
+        });
+    </script>
+</body>
+</html>

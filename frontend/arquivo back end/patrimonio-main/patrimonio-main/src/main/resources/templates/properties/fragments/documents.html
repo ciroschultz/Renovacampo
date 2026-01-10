@@ -1,0 +1,57 @@
+<!-- Documents Fragment -->
+<div th:fragment="documents">
+    <!-- Success/Error Messages -->
+    <div th:if="${success}" class="alert alert-success" style="margin-bottom: 1rem;">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Sucesso</span>
+    </div>
+    
+    <div th:if="${error}" class="alert alert-error" style="margin-bottom: 1rem;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Erro</span>
+    </div>
+
+    <!-- Documents List -->
+    <div th:if="${documents != null and !documents.isEmpty()}" class="documents-list">
+        <div th:each="document : ${documents}" class="document-item">
+            <div class="document-icon">
+                <i th:if="${document.contentType.contains('pdf')}" class="fas fa-file-pdf"></i>
+                <i th:unless="${document.contentType.contains('pdf')}" 
+                   th:if="${document.contentType.contains('doc')}" class="fas fa-file-word"></i>
+                <i th:unless="${document.contentType.contains('pdf') or document.contentType.contains('doc')}" 
+                   th:if="${document.contentType.contains('sheet') or document.contentType.contains('excel')}" class="fas fa-file-excel"></i>
+                <i th:unless="${document.contentType.contains('pdf') or document.contentType.contains('doc') or document.contentType.contains('sheet') or document.contentType.contains('excel')}" 
+                   class="fas fa-file-alt"></i>
+            </div>
+            
+            <div class="document-info">
+                <div class="document-name" th:text="${document.originalFileName}">Nome do arquivo</div>
+                <div class="document-details">
+                    <span class="document-size" th:text="${#numbers.formatDecimal(document.fileSize / 1024.0, 0, 0)} + ' KB'">Tamanho</span>
+                    <!-- Show content type only in full load -->
+                    <span th:if="${!isQuickLoad}" class="document-type" th:text="${document.contentType}">Tipo</span>
+                    <!-- Show loading indicator in quick load -->
+                    <span th:if="${isQuickLoad}" class="document-loading">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 0.75rem; color: #64748b;"></i>
+                        Carregando detalhes...
+                    </span>
+                </div>
+            </div>
+            
+            <div class="document-actions">
+                <a th:href="@{/api/v1/files/{id}(id=${document.id})}" 
+                   class="btn-icon btn-secondary"
+                   title="Download">
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div th:if="${documents == null or documents.isEmpty()}" class="empty-state">
+        <i class="fas fa-file-alt"></i>
+        <p>Nenhum documento adicionado ainda.</p>
+        <p class="empty-subtitle">Adicione documentos como escrituras, certidões, etc.</p>
+    </div>
+</div>

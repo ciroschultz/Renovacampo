@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+INV-NAV-004,Access investor edit page,Investors,Navigation,High,UI,/investors/{id}/edit,2025-06-05 22:44:52,FAIL,400,16,HTTP 400,
+INV-CRUD-001,Create new investor with all fields,Investors,CRUD,High,Functional,/investors,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-CRUD-002,Create investor with minimum required fields,Investors,CRUD,High,Functional,/investors,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-CRUD-003,Edit existing investor,Investors,CRUD,High,Functional,/investors/{id}/edit,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-CRUD-004,Delete investor,Investors,CRUD,High,Functional,/investors/{id},2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-VAL-001,Submit form with empty required fields,Investors,Validation,High,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-VAL-002,Enter invalid CPF/CNPJ format,Investors,Validation,High,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-VAL-003,Enter invalid email format,Investors,Validation,Medium,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-VAL-004,Enter negative financial values,Investors,Validation,High,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-FIN-001,Calculate available funds automatically,Investors,Financial Management,High,Functional,/investors/{id},2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing

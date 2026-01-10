@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+PROP-NAV-001,Access properties list page,Properties,Navigation,High,UI,/properties,2025-06-05 22:44:47,PASS,200,69,,Page loaded successfully
+PROP-NAV-002,Access property creation page,Properties,Navigation,High,UI,/properties/new,2025-06-05 22:44:47,PASS,200,45,,Page loaded successfully
+PROP-NAV-003,Access property details page,Properties,Navigation,High,UI,/properties/{id},2025-06-05 22:44:47,FAIL,400,21,HTTP 400,
+PROP-NAV-004,Access property edit page,Properties,Navigation,High,UI,/properties/{id}/edit,2025-06-05 22:44:47,FAIL,400,14,HTTP 400,
+PROP-CRUD-001,Create new property with all fields,Properties,CRUD,High,Functional,/properties,2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-CRUD-002,Create property with minimum required fields,Properties,CRUD,High,Functional,/properties,2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-CRUD-003,Edit existing property,Properties,CRUD,High,Functional,/properties/{id}/edit,2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-CRUD-004,Delete property,Properties,CRUD,High,Functional,/properties/{id},2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-VAL-001,Submit form with empty required fields,Properties,Validation,High,Validation,/properties/new,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution
+PROP-VAL-002,Enter invalid area values,Properties,Validation,Medium,Validation,/properties/new,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution

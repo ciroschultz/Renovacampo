@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+PROJ-PRIOR-002,Filter by project priority,Projects,Priority Management,Medium,Functional,/projects,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FIN-001,Calculate ROI automatically,Projects,Financial Tracking,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FIN-002,Track project expenses,Projects,Financial Tracking,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FILE-001,Upload project documents,Projects,File Management,High,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FILE-002,Delete project documents,Projects,File Management,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-SEARCH-001,Search projects by name,Projects,Search,Medium,Functional,/projects,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-SEARCH-002,Search projects by category,Projects,Search,Medium,Functional,/projects,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-NAV-001,Access investors list page,Investors,Navigation,High,UI,/investors,2025-06-05 22:44:52,PASS,200,46,,Page loaded successfully
+INV-NAV-002,Access investor creation page,Investors,Navigation,High,UI,/investors/new,2025-06-05 22:44:52,PASS,200,37,,Page loaded successfully
+INV-NAV-003,Access investor details page,Investors,Navigation,High,UI,/investors/{id},2025-06-05 22:44:52,FAIL,400,14,HTTP 400,

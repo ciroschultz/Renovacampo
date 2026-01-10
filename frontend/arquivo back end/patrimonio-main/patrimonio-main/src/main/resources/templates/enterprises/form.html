@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${enterprise.id != null ? 'Editar Empreendimento' : 'Novo Empreendimento'} + ' - RenovaCampo'">Empreendimento - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('enterprises')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1 th:text="${enterprise.id != null ? 'Editar Empreendimento' : 'Novo Empreendimento'}">Novo Empreendimento</h1>
+                    <p class="page-description">Configure os detalhes do empreendimento rural</p>
+                </div>
+                <div class="page-header-actions">
+                    <a href="/enterprises" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <!-- Error Alert -->
+            <div th:if="${error}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span th:text="${error}">Erro</span>
+            </div>
+
+            <!-- Form -->
+            <div class="card">
+                <form th:action="${enterprise.id != null ? '/enterprises/' + enterprise.id : '/enterprises'}" 
+                      th:method="${enterprise.id != null ? 'POST' : 'POST'}"
+                      th:object="${enterprise}">
+                    
+                    <input type="hidden" th:field="*{id}">
+                    
+                    <div class="card-header">
+                        <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">
+                            <i class="fas fa-seedling"></i>
+                            Informações do Empreendimento
+                        </h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Basic Information -->
+                        <div class="form-section" style="margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: #374151;">
+                                <i class="fas fa-info-circle"></i>
+                                Informações Básicas
+                            </h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <label for="name" class="form-label">Nome do Empreendimento *</label>
+                                <input type="text" 
+                                       id="name" 
+                                       th:field="*{name}"
+                                       class="form-input" 
+                                       placeholder="Ex: Produção de Soja Safra 2024"
+                                       required>
+                            </div>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <label for="description" class="form-label">Descrição *</label>
+                                <textarea id="description" 
+                                          th:field="*{description}"
+                                          class="form-textarea" 
+                                          rows="4"
+                                          placeholder="Descreva o empreendimento, seus objetivos, benefícios esperados, etc."
+                                          required></textarea>
+                            </div>
+                            
+                            <div class="grid grid-cols-2" style="gap: 1.5rem;">
+                                <div>
+                                    <label for="status" class="form-label">Status *</label>
+                                    <select id="status" 
+                                            th:field="*{status}"
+                                            class="form-select" 
+                                            required>
+                                        <option value="">Selecione o status</option>
+                                        <option value="PLANNING">Planejamento</option>
+                                        <option value="ACTIVE">Ativo</option>
+                                        <option value="COMPLETED">Concluído</option>
+                                        <option value="SUSPENDED">Suspenso</option>
+                                        <option value="CANCELLED">Cancelado</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="form-label">Ativo</label>
+                                    <div style="display: flex; align-items: center; height: 38px;">
+                                        <input type="checkbox" 
+                                               id="active" 
+                                               th:field="*{active}"
+                                               class="form-checkbox"
+                                               checked>
+                                        <label for="active" class="form-check-label" style="margin-left: 0.5rem;">
+                                            Empreendimento está ativo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property and Project Association -->
+                        <div class="form-section" style="margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: #374151;">
+                                <i class="fas fa-link"></i>
+                                Associações
+                            </h3>
+                            
+                            <div class="grid grid-cols-2" style="gap: 1.5rem;">
+                                <div>
+                                    <label for="propertyId" class="form-label">Propriedade *</label>
+                                    <select id="propertyId" 
+                                            th:field="*{propertyId}"
+                                            class="form-select" 
+                                            required>
+                                        <option value="">Selecione a propriedade</option>
+                                        <option th:each="property : ${properties}" 
+                                                th:value="${property.id}"
+                                                th:text="${property.name + ' (' + property.totalArea + ' ha)'}">
+                                            Propriedade
+                                        </option>
+                                    </select>
+                                    <div class="form-help">Propriedade onde o empreendimento será realizado</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="projectId" class="form-label">Projeto *</label>
+                                    <select id="projectId" 
+                                            th:field="*{projectId}"
+                                            class="form-select" 
+                                            required>
+                                        <option value="">Selecione o projeto</option>
+                                        <option th:each="project : ${projects}" 
+                                                th:value="${project.id}"
+                                                th:text="${project.name + ' - ' + project.category}">
+                                            Projeto
+                                        </option>
+                                    </select>
+                                    <div class="form-help">Projeto técnico que será executado</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Financial Information -->
+                        <div class="form-section" style="margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: #374151;">
+                                <i class="fas fa-chart-line"></i>
+                                Informações Financeiras
+                            </h3>
+                            
+                            <div class="grid grid-cols-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div>
+                                    <label for="totalInvestmentRequired" class="form-label">Investimento Total Necessário (R$) *</label>
+                                    <input type="number" 
+                                           id="totalInvestmentRequired" 
+                                           th:field="*{totalInvestmentRequired}"
+                                           class="form-input" 
+                                           placeholder="0.00"
+                                           step="0.01"
+                                           min="0"
+                                           required>
+                                    <div class="form-help">Valor total necessário para o empreendimento</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="minimumInvestment" class="form-label">Investimento Mínimo (R$) *</label>
+                                    <input type="number" 
+                                           id="minimumInvestment" 
+                                           th:field="*{minimumInvestment}"
+                                           class="form-input" 
+                                           placeholder="0.00"
+                                           step="0.01"
+                                           min="0"
+                                           required>
+                                    <div class="form-help">Valor mínimo por investidor</div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2" style="gap: 1.5rem;">
+                                <div>
+                                    <label for="totalInvestmentRaised" class="form-label">Investimento Já Captado (R$)</label>
+                                    <input type="number" 
+                                           id="totalInvestmentRaised" 
+                                           th:field="*{totalInvestmentRaised}"
+                                           class="form-input" 
+                                           placeholder="0.00"
+                                           step="0.01"
+                                           min="0"
+                                           value="0"
+                                           th:readonly="${enterprise.id != null}">
+                                    <div class="form-help">Valor já captado de investidores</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="expectedCommodityValueIncrease" class="form-label">Valorização Esperada do Produto (%)</label>
+                                    <input type="number" 
+                                           id="expectedCommodityValueIncrease" 
+                                           th:field="*{expectedCommodityValueIncrease}"
+                                           class="form-input" 
+                                           placeholder="0"
+                                           step="0.01"
+                                           min="0"
+                                           max="999.99">
+                                    <div class="form-help">Valorização anual esperada do commodity</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline -->
+                        <div class="form-section">
+                            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: #374151;">
+                                <i class="fas fa-calendar-alt"></i>
+                                Cronograma
+                            </h3>
+                            
+                            <div class="grid grid-cols-3" style="gap: 1.5rem;">
+                                <div>
+                                    <label for="launchDate" class="form-label">Data de Lançamento</label>
+                                    <input type="date" 
+                                           id="launchDate" 
+                                           th:field="*{launchDate}"
+                                           class="form-input">
+                                    <div class="form-help">Quando o empreendimento será lançado</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="fundingDeadline" class="form-label">Prazo de Captação</label>
+                                    <input type="date" 
+                                           id="fundingDeadline" 
+                                           th:field="*{fundingDeadline}"
+                                           class="form-input">
+                                    <div class="form-help">Data limite para captação</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="expectedCompletionDate" class="form-label">Conclusão Esperada</label>
+                                    <input type="date" 
+                                           id="expectedCompletionDate" 
+                                           th:field="*{expectedCompletionDate}"
+                                           class="form-input">
+                                    <div class="form-help">Previsão de conclusão</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                            <a href="/enterprises" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                <span th:text="${enterprise.id != null ? 'Atualizar' : 'Criar'} + ' Empreendimento'">Criar Empreendimento</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <style>
+        .form-section {
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 1.5rem;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .form-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-help {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+        
+        .form-checkbox {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .form-check-label {
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-cols-2, .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .alert-error {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+    </style>
+
+    <script>
+        // Validate date relationships
+        function validateDates() {
+            const launchDate = document.getElementById('launchDate').value;
+            const fundingDeadline = document.getElementById('fundingDeadline').value;
+            const completionDate = document.getElementById('expectedCompletionDate').value;
+            
+            if (launchDate && fundingDeadline && new Date(fundingDeadline) < new Date(launchDate)) {
+                document.getElementById('fundingDeadline').setCustomValidity('Prazo de captação deve ser após a data de lançamento');
+            } else {
+                document.getElementById('fundingDeadline').setCustomValidity('');
+            }
+            
+            if (fundingDeadline && completionDate && new Date(completionDate) < new Date(fundingDeadline)) {
+                document.getElementById('expectedCompletionDate').setCustomValidity('Data de conclusão deve ser após o prazo de captação');
+            } else {
+                document.getElementById('expectedCompletionDate').setCustomValidity('');
+            }
+        }
+        
+        // Validate investment amounts
+        function validateInvestments() {
+            const total = parseFloat(document.getElementById('totalInvestmentRequired').value) || 0;
+            const minimum = parseFloat(document.getElementById('minimumInvestment').value) || 0;
+            
+            if (minimum > total) {
+                document.getElementById('minimumInvestment').setCustomValidity('Investimento mínimo não pode ser maior que o total necessário');
+            } else {
+                document.getElementById('minimumInvestment').setCustomValidity('');
+            }
+        }
+        
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Date validation
+            document.getElementById('launchDate').addEventListener('change', validateDates);
+            document.getElementById('fundingDeadline').addEventListener('change', validateDates);
+            document.getElementById('expectedCompletionDate').addEventListener('change', validateDates);
+            
+            // Investment validation
+            document.getElementById('totalInvestmentRequired').addEventListener('input', validateInvestments);
+            document.getElementById('minimumInvestment').addEventListener('input', validateInvestments);
+            
+            // Status-based field updates
+            document.getElementById('status').addEventListener('change', function() {
+                const status = this.value;
+                const activeCheckbox = document.getElementById('active');
+                
+                if (status === 'COMPLETED' || status === 'CANCELLED') {
+                    activeCheckbox.checked = false;
+                    activeCheckbox.disabled = true;
+                } else {
+                    activeCheckbox.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

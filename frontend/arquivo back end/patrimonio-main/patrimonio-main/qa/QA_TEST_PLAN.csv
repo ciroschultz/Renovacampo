@@ -1,0 +1,133 @@
+Module,Test Category,Test Case ID,Test Case Description,Test Steps,Expected Result,Priority,Test Type,URL/Endpoint,Prerequisites
+Properties,Navigation,PROP-NAV-001,Access properties list page,1. Navigate to http://renovacampo.acabativa.com:8080/properties,Properties page loads with list of all properties,High,UI,/properties,System running
+Properties,Navigation,PROP-NAV-002,Access property creation page,1. Click 'Nova Propriedade' button,Property creation form loads correctly,High,UI,/properties/new,Properties page loaded
+Properties,Navigation,PROP-NAV-003,Access property details page,1. Click on any property row,Property details page loads with all information,High,UI,/properties/{id},Property exists
+Properties,Navigation,PROP-NAV-004,Access property edit page,1. From property details click 'Editar',Property edit form loads with current data,High,UI,/properties/{id}/edit,Property exists
+Properties,CRUD,PROP-CRUD-001,Create new property with all fields,1. Fill all required fields 2. Submit form,Property created successfully and appears in list,High,Functional,/properties,None
+Properties,CRUD,PROP-CRUD-002,Create property with minimum required fields,1. Fill only required fields 2. Submit,Property created with only required data,High,Functional,/properties,None
+Properties,CRUD,PROP-CRUD-003,Edit existing property,1. Open property edit 2. Modify fields 3. Save,Property updated with new information,High,Functional,/properties/{id}/edit,Property exists
+Properties,CRUD,PROP-CRUD-004,Delete property,1. Access property 2. Click delete 3. Confirm,Property removed from system,High,Functional,/properties/{id},Property exists
+Properties,Validation,PROP-VAL-001,Submit form with empty required fields,1. Leave required fields empty 2. Submit,Validation errors displayed,High,Validation,/properties/new,None
+Properties,Validation,PROP-VAL-002,Enter invalid area values,1. Enter negative numbers in area fields,System rejects invalid values,Medium,Validation,/properties/new,None
+Properties,Validation,PROP-VAL-003,Enter invalid coordinates,1. Enter out-of-range lat/lng values,System validates coordinate ranges,Medium,Validation,/properties/new,None
+Properties,Search,PROP-SEARCH-001,Search by property name,1. Enter property name in search box,Matching properties filtered in real-time,Medium,Functional,/properties,Properties exist
+Properties,Search,PROP-SEARCH-002,Filter by property type,1. Select type filter,Properties filtered by selected type,Medium,Functional,/properties,Properties exist
+Properties,Search,PROP-SEARCH-003,Filter by state,1. Select state filter,Properties filtered by selected state,Medium,Functional,/properties,Properties exist
+Properties,Search,PROP-SEARCH-004,Clear all filters,1. Apply filters 2. Clear filters,All properties displayed again,Low,Functional,/properties,Filters applied
+Properties,File Upload,PROP-FILE-001,Upload property photo,1. Access property edit 2. Upload valid image,Photo uploaded and thumbnail displayed,High,Functional,/properties/{id}/edit,Property exists
+Properties,File Upload,PROP-FILE-002,Upload property document,1. Access property edit 2. Upload valid document,Document uploaded and listed,High,Functional,/properties/{id}/edit,Property exists
+Properties,File Upload,PROP-FILE-003,Upload invalid file type,1. Try to upload unsupported file type,System rejects upload with error message,Medium,Validation,/properties/{id}/edit,Property exists
+Properties,File Upload,PROP-FILE-004,Upload oversized file,1. Try to upload file exceeding size limit,System rejects with size error,Medium,Validation,/properties/{id}/edit,Property exists
+Properties,File Upload,PROP-FILE-005,Delete uploaded file,1. Upload file 2. Delete file,File removed from system,Medium,Functional,/properties/{id}/edit,File uploaded
+Properties,Maps,PROP-MAP-001,Display property on map,1. View property with coordinates,Interactive map displays with property marker,Medium,Functional,/properties/{id},Property with coordinates
+Properties,Maps,PROP-MAP-002,Map interaction,1. Zoom and pan map 2. Click marker,Map responds to interactions and shows popup,Low,Functional,/properties/{id},Property with coordinates
+Properties,API,PROP-API-001,List properties via REST API,1. GET /api/v1/property,Returns JSON list of all properties,High,API,/api/v1/property,None
+Properties,API,PROP-API-002,Get property by ID via API,1. GET /api/v1/property/{id},Returns specific property data,High,API,/api/v1/property/{id},Property exists
+Properties,API,PROP-API-003,Create property via API,1. POST property data to API,Property created and returns ID,High,API,/api/v1/property,None
+Properties,API,PROP-API-004,Delete property via API,1. DELETE /api/v1/property/{id},Property deleted successfully,Medium,API,/api/v1/property/{id},Property exists
+Projects,Navigation,PROJ-NAV-001,Access projects list page,1. Navigate to /projects,Projects page loads with list of all projects,High,UI,/projects,System running
+Projects,Navigation,PROJ-NAV-002,Access project creation page,1. Click 'Novo Projeto' button,Project creation form loads correctly,High,UI,/projects/new,Projects page loaded
+Projects,Navigation,PROJ-NAV-003,Access project details page,1. Click on any project row,Project details page loads with all information,High,UI,/projects/{id},Project exists
+Projects,Navigation,PROJ-NAV-004,Access project edit page,1. From project details click 'Editar',Project edit form loads with current data,High,UI,/projects/{id}/edit,Project exists
+Projects,CRUD,PROJ-CRUD-001,Create new project with all fields,1. Fill all project fields 2. Submit form,Project created successfully and appears in list,High,Functional,/projects,None
+Projects,CRUD,PROJ-CRUD-002,Create project with minimum required fields,1. Fill only required fields 2. Submit,Project created with required data only,High,Functional,/projects,None
+Projects,CRUD,PROJ-CRUD-003,Edit existing project,1. Open project edit 2. Modify fields 3. Save,Project updated with new information,High,Functional,/projects/{id}/edit,Project exists
+Projects,CRUD,PROJ-CRUD-004,Delete project,1. Access project 2. Click delete 3. Confirm,Project removed from system,High,Functional,/projects/{id},Project exists
+Projects,Validation,PROJ-VAL-001,Submit form with empty required fields,1. Leave required fields empty 2. Submit,Validation errors displayed,High,Validation,/projects/new,None
+Projects,Validation,PROJ-VAL-002,Enter invalid date ranges,1. Set end date before start date,System validates date logic,High,Validation,/projects/new,None
+Projects,Validation,PROJ-VAL-003,Enter negative financial values,1. Enter negative costs/investment values,System rejects negative values,Medium,Validation,/projects/new,None
+Projects,Status Management,PROJ-STATUS-001,Change project status,1. Edit project 2. Change status 3. Save,Status updated and reflected in system,High,Functional,/projects/{id}/edit,Project exists
+Projects,Status Management,PROJ-STATUS-002,Filter by project status,1. Apply status filter in project list,Projects filtered by selected status,Medium,Functional,/projects,Projects exist
+Projects,Priority Management,PROJ-PRIOR-001,Set project priority,1. Edit project 2. Set priority 3. Save,Priority updated and displayed correctly,Medium,Functional,/projects/{id}/edit,Project exists
+Projects,Priority Management,PROJ-PRIOR-002,Filter by project priority,1. Apply priority filter in project list,Projects filtered by selected priority,Medium,Functional,/projects,Projects exist
+Projects,Financial Tracking,PROJ-FIN-001,Calculate ROI automatically,1. Enter costs and investment values,System calculates ROI percentage automatically,Medium,Functional,/projects/{id}/edit,None
+Projects,Financial Tracking,PROJ-FIN-002,Track project expenses,1. Update total costs 2. Save,Cost tracking updated in project,Medium,Functional,/projects/{id}/edit,Project exists
+Projects,File Management,PROJ-FILE-001,Upload project documents,1. Access project edit 2. Upload documents,Documents uploaded and listed for project,High,Functional,/projects/{id}/edit,Project exists
+Projects,File Management,PROJ-FILE-002,Delete project documents,1. Upload document 2. Delete document,Document removed from project,Medium,Functional,/projects/{id}/edit,Document uploaded
+Projects,Search,PROJ-SEARCH-001,Search projects by name,1. Enter project name in search,Matching projects filtered in real-time,Medium,Functional,/projects,Projects exist
+Projects,Search,PROJ-SEARCH-002,Search projects by category,1. Filter by project category,Projects filtered by selected category,Medium,Functional,/projects,Projects exist
+Investors,Navigation,INV-NAV-001,Access investors list page,1. Navigate to /investors,Investors page loads with list of all investors,High,UI,/investors,System running
+Investors,Navigation,INV-NAV-002,Access investor creation page,1. Click 'Novo Investidor' button,Investor creation form loads correctly,High,UI,/investors/new,Investors page loaded
+Investors,Navigation,INV-NAV-003,Access investor details page,1. Click on any investor row,Investor details page loads with all information,High,UI,/investors/{id},Investor exists
+Investors,Navigation,INV-NAV-004,Access investor edit page,1. From investor details click 'Editar',Investor edit form loads with current data,High,UI,/investors/{id}/edit,Investor exists
+Investors,CRUD,INV-CRUD-001,Create new investor with all fields,1. Fill all investor fields 2. Submit form,Investor created successfully and appears in list,High,Functional,/investors,None
+Investors,CRUD,INV-CRUD-002,Create investor with minimum required fields,1. Fill only required fields 2. Submit,Investor created with required data only,High,Functional,/investors,None
+Investors,CRUD,INV-CRUD-003,Edit existing investor,1. Open investor edit 2. Modify fields 3. Save,Investor updated with new information,High,Functional,/investors/{id}/edit,Investor exists
+Investors,CRUD,INV-CRUD-004,Delete investor,1. Access investor 2. Click delete 3. Confirm,Investor removed from system,High,Functional,/investors/{id},Investor exists
+Investors,Validation,INV-VAL-001,Submit form with empty required fields,1. Leave required fields empty 2. Submit,Validation errors displayed,High,Validation,/investors/new,None
+Investors,Validation,INV-VAL-002,Enter invalid CPF/CNPJ format,1. Enter malformed tax ID,System validates tax ID format,High,Validation,/investors/new,None
+Investors,Validation,INV-VAL-003,Enter invalid email format,1. Enter malformed email address,System validates email format,Medium,Validation,/investors/new,None
+Investors,Validation,INV-VAL-004,Enter negative financial values,1. Enter negative fund amounts,System rejects negative values,High,Validation,/investors/new,None
+Investors,Financial Management,INV-FIN-001,Calculate available funds automatically,1. Enter total and invested funds,System calculates available funds automatically,High,Functional,/investors/{id},None
+Investors,Financial Management,INV-FIN-002,View fund utilization progress bar,1. Access investor details,Progress bar shows fund utilization percentage,Medium,UI,/investors/{id},Investor with funds
+Investors,Financial Management,INV-FIN-003,Update investor fund amounts,1. Edit investor 2. Change fund values 3. Save,Fund amounts updated and calculations refreshed,High,Functional,/investors/{id}/edit,Investor exists
+Investors,Status Management,INV-STATUS-001,Activate/deactivate investor,1. Change investor active status 2. Save,Status updated and reflected in system,High,Functional,/investors/{id}/edit,Investor exists
+Investors,Status Management,INV-STATUS-002,Filter by investor status,1. Apply active/inactive filter,Investors filtered by selected status,Medium,Functional,/investors,Investors exist
+Investors,Contact Management,INV-CONTACT-001,Validate contact information,1. Enter phone and address details,Contact information saved correctly,Medium,Functional,/investors/new,None
+Investors,Contact Management,INV-CONTACT-002,Display contact details,1. View investor details page,All contact information displayed properly,Medium,UI,/investors/{id},Investor exists
+Investors,Search,INV-SEARCH-001,Search investors by name,1. Enter investor name in search,Matching investors filtered in real-time,Medium,Functional,/investors,Investors exist
+Investors,Search,INV-SEARCH-002,Search investors by tax ID,1. Enter CPF/CNPJ in search,Matching investor found by tax ID,Medium,Functional,/investors,Investors exist
+Investors,Search,INV-SEARCH-003,Filter by investor location,1. Filter by city or state,Investors filtered by location,Low,Functional,/investors,Investors exist
+Investors,API,INV-API-001,List investors via REST API,1. GET /api/v1/investors,Returns JSON list of all investors,High,API,/api/v1/investors,None
+Investors,API,INV-API-002,Get investor by ID via API,1. GET /api/v1/investors/{id},Returns specific investor data,High,API,/api/v1/investors/{id},Investor exists
+Investors,API,INV-API-003,Get investor by tax ID via API,1. GET /api/v1/investors/tax-id/{taxId},Returns investor by CPF/CNPJ,High,API,/api/v1/investors/tax-id/{taxId},Investor exists
+Investors,API,INV-API-004,Create investor via API,1. POST investor data to API,Investor created and returns ID,High,API,/api/v1/investors,None
+Investors,API,INV-API-005,Update investor via API,1. PUT updated data to API,Investor data updated successfully,High,API,/api/v1/investors/{id},Investor exists
+Investors,API,INV-API-006,Delete investor via API,1. DELETE /api/v1/investors/{id},Investor deleted successfully,Medium,API,/api/v1/investors/{id},Investor exists
+Investors,API,INV-API-007,Activate/deactivate via API,1. PATCH /api/v1/investors/{id}/activate,Investor status toggled successfully,Medium,API,/api/v1/investors/{id}/activate,Investor exists
+Enterprises,Navigation,ENT-NAV-001,Access enterprises list page,1. Navigate to /enterprises,Enterprises page loads with list of all enterprises,High,UI,/enterprises,System running
+Enterprises,Navigation,ENT-NAV-002,Access enterprise creation page,1. Click 'Novo Empreendimento' button,Enterprise creation form loads correctly,High,UI,/enterprises/new,Enterprises page loaded
+Enterprises,Navigation,ENT-NAV-003,Access enterprise details page,1. Click on any enterprise row,Enterprise details page loads with all information,High,UI,/enterprises/{id},Enterprise exists
+Enterprises,Navigation,ENT-NAV-004,Access enterprise edit page,1. From enterprise details click 'Editar',Enterprise edit form loads with current data,High,UI,/enterprises/{id}/edit,Enterprise exists
+Enterprises,CRUD,ENT-CRUD-001,Create new enterprise with all fields,1. Fill all enterprise fields 2. Select property and project 3. Submit,Enterprise created successfully and appears in list,High,Functional,/enterprises,Property and project exist
+Enterprises,CRUD,ENT-CRUD-002,Create enterprise with minimum required fields,1. Fill only required fields 2. Submit,Enterprise created with required data only,High,Functional,/enterprises,Property and project exist
+Enterprises,CRUD,ENT-CRUD-003,Edit existing enterprise,1. Open enterprise edit 2. Modify fields 3. Save,Enterprise updated with new information,High,Functional,/enterprises/{id}/edit,Enterprise exists
+Enterprises,CRUD,ENT-CRUD-004,Delete enterprise,1. Access enterprise 2. Click delete 3. Confirm,Enterprise removed from system,High,Functional,/enterprises/{id},Enterprise exists
+Enterprises,Validation,ENT-VAL-001,Submit form with empty required fields,1. Leave required fields empty 2. Submit,Validation errors displayed,High,Validation,/enterprises/new,None
+Enterprises,Validation,ENT-VAL-002,Select non-existent property or project,1. Try to create enterprise with invalid references,System validates property and project existence,High,Validation,/enterprises/new,None
+Enterprises,Validation,ENT-VAL-003,Enter invalid date ranges,1. Set completion date before launch date,System validates date logic,Medium,Validation,/enterprises/new,None
+Enterprises,Validation,ENT-VAL-004,Enter negative financial values,1. Enter negative investment amounts,System rejects negative values,High,Validation,/enterprises/new,None
+Enterprises,Property Integration,ENT-PROP-001,Link enterprise to property,1. Select property during enterprise creation,Enterprise correctly linked to selected property,High,Integration,/enterprises/new,Property exists
+Enterprises,Property Integration,ENT-PROP-002,View property details from enterprise,1. Access enterprise details 2. View linked property,Property information displayed within enterprise view,Medium,Integration,/enterprises/{id},Enterprise with property
+Enterprises,Property Integration,ENT-PROP-003,Change linked property,1. Edit enterprise 2. Change property selection 3. Save,Enterprise linked to new property successfully,Medium,Integration,/enterprises/{id}/edit,Enterprise and multiple properties exist
+Enterprises,Project Integration,ENT-PROJ-001,Link enterprise to project,1. Select project during enterprise creation,Enterprise correctly linked to selected project,High,Integration,/enterprises/new,Project exists
+Enterprises,Project Integration,ENT-PROJ-002,View project details from enterprise,1. Access enterprise details 2. View linked project,Project information displayed within enterprise view,Medium,Integration,/enterprises/{id},Enterprise with project
+Enterprises,Project Integration,ENT-PROJ-003,Change linked project,1. Edit enterprise 2. Change project selection 3. Save,Enterprise linked to new project successfully,Medium,Integration,/enterprises/{id}/edit,Enterprise and multiple projects exist
+Enterprises,Investor Management,ENT-INV-001,Add investor to enterprise,1. Access enterprise 2. Add investor with investment amount,Investor added to enterprise with specified investment,High,Integration,/enterprises/{id}/investors,Enterprise and investor exist
+Enterprises,Investor Management,ENT-INV-002,Remove investor from enterprise,1. Access enterprise 2. Remove existing investor,Investor removed from enterprise successfully,Medium,Integration,/enterprises/{id}/investors,Enterprise with investor
+Enterprises,Investor Management,ENT-INV-003,Update investor investment amount,1. Edit investor participation 2. Change amount 3. Save,Investment amount updated and totals recalculated,High,Integration,/enterprises/{id}/investors,Enterprise with investor
+Enterprises,Financial Tracking,ENT-FIN-001,Calculate funding progress automatically,1. Add investments to enterprise,System calculates funding progress percentage,High,Functional,/enterprises/{id},Enterprise with investments
+Enterprises,Financial Tracking,ENT-FIN-002,View funding dashboard,1. Access enterprise details,Funding metrics and progress displayed correctly,High,UI,/enterprises/{id},Enterprise with investments
+Enterprises,Financial Tracking,ENT-FIN-003,Track ROI calculations,1. View enterprise financial metrics,Expected return percentage calculated and displayed,Medium,Functional,/enterprises/{id},Enterprise with financial data
+Enterprises,Status Management,ENT-STATUS-001,Change enterprise status,1. Edit enterprise 2. Change status 3. Save,Status updated and reflected throughout system,High,Functional,/enterprises/{id}/edit,Enterprise exists
+Enterprises,Status Management,ENT-STATUS-002,Filter by enterprise status,1. Apply status filter in enterprise list,Enterprises filtered by selected status,Medium,Functional,/enterprises,Enterprises exist
+Enterprises,Status Management,ENT-STATUS-003,View status-specific actions,1. View enterprises with different statuses,Appropriate actions available based on status,Medium,UI,/enterprises,Enterprises with different statuses
+Enterprises,Search,ENT-SEARCH-001,Search enterprises by name,1. Enter enterprise name in search,Matching enterprises filtered in real-time,Medium,Functional,/enterprises,Enterprises exist
+Enterprises,Search,ENT-SEARCH-002,Filter by launch date range,1. Apply date range filter,Enterprises filtered by launch date period,Low,Functional,/enterprises,Enterprises exist
+Enterprises,Search,ENT-SEARCH-003,Filter by funding status,1. Filter by funding completion level,Enterprises filtered by funding progress,Medium,Functional,/enterprises,Enterprises exist
+Dashboard,Overview,DASH-OVER-001,View main dashboard,1. Navigate to root URL,Dashboard loads with overview statistics,High,UI,/,System running with data
+Dashboard,Overview,DASH-OVER-002,View property statistics,1. Check properties section on dashboard,Property count and area totals displayed correctly,High,UI,/,Properties exist
+Dashboard,Overview,DASH-OVER-003,View project statistics,1. Check projects section on dashboard,Project count and status breakdown displayed,High,UI,/,Projects exist
+Dashboard,Overview,DASH-OVER-004,View investor statistics,1. Check investors section on dashboard,Investor count and fund totals displayed,High,UI,/,Investors exist
+Dashboard,Overview,DASH-OVER-005,View enterprise statistics,1. Check enterprises section on dashboard,Enterprise count and funding progress displayed,High,UI,/,Enterprises exist
+Dashboard,Navigation,DASH-NAV-001,Navigate to modules from dashboard,1. Click on module sections or navigation links,Successful navigation to respective modules,High,UI,/,System running
+Dashboard,Calculations,DASH-CALC-001,Verify calculation accuracy,1. Compare dashboard totals with module data,All calculations match actual data in modules,High,Functional,/,Data exists in all modules
+Dashboard,Real-time Updates,DASH-UPDATE-001,Verify data freshness,1. Create/update data in modules 2. Return to dashboard,Dashboard reflects latest changes,Medium,Functional,/,System running
+System,Performance,SYS-PERF-001,Page load times,1. Navigate to each main page,All pages load within acceptable time limits,Medium,Performance,All pages,System running
+System,Performance,SYS-PERF-002,File upload performance,1. Upload various file sizes,Uploads complete within reasonable time,Medium,Performance,File upload endpoints,System running
+System,Performance,SYS-PERF-003,Search and filter responsiveness,1. Use search and filter functions,Results appear quickly without delays,Medium,Performance,All list pages,Data exists
+System,Security,SYS-SEC-001,File upload security,1. Attempt to upload malicious files,System rejects unauthorized file types,High,Security,File upload endpoints,System running
+System,Security,SYS-SEC-002,SQL injection prevention,1. Attempt SQL injection in form fields,System sanitizes input and prevents injection,High,Security,All form endpoints,System running
+System,Security,SYS-SEC-003,XSS prevention,1. Attempt script injection in text fields,System escapes and prevents script execution,High,Security,All form endpoints,System running
+System,Responsive Design,SYS-RESP-001,Mobile device compatibility,1. Access system on mobile devices,All functions work properly on mobile,Medium,UI,All pages,Mobile device
+System,Responsive Design,SYS-RESP-002,Tablet compatibility,1. Access system on tablet devices,Interface adapts correctly to tablet screens,Medium,UI,All pages,Tablet device
+System,Responsive Design,SYS-RESP-003,Desktop compatibility,1. Access system on various desktop resolutions,Interface displays properly across resolutions,Low,UI,All pages,Desktop computer
+System,Error Handling,SYS-ERR-001,404 error handling,1. Access non-existent URLs,System displays appropriate 404 error page,Medium,Error Handling,Invalid URLs,System running
+System,Error Handling,SYS-ERR-002,500 error handling,1. Trigger server errors,System displays user-friendly error messages,High,Error Handling,All endpoints,System running
+System,Error Handling,SYS-ERR-003,Network connectivity issues,1. Simulate network problems,System handles network issues gracefully,Medium,Error Handling,All endpoints,Network issues
+Integration,Cross-Module,INT-CROSS-001,Enterprise-Property integration,1. Create enterprise with property 2. Verify data consistency,Property data correctly linked and displayed,High,Integration,/enterprises,Property exists
+Integration,Cross-Module,INT-CROSS-002,Enterprise-Project integration,1. Create enterprise with project 2. Verify data consistency,Project data correctly linked and displayed,High,Integration,/enterprises,Project exists
+Integration,Cross-Module,INT-CROSS-003,Enterprise-Investor integration,1. Add investor to enterprise 2. Verify calculations,Investment calculations update correctly across modules,High,Integration,/enterprises,Investor exists
+Integration,Cross-Module,INT-CROSS-004,Data consistency across modules,1. Update data in one module 2. Check other modules,Related data remains consistent across all modules,High,Integration,All modules,Related data exists
+Integration,API-UI,INT-API-001,API and UI data consistency,1. Create data via API 2. Check UI display,Data created via API appears correctly in UI,High,Integration,API and UI endpoints,System running
+Integration,API-UI,INT-API-002,UI and API data consistency,1. Create data via UI 2. Check API response,Data created via UI available through API,High,Integration,UI and API endpoints,System running

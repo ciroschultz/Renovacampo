@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+ENT-INV-003,Update investor investment amount,Enterprises,Investor Management,High,Integration,/enterprises/{id}/investors,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-FIN-001,Calculate funding progress automatically,Enterprises,Financial Tracking,High,Functional,/enterprises/{id},2025-06-05 22:44:57,MANUAL,,0,,Requires manual testing
+ENT-FIN-002,View funding dashboard,Enterprises,Financial Tracking,High,UI,/enterprises/{id},2025-06-05 22:44:57,FAIL,400,12,HTTP 400,
+ENT-FIN-003,Track ROI calculations,Enterprises,Financial Tracking,Medium,Functional,/enterprises/{id},2025-06-05 22:44:57,MANUAL,,0,,Requires manual testing
+ENT-STATUS-001,Change enterprise status,Enterprises,Status Management,High,Functional,/enterprises/{id}/edit,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+ENT-STATUS-002,Filter by enterprise status,Enterprises,Status Management,Medium,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+ENT-STATUS-003,View status-specific actions,Enterprises,Status Management,Medium,UI,/enterprises,2025-06-05 22:44:58,PASS,200,118,,Page loaded successfully
+ENT-SEARCH-001,Search enterprises by name,Enterprises,Search,Medium,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+ENT-SEARCH-002,Filter by launch date range,Enterprises,Search,Low,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing

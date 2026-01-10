@@ -1,0 +1,76 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Original Endpoint,Actual Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+PROP-NAV-001,Access properties list page,Properties,Navigation,High,UI,/properties,/properties,2025-06-05 23:15:44,PASS,200,48,,Page loaded successfully
+PROP-NAV-002,Access property creation page,Properties,Navigation,High,UI,/properties/new,/properties/new,2025-06-05 23:15:44,PASS,200,37,,Page loaded successfully
+PROP-NAV-003,Access property details page with real ID,Properties,Navigation,High,UI,/properties/5,/properties/5,2025-06-05 23:15:44,PASS,200,22,,Page loaded successfully
+PROP-NAV-004,Access property edit page with real ID,Properties,Navigation,High,UI,/properties/5/edit,/properties/5/edit,2025-06-05 23:15:44,PASS,200,56,,Page loaded successfully
+PROP-NAV-005,Access property details page with real ID (alternative),Properties,Navigation,High,UI,/properties/9,/properties/9,2025-06-05 23:15:44,PASS,200,26,,Page loaded successfully
+PROP-CRUD-001,View property via web interface,Properties,CRUD,High,Functional,/properties/5,/properties/5,2025-06-05 23:15:45,PASS,200,25,,Page loaded successfully
+PROP-ERR-001,Access non-existent property,Properties,Error Handling,Medium,UI,/properties/99999,/properties/99999,2025-06-05 23:15:45,PASS,200,57,,Page loaded successfully
+PROP-API-001,List properties via REST API,Properties,API,High,API,/api/v1/property,/api/v1/property,2025-06-05 23:15:45,PASS,200,13,,API returned 15 record(s)
+PROP-API-002,Get property by real ID via API,Properties,API,High,API,/api/v1/property/5,/api/v1/property/5,2025-06-05 23:15:45,PASS,200,10,,API returned single record
+PROP-API-003,Get property by alternative ID via API,Properties,API,High,API,/api/v1/property/9,/api/v1/property/9,2025-06-05 23:15:45,PASS,200,15,,API returned single record
+PROP-API-004,Create property via API,Properties,API,High,API,/api/v1/property,/api/v1/property,2025-06-05 23:15:45,PASS,200,13,,API returned 15 record(s)
+PROP-API-005,API returns proper count,Properties,API,Medium,API,/api/v1/property,/api/v1/property,2025-06-05 23:15:45,PASS,200,13,,API returned 15 record(s)
+PROP-INT-001,Property photos integration,Properties,Integration,Medium,Integration,/properties/5,/properties/5,2025-06-05 23:15:45,PASS,200,23,,Page loaded successfully
+PROP-MAP-001,Display property on map with coordinates,Properties,Maps,Medium,Functional,/properties/5,/properties/5,2025-06-05 23:15:46,PASS,200,27,,Page loaded successfully
+PROJ-NAV-001,Access projects list page,Projects,Navigation,High,UI,/projects,/projects,2025-06-05 23:15:46,PASS,200,35,,Page loaded successfully
+PROJ-NAV-002,Access project creation page,Projects,Navigation,High,UI,/projects/new,/projects/new,2025-06-05 23:15:46,PASS,200,32,,Page loaded successfully
+PROJ-NAV-003,Access project details page with real ID,Projects,Navigation,High,UI,/projects/1,/projects/1,2025-06-05 23:15:46,PASS,200,32,,Page loaded successfully
+PROJ-NAV-004,Access project edit page with real ID,Projects,Navigation,High,UI,/projects/1/edit,/projects/1/edit,2025-06-05 23:15:46,PASS,200,40,,Page loaded successfully
+PROJ-CRUD-001,View project via web interface,Projects,CRUD,High,Functional,/projects/1,/projects/1,2025-06-05 23:15:46,PASS,200,29,,Page loaded successfully
+PROJ-VAL-001,Project form validation,Projects,Validation,High,Validation,/projects/new,/projects/new,2025-06-05 23:15:46,MANUAL,,0,,Validation test requires manual execution
+PROJ-STATUS-001,Project status display,Projects,Status,Medium,UI,/projects/1,/projects/1,2025-06-05 23:15:46,PASS,200,33,,Page loaded successfully
+PROJ-FIN-001,Project financial calculations,Projects,Financial,Medium,Functional,/projects/1,/projects/1,2025-06-05 23:15:47,PASS,200,28,,Page loaded successfully
+INV-NAV-001,Access investors list page,Investors,Navigation,High,UI,/investors,/investors,2025-06-05 23:15:47,PASS,200,40,,Page loaded successfully
+INV-NAV-002,Access investor creation page,Investors,Navigation,High,UI,/investors/new,/investors/new,2025-06-05 23:15:47,PASS,200,27,,Page loaded successfully
+INV-NAV-003,Access investor details page with real ID,Investors,Navigation,High,UI,/investors/1,/investors/1,2025-06-05 23:15:47,PASS,200,20,,Page loaded successfully
+INV-NAV-004,Access investor edit page with real ID,Investors,Navigation,High,UI,/investors/1/edit,/investors/1/edit,2025-06-05 23:15:47,PASS,200,39,,Page loaded successfully
+INV-NAV-005,Access investor details page (alternative ID),Investors,Navigation,High,UI,/investors/2,/investors/2,2025-06-05 23:15:47,PASS,200,25,,Page loaded successfully
+INV-FIN-001,Fund utilization progress bar,Investors,Financial,High,UI,/investors/1,/investors/1,2025-06-05 23:15:47,PASS,200,21,,Page loaded successfully
+INV-FIN-002,Available funds calculation,Investors,Financial,High,Functional,/investors/1,/investors/1,2025-06-05 23:15:47,PASS,200,18,,Page loaded successfully
+INV-API-001,List investors via REST API,Investors,API,High,API,/api/v1/investors,/api/v1/investors,2025-06-05 23:15:48,PASS,200,11,,API returned 2 record(s)
+INV-API-002,Get investor by real ID via API,Investors,API,High,API,/api/v1/investors/1,/api/v1/investors/1,2025-06-05 23:15:48,PASS,200,36,,API returned single record
+INV-API-003,Get investor by alternative ID via API,Investors,API,High,API,/api/v1/investors/2,/api/v1/investors/2,2025-06-05 23:15:48,PASS,200,10,,API returned single record
+INV-API-004,Create investor via API,Investors,API,High,API,/api/v1/investors,/api/v1/investors,2025-06-05 23:15:48,PASS,200,11,,API returned 2 record(s)
+INV-API-005,API returns proper count,Investors,API,Medium,API,/api/v1/investors,/api/v1/investors,2025-06-05 23:15:48,PASS,200,22,,API returned 2 record(s)
+INV-VAL-001,Tax ID validation,Investors,Validation,High,Validation,/investors/new,/investors/new,2025-06-05 23:15:48,MANUAL,,0,,Validation test requires manual execution
+INV-CONTACT-001,Contact information display,Investors,Contact,Medium,UI,/investors/1,/investors/1,2025-06-05 23:15:48,PASS,200,23,,Page loaded successfully
+ENT-NAV-001,Access enterprises list page,Enterprises,Navigation,High,UI,/enterprises,/enterprises,2025-06-05 23:15:48,PASS,200,85,,Page loaded successfully
+ENT-NAV-002,Access enterprise creation page,Enterprises,Navigation,High,UI,/enterprises/new,/enterprises/new,2025-06-05 23:15:49,FAIL,500,31,Server error (500),Application error - check logs
+ENT-NAV-003,Access enterprise details page with real ID,Enterprises,Navigation,High,UI,/enterprises/1,/enterprises/1,2025-06-05 23:15:49,PASS,200,65,,Page loaded successfully
+ENT-NAV-004,Access enterprise edit page with real ID,Enterprises,Navigation,High,UI,/enterprises/1/edit,/enterprises/1/edit,2025-06-05 23:15:49,FAIL,500,31,Server error (500),Application error - check logs
+ENT-CRUD-001,View enterprise via web interface,Enterprises,CRUD,High,Functional,/enterprises/1,/enterprises/1,2025-06-05 23:15:49,PASS,200,60,,Page loaded successfully
+ENT-INT-001,Enterprise-Property integration display,Enterprises,Integration,High,Integration,/enterprises/1,/enterprises/1,2025-06-05 23:15:49,PASS,200,52,,Page loaded successfully
+ENT-INT-002,Enterprise-Project integration display,Enterprises,Integration,High,Integration,/enterprises/1,/enterprises/1,2025-06-05 23:15:49,PASS,200,55,,Page loaded successfully
+ENT-INT-003,Enterprise-Investor integration display,Enterprises,Integration,High,Integration,/enterprises/1,/enterprises/1,2025-06-05 23:15:50,PASS,200,54,,Page loaded successfully
+ENT-FIN-001,Funding progress calculation,Enterprises,Financial,High,Functional,/enterprises/1,/enterprises/1,2025-06-05 23:15:50,PASS,200,54,,Page loaded successfully
+ENT-STATUS-001,Enterprise status display,Enterprises,Status,Medium,UI,/enterprises/1,/enterprises/1,2025-06-05 23:15:50,PASS,200,54,,Page loaded successfully
+DASH-OVER-001,View main dashboard,Dashboard,Overview,High,UI,/,/,2025-06-05 23:15:50,PASS,200,80,,Page loaded successfully
+DASH-OVER-002,Property statistics on dashboard,Dashboard,Overview,High,UI,/,/,2025-06-05 23:15:50,PASS,200,81,,Page loaded successfully
+DASH-OVER-003,Project statistics on dashboard,Dashboard,Overview,High,UI,/,/,2025-06-05 23:15:50,PASS,200,125,,Page loaded successfully
+DASH-OVER-004,Investor statistics on dashboard,Dashboard,Overview,High,UI,/,/,2025-06-05 23:15:51,PASS,200,83,,Page loaded successfully
+DASH-OVER-005,Enterprise statistics on dashboard,Dashboard,Overview,High,UI,/,/,2025-06-05 23:15:51,PASS,200,80,,Page loaded successfully
+DASH-NAV-001,Navigate to modules from dashboard,Dashboard,Navigation,High,UI,/,/,2025-06-05 23:15:51,PASS,200,84,,Page loaded successfully
+DASH-CALC-001,Verify dashboard calculations,Dashboard,Calculations,High,Functional,/,/,2025-06-05 23:15:51,PASS,200,82,,Page loaded successfully
+DASH-LINK-001,Dashboard navigation links,Dashboard,Links,Medium,UI,/,/,2025-06-05 23:15:51,PASS,200,78,,Page loaded successfully
+FILE-PHOTO-001,Property photo display,File Management,Photos,Medium,Functional,/properties/5,/properties/5,2025-06-05 23:15:51,PASS,200,18,,Page loaded successfully
+FILE-PHOTO-002,Photo thumbnail generation,File Management,Photos,Medium,Functional,/properties,/properties,2025-06-05 23:15:52,PASS,200,50,,Page loaded successfully
+FILE-DOC-001,Property document listing,File Management,Documents,Medium,Functional,/properties/5,/properties/5,2025-06-05 23:15:52,PASS,200,21,,Page loaded successfully
+FILE-API-001,Photo API endpoint,File Management,API,Medium,API,/api/v1/photos/property/5/thumbnail,/api/v1/photos/property/5/thumbnail,2025-06-05 23:15:52,PASS,200,22,,API responded successfully
+SYS-PERF-001,Page load performance,System,Performance,Medium,Performance,Multiple pages,Multiple pages,2025-06-05 23:15:59,MANUAL,,0,,Performance test requires manual execution
+SYS-PERF-002,API response performance,System,Performance,Medium,Performance,API endpoints,API endpoints,2025-06-05 23:15:59,MANUAL,,0,,Performance test requires manual execution
+SYS-RESP-001,Mobile layout adaptation,System,Responsive,Medium,UI,All pages,All pages,2025-06-05 23:15:59,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution
+SYS-RESP-002,Desktop layout verification,System,Responsive,Low,UI,All pages,All pages,2025-06-05 23:15:59,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution
+SYS-ERR-001,404 error handling,System,Error Handling,Medium,Error Handling,/nonexistent,/nonexistent,2025-06-05 23:15:59,MANUAL,,0,,Error Handling test requires manual execution
+SYS-ERR-002,Invalid ID handling,System,Error Handling,Medium,Error Handling,/properties/invalid,/properties/invalid,2025-06-05 23:15:59,MANUAL,,0,,Error Handling test requires manual execution
+CROSS-INT-001,Property-Project relationship,Cross-Module,Integration,Medium,Integration,/properties/5,/properties/5,2025-06-05 23:15:59,PASS,200,19,,Page loaded successfully
+CROSS-INT-002,Enterprise data consistency,Cross-Module,Integration,High,Integration,/enterprises/1,/enterprises/1,2025-06-05 23:15:59,PASS,200,52,,Page loaded successfully
+CROSS-NAV-001,Inter-module navigation,Cross-Module,Navigation,Medium,UI,Multiple modules,Multiple modules,2025-06-05 23:16:00,FAIL,,,Invalid URL 'Multiple modules': No scheme supplied. Perhaps you meant http://Multiple modules?,Unexpected error during test execution
+SEARCH-PROP-001,Property search functionality,Search,Properties,Medium,Functional,/properties,/properties,2025-06-05 23:16:00,PASS,200,39,,Page loaded successfully
+SEARCH-PROJ-001,Project search functionality,Search,Projects,Medium,Functional,/projects,/projects,2025-06-05 23:16:00,PASS,200,34,,Page loaded successfully
+SEARCH-INV-001,Investor search functionality,Search,Investors,Medium,Functional,/investors,/investors,2025-06-05 23:16:00,PASS,200,26,,Page loaded successfully
+SEARCH-ENT-001,Enterprise search functionality,Search,Enterprises,Medium,Functional,/enterprises,/enterprises,2025-06-05 23:16:00,PASS,200,82,,Page loaded successfully
+FORM-PROP-001,Property creation form validation,Forms,Properties,High,Functional,/properties/new,/properties/new,2025-06-05 23:16:00,PASS,200,23,,Page loaded successfully
+FORM-PROJ-001,Project creation form validation,Forms,Projects,High,Functional,/projects/new,/projects/new,2025-06-05 23:16:00,PASS,200,21,,Page loaded successfully
+FORM-INV-001,Investor creation form validation,Forms,Investors,High,Functional,/investors/new,/investors/new,2025-06-05 23:16:00,PASS,200,22,,Page loaded successfully
+FORM-ENT-001,Enterprise creation form validation,Forms,Enterprises,High,Functional,/enterprises/new,/enterprises/new,2025-06-05 23:16:01,FAIL,500,21,Server error (500),Application error - check logs

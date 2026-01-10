@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${property.id != null ? 'Editar Propriedade' : 'Nova Propriedade'} + ' - RenovaCampo'">Propriedade - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('properties')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1 th:text="${property.id != null ? 'Editar Propriedade' : 'Nova Propriedade'}">Nova Propriedade</h1>
+                    <p class="page-description">Preencha as informações da propriedade rural</p>
+                </div>
+                <div class="page-header-actions">
+                    <a href="/properties" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <!-- Error Alert -->
+            <div th:if="${error}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span th:text="${error}">Erro</span>
+            </div>
+
+            <!-- Form -->
+            <div class="card">
+                <form th:action="${property.id != null ? '/properties/' + property.id : '/properties'}" 
+                      th:method="${property.id != null ? 'POST' : 'POST'}"
+                      th:object="${property}">
+                    
+                    <div class="card-header">
+                        <h3>Informações Básicas</h3>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="grid grid-cols-2">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nome da Propriedade *</label>
+                                <input type="text" 
+                                       id="name" 
+                                       name="name" 
+                                       th:field="*{name}"
+                                       class="form-input" 
+                                       placeholder="Ex: Fazenda Santa Maria"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="type" class="form-label">Tipo *</label>
+                                <select id="type" 
+                                        name="type" 
+                                        th:field="*{type}"
+                                        class="form-select" 
+                                        required>
+                                    <option value="">Selecione o tipo</option>
+                                    <option value="Fazenda">Fazenda</option>
+                                    <option value="Sítio">Sítio</option>
+                                    <option value="Chácara">Chácara</option>
+                                    <option value="Granja">Granja</option>
+                                    <option value="Área Rural">Área Rural</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description" class="form-label">Descrição</label>
+                            <textarea id="description" 
+                                      name="description" 
+                                      th:field="*{description}"
+                                      class="form-textarea" 
+                                      placeholder="Descreva as características da propriedade..."></textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-2">
+                            <div class="form-group">
+                                <label for="totalArea" class="form-label">Área Total (hectares) *</label>
+                                <input type="number" 
+                                       id="totalArea" 
+                                       name="totalArea" 
+                                       th:field="*{totalArea}"
+                                       class="form-input" 
+                                       placeholder="Ex: 100"
+                                       min="0"
+                                       step="0.01"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="availableArea" class="form-label">Área Disponível (hectares)</label>
+                                <input type="number" 
+                                       id="availableArea" 
+                                       name="availableArea" 
+                                       th:field="*{availableArea}"
+                                       class="form-input" 
+                                       placeholder="Ex: 80"
+                                       min="0"
+                                       step="0.01">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-header">
+                        <h3>Localização</h3>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="address" class="form-label">Endereço</label>
+                            <input type="text" 
+                                   id="address" 
+                                   name="address" 
+                                   th:field="*{address}"
+                                   class="form-input" 
+                                   placeholder="Ex: Estrada Rural, Km 15">
+                        </div>
+                        
+                        <div class="grid grid-cols-2">
+                            <div class="form-group">
+                                <label for="city" class="form-label">Cidade</label>
+                                <input type="text" 
+                                       id="city" 
+                                       name="city" 
+                                       th:field="*{city}"
+                                       class="form-input" 
+                                       placeholder="Ex: Uberlândia">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="state" class="form-label">Estado</label>
+                                <select id="state" 
+                                        name="state" 
+                                        th:field="*{state}"
+                                        class="form-select">
+                                    <option value="">Selecione o estado</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2">
+                            <div class="form-group">
+                                <label for="latitude" class="form-label">Latitude</label>
+                                <input type="number" 
+                                       id="latitude" 
+                                       name="latitude" 
+                                       th:field="*{latitude}"
+                                       class="form-input" 
+                                       placeholder="Ex: -19.9167"
+                                       step="any">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="longitude" class="form-label">Longitude</label>
+                                <input type="number" 
+                                       id="longitude" 
+                                       name="longitude" 
+                                       th:field="*{longitude}"
+                                       class="form-input" 
+                                       placeholder="Ex: -43.9345"
+                                       step="any">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload Section - Only shown when editing -->
+                    <div th:if="${property.id != null}">
+                        <div class="card-header">
+                            <h3>Fotos e Documentos</h3>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="grid grid-cols-2" style="gap: 2rem;">
+                                <!-- Photos Section -->
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <h4 style="margin: 0;">Fotos da Propriedade</h4>
+                                        <button type="button" class="btn btn-secondary btn-sm" 
+                                                onclick="document.getElementById('photoUploadForm').click()">
+                                            <i class="fas fa-camera"></i>
+                                            Adicionar Foto
+                                        </button>
+                                    </div>
+                                    <div id="photos-section-form" style="min-height: 200px;">
+                                        <div class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <span>Carregando fotos...</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Hidden file input for photos -->
+                                    <input type="file" 
+                                           id="photoUploadForm" 
+                                           style="display: none;" 
+                                           accept="image/*"
+                                           th:hx-post="${'/api/v1/photos/upload/' + property.id + '/fragment?form=true'}"
+                                           hx-encoding="multipart/form-data"
+                                           hx-target="#photos-section-form"
+                                           hx-trigger="change"
+                                           hx-on::after-request="this.value = ''"
+                                           name="photo">
+                                </div>
+                                
+                                <!-- Documents Section -->
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <h4 style="margin: 0;">Documentos</h4>
+                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                onclick="document.getElementById('documentUploadForm').click()">
+                                            <i class="fas fa-file-upload"></i>
+                                            Adicionar Documento
+                                        </button>
+                                    </div>
+                                    <div id="documents-section-form" style="min-height: 200px;">
+                                        <div class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <span>Carregando documentos...</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Hidden file input for documents -->
+                                    <input type="file" 
+                                           id="documentUploadForm" 
+                                           style="display: none;" 
+                                           accept=".pdf,.doc,.docx,.txt,.xls,.xlsx"
+                                           th:hx-post="${'/api/v1/files/upload/property/' + property.id + '/fragment?fileType=DOCUMENT&form=true'}"
+                                           hx-encoding="multipart/form-data"
+                                           hx-target="#documents-section-form"
+                                           hx-trigger="change"
+                                           hx-on::after-request="this.value = ''"
+                                           name="file">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notice for new properties -->
+                    <div th:if="${property.id == null}" class="card-body" style="background-color: #f0f9ff; border-top: 1px solid #e0f2fe;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; color: #0369a1;">
+                            <i class="fas fa-info-circle"></i>
+                            <p style="margin: 0;">Você poderá adicionar fotos e documentos após criar a propriedade.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <a href="/properties" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            <span th:text="${property.id != null ? 'Atualizar' : 'Criar'} + ' Propriedade'">Criar Propriedade</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Scripts for upload -->
+            <script th:if="${property.id != null}">
+                // Load photos and documents on page load with progressive loading
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Load photos fragment
+                    htmx.ajax('GET', '/api/v1/photos/property/' + [[${property.id}]] + '/fragment?form=true', {
+                        target: '#photos-section-form',
+                        swap: 'innerHTML'
+                    });
+                    
+                    // First load documents quickly with minimal data
+                    htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment?form=true&quick=true', {
+                        target: '#documents-section-form', 
+                        swap: 'innerHTML'
+                    });
+                    
+                    // Then load full document details after a short delay
+                    setTimeout(() => {
+                        htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment?form=true', {
+                            target: '#documents-section-form', 
+                            swap: 'innerHTML'
+                        });
+                    }, 500);
+                });
+            </script>
+        </div>
+    </main>
+
+    <style>
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .loading-spinner i {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+        
+        .loading-spinner span {
+            font-weight: 500;
+        }
+    </style>
+
+        <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

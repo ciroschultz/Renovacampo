@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${property.name} + ' - RenovaCampo'">Propriedade - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('properties')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1 th:text="${property.name}">Nome da Propriedade</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                        <span class="tag" th:text="${property.type}">Tipo</span>
+                        <span style="color: #64748b;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span th:text="${property.city + ', ' + property.state}">Cidade, Estado</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="page-header-actions">
+                    <a th:href="@{/properties/{id}/edit(id=${property.id})}" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i>
+                        Editar
+                    </a>
+                    <a href="/properties" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2" style="align-items: start;">
+                <!-- Property Details -->
+                <div>
+                    <!-- Basic Info -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Informações Básicas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Descrição:</label>
+                                    <p th:text="${property.description}" style="color: #64748b; margin: 0;">Descrição da propriedade</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Área Total:</label>
+                                        <p style="margin: 0;">
+                                            <span th:text="${property.totalArea}">0</span> hectares
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Área Disponível:</label>
+                                        <p style="margin: 0;">
+                                            <span th:if="${property.availableArea}" 
+                                                  th:text="${property.availableArea + ' hectares'}">0 hectares</span>
+                                            <span th:unless="${property.availableArea}" 
+                                                  style="color: #64748b;">Não informado</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Localização</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div th:if="${property.address}">
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Endereço:</label>
+                                    <p th:text="${property.address}" style="color: #64748b; margin: 0;">Endereço</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Cidade:</label>
+                                        <p th:text="${property.city}" style="margin: 0;">Cidade</p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Estado:</label>
+                                        <p th:text="${property.state}" style="margin: 0;">Estado</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2" 
+                                     th:if="${property.latitude != null and property.longitude != null}">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Latitude:</label>
+                                        <p th:text="${property.latitude}" style="margin: 0;">-</p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Longitude:</label>
+                                        <p th:text="${property.longitude}" style="margin: 0;">-</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Map -->
+                                <div th:if="${property.latitude != null and property.longitude != null}" style="margin-top: 1rem;">
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Localização no Mapa:</label>
+                                    <div id="property-map" style="height: 300px; border-radius: 0.5rem; border: 1px solid #e2e8f0;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photos and Documents -->
+                <div>
+                    <!-- Photos Section -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Fotos da Propriedade</h3>
+                        </div>
+                        <div class="card-body" id="photos-section">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Carregando fotos...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Documents Section -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Documentos</h3>
+                        </div>
+                        <div class="card-body" id="documents-section">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Carregando documentos...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+        <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Function to load fragments
+        function loadFragments() {
+            // Load photos fragment
+            htmx.ajax('GET', '/api/v1/photos/property/' + [[${property.id}]] + '/fragment', {
+                target: '#photos-section',
+                swap: 'innerHTML'
+            });
+            
+            // First load documents quickly with minimal data
+            htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment?quick=true', {
+                target: '#documents-section', 
+                swap: 'innerHTML'
+            });
+            
+            // Then load full document details after a short delay
+            setTimeout(() => {
+                htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment', {
+                    target: '#documents-section', 
+                    swap: 'innerHTML'
+                });
+            }, 500);
+        }
+        
+        // Initialize map
+        function initializeMap() {
+            const lat = [[${property.latitude}]];
+            const lon = [[${property.longitude}]];
+            const propertyName = "[[${property.name}]]";
+            
+            console.log('Map initialization - lat:', lat, 'lon:', lon);
+            
+            if (lat !== null && lon !== null && document.getElementById('property-map')) {
+                try {
+                    // Initialize the map
+                    const map = L.map('property-map').setView([lat, lon], 15);
+                    
+                    // Add OpenStreetMap tiles
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        maxZoom: 19
+                    }).addTo(map);
+                    
+                    // Create custom icon for property marker
+                    const propertyIcon = L.divIcon({
+                        className: 'custom-marker',
+                        html: '<div style="background: #EC6618; border: 3px solid white; border-radius: 50%; width: 20px; height: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+                    
+                    // Add marker for the property
+                    L.marker([lat, lon], {icon: propertyIcon})
+                        .addTo(map)
+                        .bindPopup(`<strong>${propertyName}</strong><br>Lat: ${lat}<br>Lon: ${lon}`)
+                        .openPopup();
+                        
+                    console.log('Map initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing map:', error);
+                }
+            } else {
+                console.log('Map not initialized - missing coordinates or map element');
+            }
+        }
+        
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFragments();
+            // Add small delay to ensure map container is ready
+            setTimeout(initializeMap, 100);
+        });
+        
+        // Also load when page becomes visible (in case of navigation)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                loadFragments();
+                setTimeout(initializeMap, 100);
+            }
+        });
+        
+        // Load when navigating back to page
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                loadFragments();
+                setTimeout(initializeMap, 100);
+            }
+        });
+    </script>
+    
+    <style>
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .loading-spinner i {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+        
+        .loading-spinner span {
+            font-weight: 500;
+        }
+        
+        /* Custom map marker */
+        .custom-marker {
+            background: transparent !important;
+            border: none !important;
+        }
+    </style>
+</body>
+</html>

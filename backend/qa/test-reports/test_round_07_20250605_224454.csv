@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+INV-FIN-002,View fund utilization progress bar,Investors,Financial Management,Medium,UI,/investors/{id},2025-06-05 22:44:53,FAIL,400,14,HTTP 400,
+INV-FIN-003,Update investor fund amounts,Investors,Financial Management,High,Functional,/investors/{id}/edit,2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-STATUS-001,Activate/deactivate investor,Investors,Status Management,High,Functional,/investors/{id}/edit,2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-STATUS-002,Filter by investor status,Investors,Status Management,Medium,Functional,/investors,2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-CONTACT-001,Validate contact information,Investors,Contact Management,Medium,Functional,/investors/new,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing
+INV-CONTACT-002,Display contact details,Investors,Contact Management,Medium,UI,/investors/{id},2025-06-05 22:44:54,FAIL,400,21,HTTP 400,
+INV-SEARCH-001,Search investors by name,Investors,Search,Medium,Functional,/investors,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing
+INV-SEARCH-002,Search investors by tax ID,Investors,Search,Medium,Functional,/investors,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing
+INV-SEARCH-003,Filter by investor location,Investors,Search,Low,Functional,/investors,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing

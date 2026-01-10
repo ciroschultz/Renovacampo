@@ -18,6 +18,14 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
+nul
+
+# Uploads (arquivos dos usuarios - nao versionar)
+uploads/
+
+# Pasta de testes locais
+PASTA TESTES/
 
 # Env
 .env

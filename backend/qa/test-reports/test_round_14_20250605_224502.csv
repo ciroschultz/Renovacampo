@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+SYS-ERR-001,404 error handling,System,Error Handling,Medium,Error Handling,Invalid URLs,2025-06-05 22:45:01,SKIP,,0,,Unknown test type: Error Handling
+SYS-ERR-002,500 error handling,System,Error Handling,High,Error Handling,All endpoints,2025-06-05 22:45:01,SKIP,,0,,Unknown test type: Error Handling
+SYS-ERR-003,Network connectivity issues,System,Error Handling,Medium,Error Handling,All endpoints,2025-06-05 22:45:01,SKIP,,0,,Unknown test type: Error Handling
+INT-CROSS-001,Enterprise-Property integration,Integration,Cross-Module,High,Integration,/enterprises,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-CROSS-002,Enterprise-Project integration,Integration,Cross-Module,High,Integration,/enterprises,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-CROSS-003,Enterprise-Investor integration,Integration,Cross-Module,High,Integration,/enterprises,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-CROSS-004,Data consistency across modules,Integration,Cross-Module,High,Integration,All modules,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-API-001,API and UI data consistency,Integration,API-UI,High,Integration,API and UI endpoints,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-API-002,UI and API data consistency,Integration,API-UI,High,Integration,UI and API endpoints,2025-06-05 22:45:02,MANUAL,,0,,Integration test requires manual execution

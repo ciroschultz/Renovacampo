@@ -1,0 +1,119 @@
+<!-- Documents Fragment for Form -->
+<div th:fragment="documents">
+    <!-- Success/Error Messages -->
+    <div th:if="${success}" class="alert alert-success" style="margin-bottom: 1rem;">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Sucesso</span>
+    </div>
+    
+    <div th:if="${error}" class="alert alert-error" style="margin-bottom: 1rem;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Erro</span>
+    </div>
+
+    <!-- Documents List Compact -->
+    <div th:if="${documents != null and !documents.isEmpty()}" class="documents-list-compact">
+        <div th:each="document : ${documents}" class="document-item-compact">
+            <div class="document-icon-compact">
+                <i th:if="${document.contentType.contains('pdf')}" class="fas fa-file-pdf"></i>
+                <i th:unless="${document.contentType.contains('pdf')}" 
+                   th:if="${document.contentType.contains('doc')}" class="fas fa-file-word"></i>
+                <i th:unless="${document.contentType.contains('pdf') or document.contentType.contains('doc')}" 
+                   class="fas fa-file-alt"></i>
+            </div>
+            
+            <div class="document-info-compact">
+                <div class="document-name-compact" th:text="${document.originalFileName}">Nome</div>
+                <div class="document-size-compact" th:text="${#numbers.formatDecimal(document.fileSize / 1024.0, 0, 0)} + ' KB'">Tamanho</div>
+            </div>
+            
+            <button class="btn-remove-compact" 
+                    th:hx-delete="@{/api/v1/files/{id}/fragment(id=${document.id})}"
+                    hx-target="#documents-section-form"
+                    hx-confirm="Remover este documento?"
+                    title="Remover">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div th:if="${documents == null or documents.isEmpty()}" class="empty-state-compact">
+        <i class="fas fa-file-alt"></i>
+        <p>Nenhum documento adicionado.</p>
+    </div>
+</div>
+
+<style>
+.documents-list-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.document-item-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.document-icon-compact {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border-radius: 0.25rem;
+    color: #64748b;
+}
+
+.document-icon-compact .fa-file-pdf {
+    color: #dc2626;
+}
+
+.document-icon-compact .fa-file-word {
+    color: #2563eb;
+}
+
+.document-info-compact {
+    flex: 1;
+    min-width: 0;
+}
+
+.document-name-compact {
+    font-weight: 500;
+    color: #334155;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.document-size-compact {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.btn-remove-compact {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    border: none;
+    background: #dc2626;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.btn-remove-compact:hover {
+    background: #b91c1c;
+}
+</style>

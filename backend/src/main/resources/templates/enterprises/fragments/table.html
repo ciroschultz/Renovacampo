@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="table">
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Empreendimento</th>
+                    <th>Status</th>
+                    <th>Propriedade/Projeto</th>
+                    <th>Progresso de Captação</th>
+                    <th>Investidores</th>
+                    <th>Valorização Produto</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="enterprise : ${enterprises}" 
+                    class="clickable-row" 
+                    th:onclick="'window.location.href=\'/enterprises/' + ${enterprise.id} + '\''">
+                    <td>
+                        <div>
+                            <div style="font-weight: 600;">
+                                <span th:text="${enterprise.name}">Nome</span>
+                                <span th:if="${!enterprise.active}" class="badge badge-secondary" style="margin-left: 0.5rem; font-size: 0.75rem;">Inativo</span>
+                            </div>
+                            <div style="font-size: 0.875rem; color: #64748b;" 
+                                 th:text="${#strings.abbreviate(enterprise.description, 50)}">Descrição</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge" 
+                              th:classappend="${enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).ACTIVE ? 'badge-success' : 
+                                               enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).PLANNING ? 'badge-warning' :
+                                               enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).COMPLETED ? 'badge-info' :
+                                               enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).SUSPENDED ? 'badge-secondary' :
+                                               'badge-danger'}"
+                              th:attr="data-status=${enterprise.status}"
+                              th:text="${enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).ACTIVE ? 'Ativo' : 
+                                         enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).PLANNING ? 'Planejamento' :
+                                         enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).COMPLETED ? 'Concluído' :
+                                         enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).SUSPENDED ? 'Suspenso' :
+                                         'Cancelado'}">Status</span>
+                    </td>
+                    <td>
+                        <div style="font-size: 0.875rem;">
+                            <div th:if="${enterprise.property}">
+                                <i class="fas fa-map-marked-alt"></i> 
+                                <span th:text="${enterprise.property.name}">Propriedade</span>
+                            </div>
+                            <div th:if="${enterprise.project}" style="color: #64748b;">
+                                <i class="fas fa-project-diagram"></i> 
+                                <span th:text="${enterprise.project.name}">Projeto</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <div class="progress" style="height: 8px; margin-bottom: 0.25rem;">
+                                <div class="progress-bar" 
+                                     role="progressbar" 
+                                     th:style="'width: ' + ${enterprise.fundingProgress} + '%'"
+                                     th:classappend="${enterprise.fundingProgress >= 100 ? 'bg-success' : 
+                                                      enterprise.fundingProgress >= 75 ? 'bg-info' : 
+                                                      enterprise.fundingProgress >= 50 ? 'bg-warning' : 'bg-danger'}">
+                                </div>
+                            </div>
+                            <div style="font-size: 0.75rem; color: #64748b;">
+                                R$ <span th:text="${#numbers.formatDecimal(enterprise.totalInvestmentRaised, 0, 'POINT', 0, 'COMMA')}">0</span>
+                                de R$ <span th:text="${#numbers.formatDecimal(enterprise.totalInvestmentRequired, 0, 'POINT', 0, 'COMMA')}">0</span>
+                                (<span th:text="${#numbers.formatDecimal(enterprise.fundingProgress, 1, 'COMMA', 1, 'COMMA')}">0</span>%)
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="text-align: center;">
+                            <span class="badge badge-secondary" th:text="${enterprise.investorCount}">0</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div th:if="${enterprise.expectedReturnPercentage}" style="font-weight: 600; color: #059669;">
+                            <span th:text="${enterprise.expectedReturnPercentage}">0</span>%
+                        </div>
+                        <div th:unless="${enterprise.expectedReturnPercentage}" style="color: #64748b;">
+                            —
+                        </div>
+                    </td>
+                    <td onclick="event.stopPropagation();">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a th:href="@{/enterprises/{id}/edit(id=${enterprise.id})}" 
+                               class="btn btn-secondary btn-sm"
+                               title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm"
+                                    title="Excluir"
+                                    th:attr="hx-post=@{/enterprises/{id}/delete(id=${enterprise.id})}"
+                                    hx-confirm="Tem certeza que deseja excluir este empreendimento?"
+                                    hx-target="#enterprises-table"
+                                    hx-swap="innerHTML">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(enterprises)}">
+                    <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
+                        <i class="fas fa-building" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <div style="font-size: 1.125rem; margin-bottom: 0.5rem;">Nenhum empreendimento encontrado</div>
+                        <div>Comece criando seu primeiro empreendimento.</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

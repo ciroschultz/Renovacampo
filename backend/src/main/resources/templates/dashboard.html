@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom styles for all progress bars -->
+    <style>
+        [id^="progress-bar-"] {
+            height: 100% !important;
+            background: #014C34 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('dashboard')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1>Dashboard</h1>
+                    <p class="page-description">Visão geral dos empreendimentos, propriedades, projetos e investidores</p>
+                </div>
+            </div>
+
+            <!-- Enterprise Overview - The Heart of RenovaCampo -->
+            <div class="enterprise-overview" style="margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px solid #e2e8f0;">
+                <!-- Enterprise Hero Stats -->
+                <div class="enterprise-hero" style="background: linear-gradient(135deg, rgba(1, 76, 52, 0.95) 0%, rgba(1, 99, 61, 0.95) 50%, rgba(236, 102, 24, 0.95) 100%); 
+                     border-radius: 16px; padding: 2.5rem; color: white; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+                     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+                    
+                    <!-- Background pattern -->
+                    <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; 
+                         background: rgba(255,255,255,0.05); opacity: 0.4; border-radius: 50%;"></div>
+                    
+                    <div style="position: relative; z-index: 1;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 12px; 
+                                 display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <i class="fas fa-rocket" style="font-size: 1.75rem; color: white;"></i>
+                            </div>
+                            <div>
+                                <h2 style="margin: 0; font-size: 1.75rem; font-weight: 700; color: white;">Empreendimentos</h2>
+                                <p style="margin: 0; font-size: 1rem; opacity: 0.9; color: white;">Conectando terras, projetos e capital para o futuro sustentável</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem;">
+                            <!-- Total Enterprises -->
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.2rem; font-weight: 700; margin-bottom: 0.25rem; line-height: 1;" th:text="${totalEnterprises ?: 0}">0</div>
+                                <div style="font-size: 0.85rem; opacity: 0.85; line-height: 1.2;">Empreendimentos<br/>Ativos</div>
+                            </div>
+                            
+                            <!-- Investment Required -->
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.2rem; font-weight: 700; margin-bottom: 0.25rem; line-height: 1;">
+                                    <span th:text="${totalInvestmentRequired != null and totalInvestmentRequired > 999999 ? 
+                                                    'R$ ' + #numbers.formatDecimal(totalInvestmentRequired / 1000000, 1, 1) + 'M' : 
+                                                    #numbers.formatCurrency(totalInvestmentRequired ?: 0)}">R$ 0</span>
+                                </div>
+                                <div style="font-size: 0.85rem; opacity: 0.85; line-height: 1.2;">Capital<br/>Necessário</div>
+                            </div>
+                            
+                            <!-- Investment Raised -->
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.2rem; font-weight: 700; margin-bottom: 0.25rem; line-height: 1;">
+                                    <span th:text="${totalInvestmentRaised != null and totalInvestmentRaised > 999999 ? 
+                                                    'R$ ' + #numbers.formatDecimal(totalInvestmentRaised / 1000000, 1, 1) + 'M' : 
+                                                    #numbers.formatCurrency(totalInvestmentRaised ?: 0)}">R$ 0</span>
+                                </div>
+                                <div style="font-size: 0.85rem; opacity: 0.85; line-height: 1.2;">Capital<br/>Captado</div>
+                            </div>
+                            
+                            <!-- Average Return -->
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.2rem; font-weight: 700; margin-bottom: 0.25rem; line-height: 1;">
+                                    <span th:text="${averageExpectedReturn != null ? #numbers.formatDecimal(averageExpectedReturn, 1, 1) + '%' : '0%'}">0%</span>
+                                </div>
+                                <div style="font-size: 0.85rem; opacity: 0.85; line-height: 1.2;">Valorização Média<br/>do Produto</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Enterprises -->
+                <div th:unless="${#lists.isEmpty(recentEnterprises)}" class="enterprise-list" 
+                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1rem;">
+                    
+                    <div th:each="enterprise : ${recentEnterprises}" class="enterprise-card clickable-card" 
+                         style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; 
+                         box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.2s ease; cursor: pointer;"
+                         th:data-enterprise-id="${enterprise.id}"
+                         th:onclick="'window.location.href=\'/enterprises/' + ${enterprise.id} + '\''">
+                        
+                        <!-- Enterprise Header -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0 0 0.5rem 0; font-size: 1.125rem; font-weight: 600; color: #1e293b;" th:text="${enterprise.name}">Nome</h3>
+                                <p style="margin: 0; font-size: 0.875rem; color: #64748b; line-height: 1.4;" th:text="${#strings.abbreviate(enterprise.description, 80)}">Descrição</p>
+                            </div>
+                            <div style="margin-left: 1rem;">
+                                <span style="display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 500;
+                                     background: #059669; color: white; border-radius: 12px;" th:text="${enterprise.status}">ACTIVE</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Funding Progress -->
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.875rem; color: #64748b;">Captação</span>
+                                <span style="font-size: 0.875rem; font-weight: 600; color: #1e293b;" 
+                                      th:text="${enterprise.fundingProgress != null ? #numbers.formatDecimal(enterprise.fundingProgress, 1, 1) + '%' : '0%'}">0%</span>
+                            </div>
+                            <div th:id="'progress-container-' + ${enterprise.id}" style="background: #f1f5f9; border-radius: 8px; height: 8px; overflow: hidden;">
+                                <div th:id="'progress-bar-' + ${enterprise.id}" style="background: #014C34; height: 100%; border-radius: 8px; transition: width 0.3s ease;"
+                                     th:style="'width: ' + (${enterprise.fundingProgress ?: 0}) + '%'"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Enterprise Stats -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.25rem;">Necessário</div>
+                                <div style="font-size: 0.9rem; font-weight: 600; color: #1e293b;" th:text="${#numbers.formatCurrency(enterprise.totalInvestmentRequired ?: 0)}">R$ 0</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.25rem;">Valorização do Produto</div>
+                                <div style="font-size: 0.9rem; font-weight: 600; color: #059669;" 
+                                     th:text="${enterprise.expectedReturnPercentage != null ? #numbers.formatDecimal(enterprise.expectedReturnPercentage, 1, 1) + '% por ano' : '0% por ano'}">0% por ano</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State for Enterprises -->
+                <div th:if="${#lists.isEmpty(recentEnterprises)}" 
+                     style="text-align: center; padding: 3rem; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px;">
+                    <div style="width: 80px; height: 80px; background: #f1f5f9; border-radius: 50%; 
+                         display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="fas fa-rocket" style="font-size: 2rem; color: #94a3b8;"></i>
+                    </div>
+                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.25rem; font-weight: 600; color: #475569;">Primeiro Empreendimento</h3>
+                    <p style="margin: 0 0 1.5rem 0; font-size: 0.875rem; color: #64748b; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        Combine uma propriedade rural com um projeto inovador e conecte com investidores para criar seu primeiro empreendimento sustentável.
+                    </p>
+                    <a href="/enterprises/new" class="btn btn-primary" style="background: linear-gradient(135deg, #EC6618, #014C34); border: none;">
+                        <i class="fas fa-plus"></i>
+                        Criar Empreendimento
+                    </a>
+                </div>
+            </div>
+
+            <!-- Overview Stats -->
+            <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 2rem;">
+                <!-- Properties Card -->
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(2, 132, 199, 0.2)); color: #1e293b;">
+                    <div class="stat-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; width: 100%; padding-right: 3rem;">
+                        <div>
+                            <div class="stat-value" th:text="${totalProperties}">0</div>
+                            <div class="stat-label">Propriedades</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-value" th:text="${totalArea + ' ha'}">0 ha</div>
+                            <div class="stat-label" style="font-size: 0.75rem; color: #64748b;">Área Total</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projects Card -->
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2)); color: #1e293b;">
+                    <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; width: 100%; padding-right: 3rem;">
+                        <div>
+                            <div class="stat-value" th:text="${totalProjects}">0</div>
+                            <div class="stat-label">Projetos</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-value" th:text="${#numbers.formatCurrency(totalInvestment)}">R$ 0,00</div>
+                            <div class="stat-label" style="font-size: 0.75rem; color: #64748b;">Investimento Total</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Investors Card -->
+                <div class="stat-card" style="background: linear-gradient(135deg, rgba(234, 88, 12, 0.2), rgba(194, 65, 12, 0.2)); color: #1e293b;">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; width: 100%; padding-right: 3rem;">
+                        <div>
+                            <div class="stat-value" th:text="${totalInvestors}">0</div>
+                            <div class="stat-label">Investidores</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="stat-value" th:text="${#numbers.formatCurrency(totalAvailableFunds)}">R$ 0,00</div>
+                            <div class="stat-label" style="font-size: 0.75rem; color: #64748b;">Fundos Disponíveis</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-3" style="gap: 1.5rem;">
+                
+                <!-- Properties Section -->
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Propriedades Recentes</h2>
+                        <a href="/properties" class="btn btn-secondary btn-sm">Ver Todas</a>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${#lists.isEmpty(recentProperties)}" style="text-align: center; padding: 2rem; color: #64748b;">
+                            <i class="fas fa-map-marked-alt" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <div>Nenhuma propriedade cadastrada</div>
+                        </div>
+                        <div th:unless="${#lists.isEmpty(recentProperties)}" class="property-list">
+                            <div th:each="property : ${recentProperties}" class="property-item">
+                                <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9;">
+                                    <div class="property-thumbnail" style="width: 50px; height: 50px;">
+                                        <img th:src="@{'/api/v1/photos/property/' + ${property.id} + '/thumbnail'}" 
+                                             th:alt="${property.name}"
+                                             onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                                             onerror="this.style.display='none';"
+                                             style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                        <div class="thumbnail-placeholder" style="display: flex; width: 100%; height: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; align-items: center; justify-content: center;">
+                                            <i class="fas fa-image" style="color: #e2e8f0;"></i>
+                                        </div>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">
+                                            <a th:href="@{/properties/{id}(id=${property.id})}" th:text="${property.name}" style="color: inherit; text-decoration: none;">Nome</a>
+                                        </div>
+                                        <div style="font-size: 0.875rem; color: #64748b;">
+                                            <span th:text="${property.city + ', ' + property.state}">Cidade, Estado</span>
+                                            <span style="margin: 0 0.5rem;">•</span>
+                                            <span th:text="${property.totalArea + ' ha'}">100 ha</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <span class="tag" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" th:text="${property.type}">Tipo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Section -->
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Projetos Recentes</h2>
+                        <a href="/projects" class="btn btn-secondary btn-sm">Ver Todos</a>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${#lists.isEmpty(recentProjects)}" style="text-align: center; padding: 2rem; color: #64748b;">
+                            <i class="fas fa-project-diagram" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <div>Nenhum projeto cadastrado</div>
+                        </div>
+                        <div th:unless="${#lists.isEmpty(recentProjects)}" class="project-list">
+                            <div th:each="project : ${recentProjects}" class="project-item">
+                                <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9;">
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">
+                                            <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}" style="color: inherit; text-decoration: none;">Nome</a>
+                                        </div>
+                                        <div style="font-size: 0.875rem; color: #64748b;">
+                                            <span th:text="${project.category ?: 'Sem categoria'}">Categoria</span>
+                                            <span style="margin: 0 0.5rem;">•</span>
+                                            <span th:text="${#numbers.formatCurrency(project.totalInvestment ?: 0)}">R$ 0,00</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <span th:class="'status-badge status-' + ${#strings.toLowerCase(project.status)}" 
+                                              style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"
+                                              th:text="${project.status == 'PLANNING' ? 'Planejamento' :
+                                                       project.status == 'APPROVED' ? 'Aprovado' :
+                                                       project.status == 'IN_PROGRESS' ? 'Em Andamento' :
+                                                       project.status == 'ON_HOLD' ? 'Suspenso' :
+                                                       project.status == 'COMPLETED' ? 'Concluído' :
+                                                       project.status == 'CANCELLED' ? 'Cancelado' : project.status}">Status</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investors Section -->
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Investidores Recentes</h2>
+                        <a href="/investors" class="btn btn-secondary btn-sm">Ver Todos</a>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${#lists.isEmpty(recentInvestors)}" style="text-align: center; padding: 2rem; color: #64748b;">
+                            <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <div>Nenhum investidor cadastrado</div>
+                        </div>
+                        <div th:unless="${#lists.isEmpty(recentInvestors)}" class="investor-list">
+                            <div th:each="investor : ${recentInvestors}" class="investor-item">
+                                <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9;">
+                                    <div class="investor-avatar" style="width: 50px; height: 50px; background: #EC6618; opacity: 0.5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; font-weight: 600; font-size: 1.125rem;">
+                                        <span th:text="${#strings.substring(investor.name, 0, 1)}">A</span>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">
+                                            <a th:href="@{/investors/{id}(id=${investor.id})}" th:text="${investor.name}" style="color: inherit; text-decoration: none;">Nome</a>
+                                        </div>
+                                        <div style="font-size: 0.875rem; color: #64748b;">
+                                            <span th:text="${investor.city + ', ' + investor.state}">Cidade, Estado</span>
+                                            <span style="margin: 0 0.5rem;">•</span>
+                                            <span th:text="${#numbers.formatCurrency(investor.availableFunds)}">R$ 0,00</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 0.75rem; color: #64748b;">Disponível</div>
+                                        <div style="font-weight: 600; color: #059669;" th:text="${#numbers.formatCurrency(investor.availableFunds)}">R$ 0,00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Enterprise Card Click Functionality -->
+    <script>
+        // Alternative click handler using data attributes (fallback)
+        document.addEventListener('DOMContentLoaded', function() {
+            const enterpriseCards = document.querySelectorAll('.enterprise-card[data-enterprise-id]');
+            
+            enterpriseCards.forEach(card => {
+                // Add click event as fallback
+                card.addEventListener('click', function(e) {
+                    // Only proceed if the click wasn't already handled by onclick
+                    if (!e.defaultPrevented) {
+                        const enterpriseId = this.getAttribute('data-enterprise-id');
+                        if (enterpriseId) {
+                            window.location.href = '/enterprises/' + enterpriseId;
+                        }
+                    }
+                });
+
+                // Add keyboard accessibility
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const enterpriseId = this.getAttribute('data-enterprise-id');
+                        if (enterpriseId) {
+                            window.location.href = '/enterprises/' + enterpriseId;
+                        }
+                    }
+                });
+
+                // Make focusable for keyboard navigation
+                if (!card.hasAttribute('tabindex')) {
+                    card.setAttribute('tabindex', '0');
+                }
+            });
+        });
+    </script>
+
+    <!-- Enhanced Enterprise Card Styles -->
+    <style>
+        .enterprise-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            border-color: #EC6618 !important;
+            transform: translateY(-2px);
+        }
+
+        .enterprise-card:focus {
+            outline: 2px solid #EC6618;
+            outline-offset: 2px;
+        }
+
+        .enterprise-card:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+        }
+
+        /* Ensure the entire card is clickable */
+        .enterprise-card * {
+            pointer-events: none;
+        }
+
+        .enterprise-card {
+            pointer-events: auto;
+        }
+    </style>
+</body>
+</html>

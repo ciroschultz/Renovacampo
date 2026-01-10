@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+ENT-SEARCH-003,Filter by funding status,Enterprises,Search,Medium,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+DASH-OVER-001,View main dashboard,Dashboard,Overview,High,UI,/,2025-06-05 22:44:58,PASS,200,136,,Page loaded successfully
+DASH-OVER-002,View property statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,120,,Page loaded successfully
+DASH-OVER-003,View project statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,113,,Page loaded successfully
+DASH-OVER-004,View investor statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,101,,Page loaded successfully
+DASH-OVER-005,View enterprise statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,109,,Page loaded successfully
+DASH-NAV-001,Navigate to modules from dashboard,Dashboard,Navigation,High,UI,/,2025-06-05 22:44:59,PASS,200,113,,Page loaded successfully
+DASH-CALC-001,Verify calculation accuracy,Dashboard,Calculations,High,Functional,/,2025-06-05 22:45:00,MANUAL,,0,,Requires manual testing
+DASH-UPDATE-001,Verify data freshness,Dashboard,Real-time Updates,Medium,Functional,/,2025-06-05 22:45:00,MANUAL,,0,,Requires manual testing

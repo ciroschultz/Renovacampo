@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+PROP-MAP-001,Display property on map,Properties,Maps,Medium,Functional,/properties/{id},2025-06-05 22:44:49,MANUAL,,0,,Requires manual testing
+PROP-MAP-002,Map interaction,Properties,Maps,Low,Functional,/properties/{id},2025-06-05 22:44:49,MANUAL,,0,,Requires manual testing
+PROP-API-001,List properties via REST API,Properties,API,High,API,/api/v1/property,2025-06-05 22:44:49,PASS,200,43,,API returned 15 record(s)
+PROP-API-002,Get property by ID via API,Properties,API,High,API,/api/v1/property/{id},2025-06-05 22:44:49,FAIL,400,19,HTTP 400,
+PROP-API-003,Create property via API,Properties,API,High,API,/api/v1/property,2025-06-05 22:44:49,PASS,200,27,,API returned 15 record(s)
+PROP-API-004,Delete property via API,Properties,API,Medium,API,/api/v1/property/{id},2025-06-05 22:44:49,FAIL,400,12,HTTP 400,
+PROJ-NAV-001,Access projects list page,Projects,Navigation,High,UI,/projects,2025-06-05 22:44:49,PASS,200,49,,Page loaded successfully
+PROJ-NAV-002,Access project creation page,Projects,Navigation,High,UI,/projects/new,2025-06-05 22:44:50,PASS,200,38,,Page loaded successfully
+PROJ-NAV-003,Access project details page,Projects,Navigation,High,UI,/projects/{id},2025-06-05 22:44:50,FAIL,400,14,HTTP 400,
+PROJ-NAV-004,Access project edit page,Projects,Navigation,High,UI,/projects/{id}/edit,2025-06-05 22:44:50,FAIL,400,13,HTTP 400,

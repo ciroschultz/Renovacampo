@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="grid">
+    <!-- Success/Error Messages -->
+    <div th:if="${deleteSuccess}" class="alert alert-success" style="margin-bottom: 1.5rem;">
+        <i class="fas fa-check-circle"></i>
+        Investidor excluído com sucesso!
+    </div>
+    <div th:if="${deleteError}" class="alert alert-error" style="margin-bottom: 1.5rem;">
+        <i class="fas fa-exclamation-triangle"></i>
+        Erro ao excluir investidor: <span th:text="${deleteError}"></span>
+    </div>
+
+    <!-- Empty State -->
+    <div th:if="${#lists.isEmpty(investors)}" class="empty-state">
+        <div class="empty-state-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <h3>Nenhum investidor cadastrado</h3>
+        <p>Comece cadastrando seu primeiro investidor para acompanhar os investimentos.</p>
+        <a href="/investors/new" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Cadastrar Primeiro Investidor
+        </a>
+    </div>
+
+    <!-- Investors Grid -->
+    <div th:unless="${#lists.isEmpty(investors)}" class="investors-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+        <div th:each="investor : ${investors}" class="investor-card card" style="transition: transform 0.2s ease, box-shadow 0.2s ease;">
+            <!-- Investor Header -->
+            <div class="card-header" style="padding: 1.5rem; border-bottom: 1px solid #f1f5f9;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="investor-avatar" style="width: 60px; height: 60px; background: #EC6618; opacity: 0.5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; font-weight: 600; font-size: 1.5rem;">
+                        <span th:text="${#strings.substring(investor.name, 0, 1)}">A</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="margin: 0; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem;">
+                            <a th:href="@{/investors/{id}(id=${investor.id})}" th:text="${investor.name}" style="color: inherit; text-decoration: none;">Nome do Investidor</a>
+                        </h3>
+                        <div style="font-size: 0.875rem; color: #64748b;">
+                            <span th:text="${investor.city + ', ' + investor.state}">Cidade, Estado</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.25rem;">
+                            <span th:text="${investor.taxId}">CPF/CNPJ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investor Stats -->
+            <div class="card-body" style="padding: 1.5rem;">
+                <div class="investor-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Total</div>
+                        <div style="font-size: 1.125rem; font-weight: 600;" th:text="${#numbers.formatCurrency(investor.totalFunds)}">R$ 0,00</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Investido</div>
+                        <div style="font-size: 1.125rem; font-weight: 600; color: #dc2626;" th:text="${#numbers.formatCurrency(investor.investedFunds)}">R$ 0,00</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Disponível</div>
+                    <div style="font-size: 1.25rem; font-weight: 700; color: #059669;" th:text="${#numbers.formatCurrency(investor.availableFunds)}">R$ 0,00</div>
+                </div>
+
+                <!-- Contact Info -->
+                <div style="border-top: 1px solid #f1f5f9; padding-top: 1rem; font-size: 0.875rem; color: #64748b;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <i class="fas fa-envelope" style="width: 16px; margin-right: 0.5rem;"></i>
+                        <span th:text="${investor.email}">email@example.com</span>
+                    </div>
+                    <div th:if="${investor.phone}">
+                        <i class="fas fa-phone" style="width: 16px; margin-right: 0.5rem;"></i>
+                        <span th:text="${investor.phone}">Telefone</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Footer -->
+            <div class="card-footer" style="padding: 1rem 1.5rem; background: #f8fafc; display: flex; justify-content: space-between; align-items: center;">
+                <span th:class="'status-badge status-' + (${investor.active} ? 'active' : 'inactive')"
+                      th:text="${investor.active ? 'Ativo' : 'Inativo'}">Status</span>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a th:href="@{/investors/{id}(id=${investor.id})}" class="btn btn-sm btn-secondary">
+                        Ver Detalhes
+                    </a>
+                    <a th:href="@{/investors/{id}/edit(id=${investor.id})}" class="btn btn-sm btn-primary" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <button class="btn btn-danger btn-sm"
+                            title="Excluir"
+                            hx-delete th:hx-delete="@{/investors/{id}(id=${investor.id})}"
+                            hx-confirm="Tem certeza que deseja excluir este investidor?"
+                            hx-target="#investors-container"
+                            hx-swap="outerHTML">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

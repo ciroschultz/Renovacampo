@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="table">
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Status</th>
+                    <th>Prioridade</th>
+                    <th>Investimento</th>
+                    <th>ROI Estimado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="project : ${projects}" 
+                    class="clickable-row" 
+                    th:onclick="'window.location.href=\'/projects/' + ${project.id} + '\''">
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div class="project-icon" th:class="'project-icon status-' + ${#strings.toLowerCase(project.status)}">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;" th:text="${project.name}">Nome</div>
+                                <div style="font-size: 0.875rem; color: #64748b;" 
+                                     th:text="${#strings.abbreviate(project.description, 50)}">Descrição</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="tag" th:text="${project.category ?: '—'}">Categoria</span>
+                    </td>
+                    <td>
+                        <span th:class="'status-badge status-' + ${#strings.toLowerCase(project.status)}" 
+                              th:text="${project.status == 'PLANNING' ? 'Planejamento' :
+                                       project.status == 'APPROVED' ? 'Aprovado' :
+                                       project.status == 'IN_PROGRESS' ? 'Em Andamento' :
+                                       project.status == 'ON_HOLD' ? 'Suspenso' :
+                                       project.status == 'COMPLETED' ? 'Concluído' :
+                                       project.status == 'CANCELLED' ? 'Cancelado' : project.status}">Status</span>
+                    </td>
+                    <td>
+                        <span th:class="'priority-badge priority-' + ${#strings.toLowerCase(project.priority)}" 
+                              th:text="${project.priority == 'LOW' ? 'Baixa' :
+                                       project.priority == 'MEDIUM' ? 'Média' :
+                                       project.priority == 'HIGH' ? 'Alta' :
+                                       project.priority == 'CRITICAL' ? 'Crítica' : project.priority}">Prioridade</span>
+                    </td>
+                    <td>
+                        <span th:if="${project.totalInvestment}" 
+                              th:text="${#numbers.formatCurrency(project.totalInvestment)}">R$ 0,00</span>
+                        <span th:unless="${project.totalInvestment}" 
+                              style="color: #64748b;">—</span>
+                    </td>
+                    <td>
+                        <span th:if="${project.estimatedReturnOverInvestment}" 
+                              th:text="${project.estimatedReturnOverInvestment + '%'}">0%</span>
+                        <span th:unless="${project.estimatedReturnOverInvestment}" 
+                              style="color: #64748b;">—</span>
+                    </td>
+                    <td onclick="event.stopPropagation();">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a th:href="@{/projects/{id}/edit(id=${project.id})}" 
+                               class="btn btn-secondary btn-sm"
+                               title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm"
+                                    title="Excluir"
+                                    hx-delete th:hx-delete="@{/projects/{id}(id=${project.id})}"
+                                    hx-confirm="Tem certeza que deseja excluir este projeto?"
+                                    hx-target="#projects-table"
+                                    hx-swap="outerHTML">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(projects)}">
+                    <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
+                        <i class="fas fa-project-diagram" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <div style="font-size: 1.125rem; margin-bottom: 0.5rem;">Nenhum projeto encontrado</div>
+                        <div>Comece adicionando seu primeiro projeto.</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

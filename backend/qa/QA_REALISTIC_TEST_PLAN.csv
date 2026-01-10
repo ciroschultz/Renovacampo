@@ -1,0 +1,76 @@
+Module,Test Category,Test Case ID,Test Case Description,Test Steps,Expected Result,Priority,Test Type,URL/Endpoint,Prerequisites,Use Real Data
+Properties,Navigation,PROP-NAV-001,Access properties list page,1. Navigate to /properties,Properties page loads with list of all properties,High,UI,/properties,System running,No
+Properties,Navigation,PROP-NAV-002,Access property creation page,1. Click 'Nova Propriedade' button,Property creation form loads correctly,High,UI,/properties/new,Properties page loaded,No
+Properties,Navigation,PROP-NAV-003,Access property details page with real ID,1. Navigate to /properties/5,Property details page loads with property information,High,UI,/properties/5,Property ID 5 exists,Yes
+Properties,Navigation,PROP-NAV-004,Access property edit page with real ID,1. Navigate to /properties/5/edit,Property edit form loads with current data,High,UI,/properties/5/edit,Property ID 5 exists,Yes
+Properties,Navigation,PROP-NAV-005,Access property details page with real ID (alternative),1. Navigate to /properties/9,Property details page loads with property information,High,UI,/properties/9,Property ID 9 exists,Yes
+Properties,CRUD,PROP-CRUD-001,View property via web interface,1. Access /properties/5 2. Verify content displayed,Property data displayed correctly with maps and details,High,Functional,/properties/5,Property ID 5 exists,Yes
+Properties,Error Handling,PROP-ERR-001,Access non-existent property,1. Navigate to /properties/99999,Proper error handling or 404 page,Medium,UI,/properties/99999,System running,No
+Properties,API,PROP-API-001,List properties via REST API,1. GET /api/v1/property,Returns JSON list of all properties,High,API,/api/v1/property,System running,No
+Properties,API,PROP-API-002,Get property by real ID via API,1. GET /api/v1/property/5,Returns specific property data as JSON,High,API,/api/v1/property/5,Property ID 5 exists,Yes
+Properties,API,PROP-API-003,Get property by alternative ID via API,1. GET /api/v1/property/9,Returns specific property data as JSON,High,API,/api/v1/property/9,Property ID 9 exists,Yes
+Properties,API,PROP-API-004,Create property via API,1. POST property data to /api/v1/property,Property created and returns appropriate response,High,API,/api/v1/property,System running,No
+Properties,API,PROP-API-005,API returns proper count,1. GET /api/v1/property 2. Count records,API returns expected number of properties (around 15),Medium,API,/api/v1/property,System running,No
+Properties,Integration,PROP-INT-001,Property photos integration,1. Access property with photos 2. Verify photo display,Photos display correctly with thumbnails,Medium,Integration,/properties/5,Property with photos exists,Yes
+Properties,Maps,PROP-MAP-001,Display property on map with coordinates,1. Access property with coordinates,Interactive map displays with property marker,Medium,Functional,/properties/5,Property with coordinates,Yes
+Projects,Navigation,PROJ-NAV-001,Access projects list page,1. Navigate to /projects,Projects page loads with list of all projects,High,UI,/projects,System running,No
+Projects,Navigation,PROJ-NAV-002,Access project creation page,1. Click 'Novo Projeto' button,Project creation form loads correctly,High,UI,/projects/new,Projects page loaded,No
+Projects,Navigation,PROJ-NAV-003,Access project details page with real ID,1. Navigate to /projects/1,Project details page loads with project information,High,UI,/projects/1,Project ID 1 exists,Yes
+Projects,Navigation,PROJ-NAV-004,Access project edit page with real ID,1. Navigate to /projects/1/edit,Project edit form loads with current data,High,UI,/projects/1/edit,Project ID 1 exists,Yes
+Projects,CRUD,PROJ-CRUD-001,View project via web interface,1. Access /projects/1 2. Verify content displayed,Project data displayed with status and financial info,High,Functional,/projects/1,Project ID 1 exists,Yes
+Projects,Validation,PROJ-VAL-001,Project form validation,1. Submit project form with invalid data,Proper validation messages displayed,High,Validation,/projects/new,System running,No
+Projects,Status,PROJ-STATUS-001,Project status display,1. View project with status,Status displayed correctly with proper formatting,Medium,UI,/projects/1,Project with status exists,Yes
+Projects,Financial,PROJ-FIN-001,Project financial calculations,1. View project with costs 2. Verify calculations,ROI and cost calculations displayed accurately,Medium,Functional,/projects/1,Project with financial data,Yes
+Investors,Navigation,INV-NAV-001,Access investors list page,1. Navigate to /investors,Investors page loads with list of all investors,High,UI,/investors,System running,No
+Investors,Navigation,INV-NAV-002,Access investor creation page,1. Click 'Novo Investidor' button,Investor creation form loads correctly,High,UI,/investors/new,Investors page loaded,No
+Investors,Navigation,INV-NAV-003,Access investor details page with real ID,1. Navigate to /investors/1,Investor details page loads with investor information,High,UI,/investors/1,Investor ID 1 exists,Yes
+Investors,Navigation,INV-NAV-004,Access investor edit page with real ID,1. Navigate to /investors/1/edit,Investor edit form loads with current data,High,UI,/investors/1/edit,Investor ID 1 exists,Yes
+Investors,Navigation,INV-NAV-005,Access investor details page (alternative ID),1. Navigate to /investors/2,Investor details page loads with investor information,High,UI,/investors/2,Investor ID 2 exists,Yes
+Investors,Financial,INV-FIN-001,Fund utilization progress bar,1. Access investor details 2. Check progress bar,Progress bar shows correct fund utilization percentage,High,UI,/investors/1,Investor with funds data,Yes
+Investors,Financial,INV-FIN-002,Available funds calculation,1. View investor details 2. Verify calculations,Available funds calculated correctly (total - invested),High,Functional,/investors/1,Investor with financial data,Yes
+Investors,API,INV-API-001,List investors via REST API,1. GET /api/v1/investors,Returns JSON list of all investors,High,API,/api/v1/investors,System running,No
+Investors,API,INV-API-002,Get investor by real ID via API,1. GET /api/v1/investors/1,Returns specific investor data as JSON,High,API,/api/v1/investors/1,Investor ID 1 exists,Yes
+Investors,API,INV-API-003,Get investor by alternative ID via API,1. GET /api/v1/investors/2,Returns specific investor data as JSON,High,API,/api/v1/investors/2,Investor ID 2 exists,Yes
+Investors,API,INV-API-004,Create investor via API,1. POST investor data to /api/v1/investors,Investor created and returns appropriate response,High,API,/api/v1/investors,System running,No
+Investors,API,INV-API-005,API returns proper count,1. GET /api/v1/investors 2. Count records,API returns expected number of investors (around 2),Medium,API,/api/v1/investors,System running,No
+Investors,Validation,INV-VAL-001,Tax ID validation,1. Enter invalid CPF/CNPJ format 2. Submit,System validates tax ID format correctly,High,Validation,/investors/new,System running,No
+Investors,Contact,INV-CONTACT-001,Contact information display,1. View investor details 2. Check contact fields,Contact information (phone email address) displayed properly,Medium,UI,/investors/1,Investor with contact data,Yes
+Enterprises,Navigation,ENT-NAV-001,Access enterprises list page,1. Navigate to /enterprises,Enterprises page loads with list of all enterprises,High,UI,/enterprises,System running,No
+Enterprises,Navigation,ENT-NAV-002,Access enterprise creation page,1. Navigate to /enterprises/new,Enterprise creation form loads correctly,High,UI,/enterprises/new,Enterprises page loaded,No
+Enterprises,Navigation,ENT-NAV-003,Access enterprise details page with real ID,1. Navigate to /enterprises/1,Enterprise details page loads with enterprise information,High,UI,/enterprises/1,Enterprise ID 1 exists,Yes
+Enterprises,Navigation,ENT-NAV-004,Access enterprise edit page with real ID,1. Navigate to /enterprises/1/edit,Enterprise edit form loads with current data,High,UI,/enterprises/1/edit,Enterprise ID 1 exists,Yes
+Enterprises,CRUD,ENT-CRUD-001,View enterprise via web interface,1. Access /enterprises/1 2. Verify content displayed,Enterprise data displayed with property and project links,High,Functional,/enterprises/1,Enterprise ID 1 exists,Yes
+Enterprises,Integration,ENT-INT-001,Enterprise-Property integration display,1. View enterprise details 2. Check property info,Linked property information displayed correctly,High,Integration,/enterprises/1,Enterprise linked to property,Yes
+Enterprises,Integration,ENT-INT-002,Enterprise-Project integration display,1. View enterprise details 2. Check project info,Linked project information displayed correctly,High,Integration,/enterprises/1,Enterprise linked to project,Yes
+Enterprises,Integration,ENT-INT-003,Enterprise-Investor integration display,1. View enterprise details 2. Check investor info,Linked investors and investments displayed correctly,High,Integration,/enterprises/1,Enterprise with investors,Yes
+Enterprises,Financial,ENT-FIN-001,Funding progress calculation,1. View enterprise details 2. Check funding metrics,Funding progress percentage calculated and displayed correctly,High,Functional,/enterprises/1,Enterprise with funding data,Yes
+Enterprises,Status,ENT-STATUS-001,Enterprise status display,1. View enterprise 2. Check status formatting,Enterprise status displayed with proper styling and meaning,Medium,UI,/enterprises/1,Enterprise with status,Yes
+Dashboard,Overview,DASH-OVER-001,View main dashboard,1. Navigate to root URL (/),Dashboard loads with overview statistics,High,UI,/,System running,No
+Dashboard,Overview,DASH-OVER-002,Property statistics on dashboard,1. Check properties section on dashboard,Property count and area totals displayed correctly,High,UI,/,Properties exist,No
+Dashboard,Overview,DASH-OVER-003,Project statistics on dashboard,1. Check projects section on dashboard,Project count and status breakdown displayed,High,UI,/,Projects exist,No
+Dashboard,Overview,DASH-OVER-004,Investor statistics on dashboard,1. Check investors section on dashboard,Investor count and fund totals displayed,High,UI,/,Investors exist,No
+Dashboard,Overview,DASH-OVER-005,Enterprise statistics on dashboard,1. Check enterprises section on dashboard,Enterprise count and funding progress displayed,High,UI,/,Enterprises exist,No
+Dashboard,Navigation,DASH-NAV-001,Navigate to modules from dashboard,1. Click on module sections or navigation links,Successful navigation to respective modules,High,UI,/,System running,No
+Dashboard,Calculations,DASH-CALC-001,Verify dashboard calculations,1. Compare dashboard totals with module data,All calculations match actual data in modules,High,Functional,/,Data exists in all modules,No
+Dashboard,Links,DASH-LINK-001,Dashboard navigation links,1. Click each navigation link from dashboard,All links work and lead to correct pages,Medium,UI,/,System running,No
+File Management,Photos,FILE-PHOTO-001,Property photo display,1. Access property with photos 2. View photos,Photos display correctly with thumbnails,Medium,Functional,/properties/5,Property with photos,Yes
+File Management,Photos,FILE-PHOTO-002,Photo thumbnail generation,1. View property list 2. Check thumbnails,Property thumbnails appear in list view,Medium,Functional,/properties,Properties with photos exist,No
+File Management,Documents,FILE-DOC-001,Property document listing,1. Access property with documents 2. View documents,Documents listed with download links,Medium,Functional,/properties/5,Property with documents,Yes
+File Management,API,FILE-API-001,Photo API endpoint,1. GET /api/v1/photos/property/5/thumbnail,Returns photo or proper fallback,Medium,API,/api/v1/photos/property/5/thumbnail,Property with photos,Yes
+System,Performance,SYS-PERF-001,Page load performance,1. Navigate to main pages 2. Measure load times,All pages load within reasonable time (under 3 seconds),Medium,Performance,Multiple pages,System running,No
+System,Performance,SYS-PERF-002,API response performance,1. Call API endpoints 2. Measure response times,API calls respond within reasonable time (under 1 second),Medium,Performance,API endpoints,System running,No
+System,Responsive,SYS-RESP-001,Mobile layout adaptation,1. Access pages on mobile viewport,Pages adapt correctly to mobile screen sizes,Medium,UI,All pages,Mobile viewport,No
+System,Responsive,SYS-RESP-002,Desktop layout verification,1. Access pages on desktop viewport,Pages display correctly on desktop resolutions,Low,UI,All pages,Desktop viewport,No
+System,Error Handling,SYS-ERR-001,404 error handling,1. Access non-existent URLs,System displays appropriate 404 error page,Medium,Error Handling,/nonexistent,System running,No
+System,Error Handling,SYS-ERR-002,Invalid ID handling,1. Access endpoints with invalid IDs,System handles invalid IDs gracefully,Medium,Error Handling,/properties/invalid,System running,No
+Cross-Module,Integration,CROSS-INT-001,Property-Project relationship,1. View property 2. Check related projects,Related projects displayed if linked,Medium,Integration,/properties/5,Property linked to projects,Yes
+Cross-Module,Integration,CROSS-INT-002,Enterprise data consistency,1. View enterprise 2. Check all linked data,Property project and investor data consistent across views,High,Integration,/enterprises/1,Enterprise with all relationships,Yes
+Cross-Module,Navigation,CROSS-NAV-001,Inter-module navigation,1. Navigate between modules 2. Use breadcrumbs/links,Navigation between related entities works correctly,Medium,UI,Multiple modules,Related data exists,Yes
+Search,Properties,SEARCH-PROP-001,Property search functionality,1. Use search box on properties page 2. Enter search term,Properties filtered in real-time based on search,Medium,Functional,/properties,Properties exist,No
+Search,Projects,SEARCH-PROJ-001,Project search functionality,1. Use search box on projects page 2. Enter search term,Projects filtered in real-time based on search,Medium,Functional,/projects,Projects exist,No
+Search,Investors,SEARCH-INV-001,Investor search functionality,1. Use search box on investors page 2. Enter search term,Investors filtered in real-time based on search,Medium,Functional,/investors,Investors exist,No
+Search,Enterprises,SEARCH-ENT-001,Enterprise search functionality,1. Use search box on enterprises page 2. Enter search term,Enterprises filtered in real-time based on search,Medium,Functional,/enterprises,Enterprises exist,No
+Forms,Properties,FORM-PROP-001,Property creation form validation,1. Fill property form with valid data 2. Submit,Property created successfully,High,Functional,/properties/new,System running,No
+Forms,Projects,FORM-PROJ-001,Project creation form validation,1. Fill project form with valid data 2. Submit,Project created successfully,High,Functional,/projects/new,System running,No
+Forms,Investors,FORM-INV-001,Investor creation form validation,1. Fill investor form with valid data 2. Submit,Investor created successfully,High,Functional,/investors/new,System running,No
+Forms,Enterprises,FORM-ENT-001,Enterprise creation form validation,1. Fill enterprise form with valid data 2. Submit,Enterprise created successfully,High,Functional,/enterprises/new,System running,No

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Documents Fragment for Project View -->
+<div th:fragment="documents">
+    <div th:if="${error}" class="alert alert-error" style="margin-bottom: 1rem;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Erro</span>
+    </div>
+    
+    <div th:if="${success}" class="alert alert-success" style="margin-bottom: 1rem;">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Sucesso</span>
+    </div>
+
+    <div th:if="${#lists.isEmpty(documents)}" class="empty-state">
+        <i class="fas fa-file-alt"></i>
+        <p>Nenhum documento encontrado</p>
+        <p class="empty-subtitle">Documentos do projeto aparecerão aqui</p>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(documents)}" class="documents-list">
+        <div th:each="document : ${documents}" class="document-item">
+            <div class="document-icon">
+                <i class="fas fa-file-pdf" th:if="${document.contentType?.contains('pdf')}"></i>
+                <i class="fas fa-file-word" th:if="${document.contentType?.contains('doc')}"></i>
+                <i class="fas fa-file-excel" th:if="${document.contentType?.contains('sheet') || document.contentType?.contains('excel')}"></i>
+                <i class="fas fa-file-alt" th:unless="${document.contentType?.contains('pdf') || document.contentType?.contains('doc') || document.contentType?.contains('sheet') || document.contentType?.contains('excel')}"></i>
+            </div>
+            
+            <div class="document-info">
+                <div class="document-name" th:text="${document.originalFileName}">nome_documento.pdf</div>
+                <div class="document-details">
+                    <span class="document-size" th:text="${#numbers.formatDecimal(document.fileSize / 1024.0, 0, 0)} + ' KB'">125 KB</span>
+                    <span class="document-type" th:text="${document.contentType}">application/pdf</span>
+                    <span th:if="${!isQuickLoad}" 
+                          th:text="document.uploadDate != null ? ('Enviado em ' + ${#temporals.format(document.uploadDate, 'dd/MM/yyyy')}) : ''">Enviado em 01/01/2025</span>
+                </div>
+            </div>
+            
+            <div class="document-actions">
+                <a th:href="@{'/api/v1/files/' + ${document.id}}" 
+                   class="btn-icon btn-secondary" 
+                   title="Download">
+                    <i class="fas fa-download"></i>
+                </a>
+                <button type="button" 
+                        class="btn-icon btn-danger"
+                        title="Remover"
+                        th:hx-delete="@{'/api/v1/files/' + ${document.id} + '/entity/fragment'}"
+                        hx-target="#documents-section"
+                        hx-confirm="Tem certeza que deseja remover este documento?">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div th:if="${isQuickLoad}" style="text-align: center; margin-top: 1rem; color: #64748b; font-size: 0.875rem;">
+        <i class="fas fa-spinner fa-spin htmx-indicator"></i>
+        <span>Carregando detalhes completos...</span>
+    </div>
+</div>
+
+</body>
+</html>

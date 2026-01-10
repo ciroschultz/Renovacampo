@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Header Fragment -->
+<header th:fragment="header(activePage)" class="header">
+    <nav class="nav-container">
+        <div class="nav-brand">
+            <a href="/" class="brand-link">
+                <img src="/RenovaCampoHugeIcon.png" alt="RenovaCampo" class="brand-logo" style="height: 50px; width: auto;">
+            </a>
+        </div>
+        <div class="nav-menu">
+            <a href="/" th:class="${activePage == 'dashboard'} ? 'nav-link active' : 'nav-link'">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="/properties" th:class="${activePage == 'properties'} ? 'nav-link active' : 'nav-link'">
+                <i class="fas fa-map-marked-alt"></i>
+                Propriedades
+            </a>
+            <a href="/projects" th:class="${activePage == 'projects'} ? 'nav-link active' : 'nav-link'">
+                <i class="fas fa-project-diagram"></i>
+                Projetos
+            </a>
+            <a href="/investors" th:class="${activePage == 'investors'} ? 'nav-link active' : 'nav-link'">
+                <i class="fas fa-users"></i>
+                Investidores
+            </a>
+            <a href="/enterprises" th:class="${activePage == 'enterprises'} ? 'nav-link active' : 'nav-link'">
+                <i class="fas fa-rocket"></i>
+                Empreendimentos
+            </a>
+            <div class="nav-dropdown">
+                <a href="#" class="nav-link dropdown-toggle">
+                    <i class="fas fa-code"></i>
+                    API
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="/api/v1/property" class="dropdown-item" target="_blank">
+                        <i class="fas fa-map-marked-alt"></i>
+                        Properties API
+                    </a>
+                    <a href="/api/v1/projects" class="dropdown-item" target="_blank">
+                        <i class="fas fa-project-diagram"></i>
+                        Projects API
+                    </a>
+                    <a href="/api/v1/investors" class="dropdown-item" target="_blank">
+                        <i class="fas fa-users"></i>
+                        Investors API
+                    </a>
+                    <a href="/api/v1/enterprises" class="dropdown-item" target="_blank">
+                        <i class="fas fa-rocket"></i>
+                        Enterprises API
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+</body>
+</html>

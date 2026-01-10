@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+SYS-PERF-001,Page load times,System,Performance,Medium,Performance,All pages,2025-06-05 22:45:00,MANUAL,,0,,Performance test requires manual execution
+SYS-PERF-002,File upload performance,System,Performance,Medium,Performance,File upload endpoints,2025-06-05 22:45:00,MANUAL,,0,,Performance test requires manual execution
+SYS-PERF-003,Search and filter responsiveness,System,Performance,Medium,Performance,All list pages,2025-06-05 22:45:00,MANUAL,,0,,Performance test requires manual execution
+SYS-SEC-001,File upload security,System,Security,High,Security,File upload endpoints,2025-06-05 22:45:00,MANUAL,,0,,Security test requires manual execution
+SYS-SEC-002,SQL injection prevention,System,Security,High,Security,All form endpoints,2025-06-05 22:45:00,MANUAL,,0,,Security test requires manual execution
+SYS-SEC-003,XSS prevention,System,Security,High,Security,All form endpoints,2025-06-05 22:45:00,MANUAL,,0,,Security test requires manual execution
+SYS-RESP-001,Mobile device compatibility,System,Responsive Design,Medium,UI,All pages,2025-06-05 22:45:00,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution
+SYS-RESP-002,Tablet compatibility,System,Responsive Design,Medium,UI,All pages,2025-06-05 22:45:00,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution
+SYS-RESP-003,Desktop compatibility,System,Responsive Design,Low,UI,All pages,2025-06-05 22:45:01,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${project.name} + ' - RenovaCampo'">Projeto - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('projects')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1 th:text="${project.name}">Nome do Projeto</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                        <span th:class="'status-badge status-' + ${#strings.toLowerCase(project.status)}" 
+                              th:text="${project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).PLANNING ? 'Planejamento' :
+                                       project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).APPROVED ? 'Aprovado' :
+                                       project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).IN_PROGRESS ? 'Em Andamento' :
+                                       project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).ON_HOLD ? 'Suspenso' :
+                                       project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).COMPLETED ? 'Concluído' :
+                                       project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).CANCELLED ? 'Cancelado' : project.status}">Status</span>
+                        <span th:if="${project.priority}" 
+                              th:class="'priority-badge priority-' + ${#strings.toLowerCase(project.priority)}" 
+                              th:text="${project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).LOW ? 'Baixa' :
+                                       project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).MEDIUM ? 'Média' :
+                                       project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).HIGH ? 'Alta' :
+                                       project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).CRITICAL ? 'Crítica' : project.priority}">Prioridade</span>
+                        <span th:if="${project.category}" style="color: #64748b;">
+                            <i class="fas fa-tag"></i>
+                            <span th:text="${project.category}">Categoria</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="page-header-actions">
+                    <a th:href="@{/projects/{id}/edit(id=${project.id})}" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i>
+                        Editar
+                    </a>
+                    <a href="/projects" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2" style="align-items: start;">
+                <!-- Project Details -->
+                <div>
+                    <!-- Basic Info -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Informações Básicas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div th:if="${project.description}">
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Descrição:</label>
+                                    <p th:text="${project.description}" style="color: #64748b; margin: 0;">Descrição do projeto</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2" th:if="${project.category != null or project.priority != null}">
+                                    <div th:if="${project.category}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Categoria:</label>
+                                        <p th:text="${project.category}" style="margin: 0;">Categoria</p>
+                                    </div>
+                                    <div th:if="${project.priority}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Prioridade:</label>
+                                        <span th:class="'priority-badge priority-' + ${#strings.toLowerCase(project.priority)}" 
+                                              th:text="${project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).LOW ? 'Baixa' :
+                                                       project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).MEDIUM ? 'Média' :
+                                                       project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).HIGH ? 'Alta' :
+                                                       project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).CRITICAL ? 'Crítica' : project.priority}">Prioridade</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Cronograma</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div class="grid grid-cols-2" th:if="${project.startDate != null or project.estimatedEndDate != null}">
+                                    <div th:if="${project.startDate}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Data de Início:</label>
+                                        <p th:text="${#temporals.format(project.startDate, 'dd/MM/yyyy')}" style="margin: 0;">-</p>
+                                    </div>
+                                    <div th:if="${project.estimatedEndDate}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Previsão de Término:</label>
+                                        <p th:text="${#temporals.format(project.estimatedEndDate, 'dd/MM/yyyy')}" style="margin: 0;">-</p>
+                                    </div>
+                                </div>
+                                
+                                <div th:if="${project.endDate}">
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Data de Conclusão:</label>
+                                    <p th:text="${#temporals.format(project.endDate, 'dd/MM/yyyy')}" style="margin: 0;">-</p>
+                                </div>
+                                
+                                <!-- Progress indicator -->
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Progresso:</label>
+                                    <div style="background: #f1f5f9; border-radius: 0.5rem; height: 8px; overflow: hidden;">
+                                        <!-- Timeline-based progress calculation -->
+                                        <div th:with="progressPercent=${
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).COMPLETED ? 100.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).CANCELLED ? 0.0 :
+                                            (project.startDate != null and project.estimatedEndDate != null) ? 
+                                                T(java.lang.Math).min(100.0, T(java.lang.Math).max(0.0, 
+                                                    T(java.time.temporal.ChronoUnit).DAYS.between(project.startDate, T(java.time.LocalDate).now()) * 100.0 / 
+                                                    T(java.time.temporal.ChronoUnit).DAYS.between(project.startDate, project.estimatedEndDate)
+                                                )) :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).PLANNING ? 10.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).APPROVED ? 25.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).IN_PROGRESS ? 60.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).ON_HOLD ? 40.0 : 0.0
+                                        }"
+                                             th:class="'progress-bar status-' + ${#strings.toLowerCase(project.status)}" 
+                                             th:style="'width: ' + ${progressPercent} + '%; height: 100%; border-radius: 0.5rem; transition: all 0.3s ease;'">
+                                        </div>
+                                    </div>
+                                    <!-- Progress percentage text -->
+                                    <div th:with="progressPercent=${
+                                        project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).COMPLETED ? 100.0 :
+                                        project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).CANCELLED ? 0.0 :
+                                        (project.startDate != null and project.estimatedEndDate != null) ? 
+                                            T(java.lang.Math).min(100.0, T(java.lang.Math).max(0.0, 
+                                                T(java.time.temporal.ChronoUnit).DAYS.between(project.startDate, T(java.time.LocalDate).now()) * 100.0 / 
+                                                T(java.time.temporal.ChronoUnit).DAYS.between(project.startDate, project.estimatedEndDate)
+                                            )) :
+                                        project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).PLANNING ? 10.0 :
+                                        project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).APPROVED ? 25.0 :
+                                        project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).IN_PROGRESS ? 60.0 :
+                                        project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).ON_HOLD ? 40.0 : 0.0
+                                    }"
+                                         style="text-align: center; margin-top: 0.5rem; font-size: 0.875rem; color: #64748b;">
+                                        <span th:text="${#numbers.formatDecimal(progressPercent, 0, 1)} + '%'">0.0%</span>
+                                        <span th:if="${project.startDate != null and project.estimatedEndDate != null and project.status != T(org.acabativa.rc.patrimonio.entity.Project.Status).COMPLETED and project.status != T(org.acabativa.rc.patrimonio.entity.Project.Status).CANCELLED}"
+                                              style="margin-left: 0.5rem; color: #9ca3af;">
+                                            (baseado no cronograma)
+                                        </span>
+                                        <span th:unless="${project.startDate != null and project.estimatedEndDate != null and project.status != T(org.acabativa.rc.patrimonio.entity.Project.Status).COMPLETED and project.status != T(org.acabativa.rc.patrimonio.entity.Project.Status).CANCELLED}"
+                                              style="margin-left: 0.5rem; color: #9ca3af;">
+                                            (baseado no status)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financial Info -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Informações Financeiras</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div class="grid grid-cols-2">
+                                    <div th:if="${project.totalEstimatedCosts}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Custo Estimado:</label>
+                                        <p th:text="${#numbers.formatCurrency(project.totalEstimatedCosts)}" style="margin: 0; color: #f59e0b; font-weight: 600;">R$ 0,00</p>
+                                    </div>
+                                    <div th:if="${project.totalCosts}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Custo Real:</label>
+                                        <p th:text="${#numbers.formatCurrency(project.totalCosts)}" style="margin: 0; color: #ef4444; font-weight: 600;">R$ 0,00</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2">
+                                    <div th:if="${project.totalInvestment}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Investimento Total:</label>
+                                        <p th:text="${#numbers.formatCurrency(project.totalInvestment)}" style="margin: 0; color: #10b981; font-weight: 600;">R$ 0,00</p>
+                                    </div>
+                                    <div th:if="${project.estimatedReturnOverInvestment}">
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">ROI Estimado:</label>
+                                        <p style="margin: 0; color: #3b82f6; font-weight: 600;">
+                                            <span th:text="${project.estimatedReturnOverInvestment}">0</span>%
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documents and Files -->
+                <div>
+                    <!-- Documents Section -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Documentos do Projeto</h3>
+                        </div>
+                        <div class="card-body" id="documents-section">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Carregando documentos...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Statistics Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Resumo do Projeto</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 0.5rem;">
+                                    <div th:class="'project-icon status-' + ${#strings.toLowerCase(project.status)}" style="margin: 0 auto 0.5rem auto; opacity: 1;">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                    <div style="font-weight: 600; margin-bottom: 0.25rem;" th:text="${project.name}">Nome do Projeto</div>
+                                    <div style="font-size: 0.875rem; color: #64748b;">
+                                        <span th:text="'Criado em ' + ${#temporals.format(T(java.time.LocalDate).now(), 'dd/MM/yyyy')}">Criado em 01/01/2025</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Quick Stats -->
+                                <div class="grid grid-cols-2" style="gap: 0.5rem;">
+                                    <div style="text-align: center; padding: 0.75rem; background: #f0f9ff; border-radius: 0.375rem;">
+                                        <div th:with="progressPercent=${
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).COMPLETED ? 100.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).CANCELLED ? 0.0 :
+                                            (project.startDate != null and project.estimatedEndDate != null) ? 
+                                                T(java.lang.Math).min(100.0, T(java.lang.Math).max(0.0, 
+                                                    T(java.time.temporal.ChronoUnit).DAYS.between(project.startDate, T(java.time.LocalDate).now()) * 100.0 / 
+                                                    T(java.time.temporal.ChronoUnit).DAYS.between(project.startDate, project.estimatedEndDate)
+                                                )) :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).PLANNING ? 10.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).APPROVED ? 25.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).IN_PROGRESS ? 60.0 :
+                                            project.status == T(org.acabativa.rc.patrimonio.entity.Project.Status).ON_HOLD ? 40.0 : 0.0
+                                        }"
+                                             style="font-size: 1.25rem; font-weight: 700; color: #0ea5e9;" 
+                                             th:text="${#numbers.formatDecimal(progressPercent, 0, 0)}">60</div>
+                                        <div style="font-size: 0.75rem; color: #64748b;">% Progresso</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 0.75rem; background: #f0fdf4; border-radius: 0.375rem;">
+                                        <div style="font-size: 1.25rem; font-weight: 700; color: #16a34a;" 
+                                             th:text="${project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).CRITICAL ? 'Alta' : 
+                                                      project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).HIGH ? 'Alta' : 
+                                                      project.priority == T(org.acabativa.rc.patrimonio.entity.Project.Priority).MEDIUM ? 'Média' : 'Baixa'}">Média</div>
+                                        <div style="font-size: 0.75rem; color: #64748b;">Prioridade</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+        <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Function to load fragments
+        function loadFragments() {
+            // Load documents fragment for projects using entity type
+            htmx.ajax('GET', '/api/v1/files/entity/' + [[${project.id}]] + '/PROJECT/fragment?quick=true', {
+                target: '#documents-section', 
+                swap: 'innerHTML'
+            });
+            
+            // Then load full document details after a short delay
+            setTimeout(() => {
+                htmx.ajax('GET', '/api/v1/files/entity/' + [[${project.id}]] + '/PROJECT/fragment', {
+                    target: '#documents-section', 
+                    swap: 'innerHTML'
+                });
+            }, 500);
+        }
+        
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFragments();
+        });
+        
+        // Also load when page becomes visible (in case of navigation)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                loadFragments();
+            }
+        });
+        
+        // Load when navigating back to page
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                loadFragments();
+            }
+        });
+    </script>
+    
+    <style>
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .loading-spinner i {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+        
+        .loading-spinner span {
+            font-weight: 500;
+        }
+        
+        /* Progress bar styling */
+        .progress-bar.status-planning {
+            background: linear-gradient(90deg, #64748b, #475569);
+        }
+        
+        .progress-bar.status-approved {
+            background: linear-gradient(90deg, #0ea5e9, #0284c7);
+        }
+        
+        .progress-bar.status-in_progress {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+        
+        .progress-bar.status-on_hold {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+        
+        .progress-bar.status-completed {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .progress-bar.status-cancelled {
+            background: linear-gradient(90deg, #6b7280, #4b5563);
+        }
+    </style>
+</body>
+</html>

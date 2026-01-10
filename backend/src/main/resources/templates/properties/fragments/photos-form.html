@@ -1,0 +1,100 @@
+<!-- Photos Fragment for Form -->
+<div th:fragment="photos">
+    <!-- Success/Error Messages -->
+    <div th:if="${success}" class="alert alert-success" style="margin-bottom: 1rem;">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}">Sucesso</span>
+    </div>
+    
+    <div th:if="${error}" class="alert alert-error" style="margin-bottom: 1rem;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Erro</span>
+    </div>
+
+    <!-- Photos Grid Compact -->
+    <div th:if="${photos != null and !photos.isEmpty()}" class="photos-grid-compact">
+        <div th:each="photo : ${photos}" class="photo-item-compact">
+            <img th:src="@{/api/v1/photos/{id}(id=${photo.id})}" 
+                 th:alt="${photo.originalFileName}"
+                 class="photo-img-compact">
+            
+            <button class="btn-remove-compact" 
+                    th:hx-delete="@{/api/v1/photos/{id}/fragment(id=${photo.id})}"
+                    hx-target="#photos-section-form"
+                    hx-confirm="Remover esta foto?"
+                    title="Remover">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div th:if="${photos == null or photos.isEmpty()}" class="empty-state-compact">
+        <i class="fas fa-images"></i>
+        <p>Nenhuma foto adicionada.</p>
+    </div>
+</div>
+
+<style>
+.photos-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+}
+
+.photo-item-compact {
+    position: relative;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    aspect-ratio: 1;
+}
+
+.photo-img-compact {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-remove-compact {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    border: none;
+    background: rgba(220, 38, 38, 0.9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.photo-item-compact:hover .btn-remove-compact {
+    opacity: 1;
+}
+
+.empty-state-compact {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #94a3b8;
+    font-size: 0.875rem;
+}
+
+.empty-state-compact i {
+    font-size: 2rem;
+    opacity: 0.3;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.empty-state-compact p {
+    margin: 0;
+}
+</style>

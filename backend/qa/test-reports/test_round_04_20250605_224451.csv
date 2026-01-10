@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+PROJ-CRUD-001,Create new project with all fields,Projects,CRUD,High,Functional,/projects,2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-CRUD-002,Create project with minimum required fields,Projects,CRUD,High,Functional,/projects,2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-CRUD-003,Edit existing project,Projects,CRUD,High,Functional,/projects/{id}/edit,2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-CRUD-004,Delete project,Projects,CRUD,High,Functional,/projects/{id},2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-VAL-001,Submit form with empty required fields,Projects,Validation,High,Validation,/projects/new,2025-06-05 22:44:50,MANUAL,,0,,Validation test requires manual execution
+PROJ-VAL-002,Enter invalid date ranges,Projects,Validation,High,Validation,/projects/new,2025-06-05 22:44:50,MANUAL,,0,,Validation test requires manual execution
+PROJ-VAL-003,Enter negative financial values,Projects,Validation,Medium,Validation,/projects/new,2025-06-05 22:44:51,MANUAL,,0,,Validation test requires manual execution
+PROJ-STATUS-001,Change project status,Projects,Status Management,High,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-STATUS-002,Filter by project status,Projects,Status Management,Medium,Functional,/projects,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-PRIOR-001,Set project priority,Projects,Priority Management,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing

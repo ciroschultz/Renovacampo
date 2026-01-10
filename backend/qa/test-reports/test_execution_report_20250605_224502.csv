@@ -1,0 +1,133 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+PROP-NAV-001,Access properties list page,Properties,Navigation,High,UI,/properties,2025-06-05 22:44:47,PASS,200,69,,Page loaded successfully
+PROP-NAV-002,Access property creation page,Properties,Navigation,High,UI,/properties/new,2025-06-05 22:44:47,PASS,200,45,,Page loaded successfully
+PROP-NAV-003,Access property details page,Properties,Navigation,High,UI,/properties/{id},2025-06-05 22:44:47,FAIL,400,21,HTTP 400,
+PROP-NAV-004,Access property edit page,Properties,Navigation,High,UI,/properties/{id}/edit,2025-06-05 22:44:47,FAIL,400,14,HTTP 400,
+PROP-CRUD-001,Create new property with all fields,Properties,CRUD,High,Functional,/properties,2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-CRUD-002,Create property with minimum required fields,Properties,CRUD,High,Functional,/properties,2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-CRUD-003,Edit existing property,Properties,CRUD,High,Functional,/properties/{id}/edit,2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-CRUD-004,Delete property,Properties,CRUD,High,Functional,/properties/{id},2025-06-05 22:44:47,MANUAL,,0,,Requires manual testing
+PROP-VAL-001,Submit form with empty required fields,Properties,Validation,High,Validation,/properties/new,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution
+PROP-VAL-002,Enter invalid area values,Properties,Validation,Medium,Validation,/properties/new,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution
+PROP-VAL-003,Enter invalid coordinates,Properties,Validation,Medium,Validation,/properties/new,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution
+PROP-SEARCH-001,Search by property name,Properties,Search,Medium,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-SEARCH-002,Filter by property type,Properties,Search,Medium,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-SEARCH-003,Filter by state,Properties,Search,Medium,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-SEARCH-004,Clear all filters,Properties,Search,Low,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-FILE-001,Upload property photo,Properties,File Upload,High,Functional,/properties/{id}/edit,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-FILE-002,Upload property document,Properties,File Upload,High,Functional,/properties/{id}/edit,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-FILE-003,Upload invalid file type,Properties,File Upload,Medium,Validation,/properties/{id}/edit,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution
+PROP-FILE-004,Upload oversized file,Properties,File Upload,Medium,Validation,/properties/{id}/edit,2025-06-05 22:44:49,MANUAL,,0,,Validation test requires manual execution
+PROP-FILE-005,Delete uploaded file,Properties,File Upload,Medium,Functional,/properties/{id}/edit,2025-06-05 22:44:49,MANUAL,,0,,Requires manual testing
+PROP-MAP-001,Display property on map,Properties,Maps,Medium,Functional,/properties/{id},2025-06-05 22:44:49,MANUAL,,0,,Requires manual testing
+PROP-MAP-002,Map interaction,Properties,Maps,Low,Functional,/properties/{id},2025-06-05 22:44:49,MANUAL,,0,,Requires manual testing
+PROP-API-001,List properties via REST API,Properties,API,High,API,/api/v1/property,2025-06-05 22:44:49,PASS,200,43,,API returned 15 record(s)
+PROP-API-002,Get property by ID via API,Properties,API,High,API,/api/v1/property/{id},2025-06-05 22:44:49,FAIL,400,19,HTTP 400,
+PROP-API-003,Create property via API,Properties,API,High,API,/api/v1/property,2025-06-05 22:44:49,PASS,200,27,,API returned 15 record(s)
+PROP-API-004,Delete property via API,Properties,API,Medium,API,/api/v1/property/{id},2025-06-05 22:44:49,FAIL,400,12,HTTP 400,
+PROJ-NAV-001,Access projects list page,Projects,Navigation,High,UI,/projects,2025-06-05 22:44:49,PASS,200,49,,Page loaded successfully
+PROJ-NAV-002,Access project creation page,Projects,Navigation,High,UI,/projects/new,2025-06-05 22:44:50,PASS,200,38,,Page loaded successfully
+PROJ-NAV-003,Access project details page,Projects,Navigation,High,UI,/projects/{id},2025-06-05 22:44:50,FAIL,400,14,HTTP 400,
+PROJ-NAV-004,Access project edit page,Projects,Navigation,High,UI,/projects/{id}/edit,2025-06-05 22:44:50,FAIL,400,13,HTTP 400,
+PROJ-CRUD-001,Create new project with all fields,Projects,CRUD,High,Functional,/projects,2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-CRUD-002,Create project with minimum required fields,Projects,CRUD,High,Functional,/projects,2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-CRUD-003,Edit existing project,Projects,CRUD,High,Functional,/projects/{id}/edit,2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-CRUD-004,Delete project,Projects,CRUD,High,Functional,/projects/{id},2025-06-05 22:44:50,MANUAL,,0,,Requires manual testing
+PROJ-VAL-001,Submit form with empty required fields,Projects,Validation,High,Validation,/projects/new,2025-06-05 22:44:50,MANUAL,,0,,Validation test requires manual execution
+PROJ-VAL-002,Enter invalid date ranges,Projects,Validation,High,Validation,/projects/new,2025-06-05 22:44:50,MANUAL,,0,,Validation test requires manual execution
+PROJ-VAL-003,Enter negative financial values,Projects,Validation,Medium,Validation,/projects/new,2025-06-05 22:44:51,MANUAL,,0,,Validation test requires manual execution
+PROJ-STATUS-001,Change project status,Projects,Status Management,High,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-STATUS-002,Filter by project status,Projects,Status Management,Medium,Functional,/projects,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-PRIOR-001,Set project priority,Projects,Priority Management,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-PRIOR-002,Filter by project priority,Projects,Priority Management,Medium,Functional,/projects,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FIN-001,Calculate ROI automatically,Projects,Financial Tracking,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FIN-002,Track project expenses,Projects,Financial Tracking,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FILE-001,Upload project documents,Projects,File Management,High,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-FILE-002,Delete project documents,Projects,File Management,Medium,Functional,/projects/{id}/edit,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-SEARCH-001,Search projects by name,Projects,Search,Medium,Functional,/projects,2025-06-05 22:44:51,MANUAL,,0,,Requires manual testing
+PROJ-SEARCH-002,Search projects by category,Projects,Search,Medium,Functional,/projects,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-NAV-001,Access investors list page,Investors,Navigation,High,UI,/investors,2025-06-05 22:44:52,PASS,200,46,,Page loaded successfully
+INV-NAV-002,Access investor creation page,Investors,Navigation,High,UI,/investors/new,2025-06-05 22:44:52,PASS,200,37,,Page loaded successfully
+INV-NAV-003,Access investor details page,Investors,Navigation,High,UI,/investors/{id},2025-06-05 22:44:52,FAIL,400,14,HTTP 400,
+INV-NAV-004,Access investor edit page,Investors,Navigation,High,UI,/investors/{id}/edit,2025-06-05 22:44:52,FAIL,400,16,HTTP 400,
+INV-CRUD-001,Create new investor with all fields,Investors,CRUD,High,Functional,/investors,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-CRUD-002,Create investor with minimum required fields,Investors,CRUD,High,Functional,/investors,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-CRUD-003,Edit existing investor,Investors,CRUD,High,Functional,/investors/{id}/edit,2025-06-05 22:44:52,MANUAL,,0,,Requires manual testing
+INV-CRUD-004,Delete investor,Investors,CRUD,High,Functional,/investors/{id},2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-VAL-001,Submit form with empty required fields,Investors,Validation,High,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-VAL-002,Enter invalid CPF/CNPJ format,Investors,Validation,High,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-VAL-003,Enter invalid email format,Investors,Validation,Medium,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-VAL-004,Enter negative financial values,Investors,Validation,High,Validation,/investors/new,2025-06-05 22:44:53,MANUAL,,0,,Validation test requires manual execution
+INV-FIN-001,Calculate available funds automatically,Investors,Financial Management,High,Functional,/investors/{id},2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-FIN-002,View fund utilization progress bar,Investors,Financial Management,Medium,UI,/investors/{id},2025-06-05 22:44:53,FAIL,400,14,HTTP 400,
+INV-FIN-003,Update investor fund amounts,Investors,Financial Management,High,Functional,/investors/{id}/edit,2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-STATUS-001,Activate/deactivate investor,Investors,Status Management,High,Functional,/investors/{id}/edit,2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-STATUS-002,Filter by investor status,Investors,Status Management,Medium,Functional,/investors,2025-06-05 22:44:53,MANUAL,,0,,Requires manual testing
+INV-CONTACT-001,Validate contact information,Investors,Contact Management,Medium,Functional,/investors/new,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing
+INV-CONTACT-002,Display contact details,Investors,Contact Management,Medium,UI,/investors/{id},2025-06-05 22:44:54,FAIL,400,21,HTTP 400,
+INV-SEARCH-001,Search investors by name,Investors,Search,Medium,Functional,/investors,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing
+INV-SEARCH-002,Search investors by tax ID,Investors,Search,Medium,Functional,/investors,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing
+INV-SEARCH-003,Filter by investor location,Investors,Search,Low,Functional,/investors,2025-06-05 22:44:54,MANUAL,,0,,Requires manual testing
+INV-API-001,List investors via REST API,Investors,API,High,API,/api/v1/investors,2025-06-05 22:44:54,PASS,200,49,,API returned 2 record(s)
+INV-API-002,Get investor by ID via API,Investors,API,High,API,/api/v1/investors/{id},2025-06-05 22:44:54,FAIL,400,16,HTTP 400,
+INV-API-003,Get investor by tax ID via API,Investors,API,High,API,/api/v1/investors/tax-id/{taxId},2025-06-05 22:44:54,PASS,404,15,,Endpoint not found (expected for some tests)
+INV-API-004,Create investor via API,Investors,API,High,API,/api/v1/investors,2025-06-05 22:44:54,PASS,200,20,,API returned 2 record(s)
+INV-API-005,Update investor via API,Investors,API,High,API,/api/v1/investors/{id},2025-06-05 22:44:55,FAIL,400,13,HTTP 400,
+INV-API-006,Delete investor via API,Investors,API,Medium,API,/api/v1/investors/{id},2025-06-05 22:44:55,FAIL,400,14,HTTP 400,
+INV-API-007,Activate/deactivate via API,Investors,API,Medium,API,/api/v1/investors/{id}/activate,2025-06-05 22:44:55,FAIL,405,18,HTTP 405,
+ENT-NAV-001,Access enterprises list page,Enterprises,Navigation,High,UI,/enterprises,2025-06-05 22:44:55,PASS,200,146,,Page loaded successfully
+ENT-NAV-002,Access enterprise creation page,Enterprises,Navigation,High,UI,/enterprises/new,2025-06-05 22:44:55,FAIL,500,78,HTTP 500,
+ENT-NAV-003,Access enterprise details page,Enterprises,Navigation,High,UI,/enterprises/{id},2025-06-05 22:44:55,FAIL,400,14,HTTP 400,
+ENT-NAV-004,Access enterprise edit page,Enterprises,Navigation,High,UI,/enterprises/{id}/edit,2025-06-05 22:44:55,FAIL,400,16,HTTP 400,
+ENT-CRUD-001,Create new enterprise with all fields,Enterprises,CRUD,High,Functional,/enterprises,2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-CRUD-002,Create enterprise with minimum required fields,Enterprises,CRUD,High,Functional,/enterprises,2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-CRUD-003,Edit existing enterprise,Enterprises,CRUD,High,Functional,/enterprises/{id}/edit,2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-CRUD-004,Delete enterprise,Enterprises,CRUD,High,Functional,/enterprises/{id},2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-VAL-001,Submit form with empty required fields,Enterprises,Validation,High,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
+ENT-VAL-002,Select non-existent property or project,Enterprises,Validation,High,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
+ENT-VAL-003,Enter invalid date ranges,Enterprises,Validation,Medium,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
+ENT-VAL-004,Enter negative financial values,Enterprises,Validation,High,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
+ENT-PROP-001,Link enterprise to property,Enterprises,Property Integration,High,Integration,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Integration test requires manual execution
+ENT-PROP-002,View property details from enterprise,Enterprises,Property Integration,Medium,Integration,/enterprises/{id},2025-06-05 22:44:56,MANUAL,,0,,Integration test requires manual execution
+ENT-PROP-003,Change linked property,Enterprises,Property Integration,Medium,Integration,/enterprises/{id}/edit,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-PROJ-001,Link enterprise to project,Enterprises,Project Integration,High,Integration,/enterprises/new,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-PROJ-002,View project details from enterprise,Enterprises,Project Integration,Medium,Integration,/enterprises/{id},2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-PROJ-003,Change linked project,Enterprises,Project Integration,Medium,Integration,/enterprises/{id}/edit,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-INV-001,Add investor to enterprise,Enterprises,Investor Management,High,Integration,/enterprises/{id}/investors,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-INV-002,Remove investor from enterprise,Enterprises,Investor Management,Medium,Integration,/enterprises/{id}/investors,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-INV-003,Update investor investment amount,Enterprises,Investor Management,High,Integration,/enterprises/{id}/investors,2025-06-05 22:44:57,MANUAL,,0,,Integration test requires manual execution
+ENT-FIN-001,Calculate funding progress automatically,Enterprises,Financial Tracking,High,Functional,/enterprises/{id},2025-06-05 22:44:57,MANUAL,,0,,Requires manual testing
+ENT-FIN-002,View funding dashboard,Enterprises,Financial Tracking,High,UI,/enterprises/{id},2025-06-05 22:44:57,FAIL,400,12,HTTP 400,
+ENT-FIN-003,Track ROI calculations,Enterprises,Financial Tracking,Medium,Functional,/enterprises/{id},2025-06-05 22:44:57,MANUAL,,0,,Requires manual testing
+ENT-STATUS-001,Change enterprise status,Enterprises,Status Management,High,Functional,/enterprises/{id}/edit,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+ENT-STATUS-002,Filter by enterprise status,Enterprises,Status Management,Medium,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+ENT-STATUS-003,View status-specific actions,Enterprises,Status Management,Medium,UI,/enterprises,2025-06-05 22:44:58,PASS,200,118,,Page loaded successfully
+ENT-SEARCH-001,Search enterprises by name,Enterprises,Search,Medium,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+ENT-SEARCH-002,Filter by launch date range,Enterprises,Search,Low,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+ENT-SEARCH-003,Filter by funding status,Enterprises,Search,Medium,Functional,/enterprises,2025-06-05 22:44:58,MANUAL,,0,,Requires manual testing
+DASH-OVER-001,View main dashboard,Dashboard,Overview,High,UI,/,2025-06-05 22:44:58,PASS,200,136,,Page loaded successfully
+DASH-OVER-002,View property statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,120,,Page loaded successfully
+DASH-OVER-003,View project statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,113,,Page loaded successfully
+DASH-OVER-004,View investor statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,101,,Page loaded successfully
+DASH-OVER-005,View enterprise statistics,Dashboard,Overview,High,UI,/,2025-06-05 22:44:59,PASS,200,109,,Page loaded successfully
+DASH-NAV-001,Navigate to modules from dashboard,Dashboard,Navigation,High,UI,/,2025-06-05 22:44:59,PASS,200,113,,Page loaded successfully
+DASH-CALC-001,Verify calculation accuracy,Dashboard,Calculations,High,Functional,/,2025-06-05 22:45:00,MANUAL,,0,,Requires manual testing
+DASH-UPDATE-001,Verify data freshness,Dashboard,Real-time Updates,Medium,Functional,/,2025-06-05 22:45:00,MANUAL,,0,,Requires manual testing
+SYS-PERF-001,Page load times,System,Performance,Medium,Performance,All pages,2025-06-05 22:45:00,MANUAL,,0,,Performance test requires manual execution
+SYS-PERF-002,File upload performance,System,Performance,Medium,Performance,File upload endpoints,2025-06-05 22:45:00,MANUAL,,0,,Performance test requires manual execution
+SYS-PERF-003,Search and filter responsiveness,System,Performance,Medium,Performance,All list pages,2025-06-05 22:45:00,MANUAL,,0,,Performance test requires manual execution
+SYS-SEC-001,File upload security,System,Security,High,Security,File upload endpoints,2025-06-05 22:45:00,MANUAL,,0,,Security test requires manual execution
+SYS-SEC-002,SQL injection prevention,System,Security,High,Security,All form endpoints,2025-06-05 22:45:00,MANUAL,,0,,Security test requires manual execution
+SYS-SEC-003,XSS prevention,System,Security,High,Security,All form endpoints,2025-06-05 22:45:00,MANUAL,,0,,Security test requires manual execution
+SYS-RESP-001,Mobile device compatibility,System,Responsive Design,Medium,UI,All pages,2025-06-05 22:45:00,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution
+SYS-RESP-002,Tablet compatibility,System,Responsive Design,Medium,UI,All pages,2025-06-05 22:45:00,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution
+SYS-RESP-003,Desktop compatibility,System,Responsive Design,Low,UI,All pages,2025-06-05 22:45:01,FAIL,,,Invalid URL 'All pages': No scheme supplied. Perhaps you meant http://All pages?,Unexpected error during test execution
+SYS-ERR-001,404 error handling,System,Error Handling,Medium,Error Handling,Invalid URLs,2025-06-05 22:45:01,SKIP,,0,,Unknown test type: Error Handling
+SYS-ERR-002,500 error handling,System,Error Handling,High,Error Handling,All endpoints,2025-06-05 22:45:01,SKIP,,0,,Unknown test type: Error Handling
+SYS-ERR-003,Network connectivity issues,System,Error Handling,Medium,Error Handling,All endpoints,2025-06-05 22:45:01,SKIP,,0,,Unknown test type: Error Handling
+INT-CROSS-001,Enterprise-Property integration,Integration,Cross-Module,High,Integration,/enterprises,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-CROSS-002,Enterprise-Project integration,Integration,Cross-Module,High,Integration,/enterprises,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-CROSS-003,Enterprise-Investor integration,Integration,Cross-Module,High,Integration,/enterprises,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-CROSS-004,Data consistency across modules,Integration,Cross-Module,High,Integration,All modules,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-API-001,API and UI data consistency,Integration,API-UI,High,Integration,API and UI endpoints,2025-06-05 22:45:01,MANUAL,,0,,Integration test requires manual execution
+INT-API-002,UI and API data consistency,Integration,API-UI,High,Integration,UI and API endpoints,2025-06-05 22:45:02,MANUAL,,0,,Integration test requires manual execution

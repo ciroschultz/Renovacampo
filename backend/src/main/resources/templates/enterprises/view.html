@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${enterprise.name} + ' - RenovaCampo'">Empreendimento - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('enterprises')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1 th:text="${enterprise.name}">Nome do Empreendimento</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                        <span class="badge" 
+                              th:classappend="${enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).ACTIVE ? 'badge-success' : 
+                                               enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).PLANNING ? 'badge-warning' :
+                                               enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).COMPLETED ? 'badge-info' :
+                                               enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).SUSPENDED ? 'badge-secondary' :
+                                               'badge-danger'}"
+                              th:text="${enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).ACTIVE ? 'Ativo' : 
+                                         enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).PLANNING ? 'Planejamento' :
+                                         enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).COMPLETED ? 'Concluído' :
+                                         enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).SUSPENDED ? 'Suspenso' :
+                                         'Cancelado'}">Status</span>
+                        <span style="color: #64748b;">
+                            <i class="fas fa-calendar"></i>
+                            Criado em <span th:text="${#temporals.format(enterprise.createDate, 'dd/MM/yyyy')}">01/01/2024</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="page-header-actions">
+                    <a th:href="@{/enterprises/{id}/edit(id=${enterprise.id})}" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i>
+                        Editar
+                    </a>
+                    <a href="/enterprises" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2" style="align-items: start;">
+                <!-- Left Column -->
+                <div>
+                    <!-- Basic Info -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Informações Básicas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Descrição:</label>
+                                    <p th:text="${enterprise.description}" style="color: #64748b; margin: 0;">Descrição do empreendimento</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Propriedade:</label>
+                                        <p style="margin: 0;">
+                                            <a th:if="${enterprise.property}" 
+                                               th:href="@{/properties/{id}(id=${enterprise.propertyId})}"
+                                               th:text="${enterprise.property.name}"
+                                               style="color: #EC6618; text-decoration: none;">Propriedade</a>
+                                            <span th:unless="${enterprise.property}" style="color: #64748b;">Não definida</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Projeto:</label>
+                                        <p style="margin: 0;">
+                                            <a th:if="${enterprise.project}" 
+                                               th:href="@{/projects/{id}(id=${enterprise.projectId})}"
+                                               th:text="${enterprise.project.name}"
+                                               style="color: #EC6618; text-decoration: none;">Projeto</a>
+                                            <span th:unless="${enterprise.project}" style="color: #64748b;">Não definido</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Cronograma</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Data de Lançamento:</label>
+                                    <p style="margin: 0;">
+                                        <span th:if="${enterprise.launchDate}" 
+                                              th:text="${#temporals.format(enterprise.launchDate, 'dd/MM/yyyy')}">01/01/2024</span>
+                                        <span th:unless="${enterprise.launchDate}" style="color: #64748b;">Não definida</span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Prazo de Captação:</label>
+                                    <p style="margin: 0;">
+                                        <span th:if="${enterprise.fundingDeadline}" 
+                                              th:text="${#temporals.format(enterprise.fundingDeadline, 'dd/MM/yyyy')}">01/01/2024</span>
+                                        <span th:unless="${enterprise.fundingDeadline}" style="color: #64748b;">Não definido</span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Conclusão Esperada:</label>
+                                    <p style="margin: 0;">
+                                        <span th:if="${enterprise.expectedCompletionDate}" 
+                                              th:text="${#temporals.format(enterprise.expectedCompletionDate, 'dd/MM/yyyy')}">01/01/2024</span>
+                                        <span th:unless="${enterprise.expectedCompletionDate}" style="color: #64748b;">Não definida</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <!-- Financial Metrics -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Métricas Financeiras</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1.5rem;">
+                                <!-- Funding Progress -->
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Progresso de Captação:</label>
+                                    <div class="progress" style="height: 20px; margin-bottom: 0.5rem;">
+                                        <div class="progress-bar" 
+                                             role="progressbar" 
+                                             th:style="'width: ' + ${enterprise.fundingProgress} + '%'"
+                                             th:classappend="${enterprise.fundingProgress >= 100 ? 'bg-success' : 
+                                                              enterprise.fundingProgress >= 75 ? 'bg-info' : 
+                                                              enterprise.fundingProgress >= 50 ? 'bg-warning' : 'bg-danger'}">
+                                            <span th:text="${#numbers.formatDecimal(enterprise.fundingProgress, 1, 'COMMA', 1, 'COMMA')} + '%'">0%</span>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                                        <span>R$ <span th:text="${#numbers.formatDecimal(enterprise.totalInvestmentRaised, 0, 'POINT', 2, 'COMMA')}">0</span></span>
+                                        <span style="color: #64748b;">de R$ <span th:text="${#numbers.formatDecimal(enterprise.totalInvestmentRequired, 0, 'POINT', 2, 'COMMA')}">0</span></span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Financial Details -->
+                                <div class="grid grid-cols-2" style="gap: 1rem;">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Investimento Mínimo:</label>
+                                        <p style="margin: 0; font-size: 1.125rem; font-weight: 600;">
+                                            <span th:if="${enterprise.minimumInvestment}">
+                                                R$ <span th:text="${#numbers.formatDecimal(enterprise.minimumInvestment, 0, 'POINT', 2, 'COMMA')}">0</span>
+                                            </span>
+                                            <span th:unless="${enterprise.minimumInvestment}" style="color: #64748b;">Não definido</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Valorização do Produto:</label>
+                                        <p style="margin: 0; font-size: 1.125rem; font-weight: 600; color: #059669;">
+                                            <span th:if="${enterprise.expectedReturnPercentage}" 
+                                                  th:text="${enterprise.expectedReturnPercentage} + '% por ano'">0% por ano</span>
+                                            <span th:unless="${enterprise.expectedReturnPercentage}" style="color: #64748b;">Não definido</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Disponível para Captação:</label>
+                                    <p style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #EC6618;">
+                                        R$ <span th:text="${#numbers.formatDecimal(enterprise.availableFundingAmount, 0, 'POINT', 2, 'COMMA')}">0</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investors Section -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>Investidores (<span th:text="${enterprise.investorCount}">0</span>)</h3>
+                    <button th:if="${enterprise.status == T(org.acabativa.rc.patrimonio.entity.Enterprise.EnterpriseStatus).ACTIVE && !enterprise.fundingComplete}"
+                            class="btn btn-primary btn-sm"
+                            onclick="document.getElementById('addInvestorModal').style.display='flex'">
+                        <i class="fas fa-plus"></i>
+                        Adicionar Investidor
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(enterpriseInvestors)}" style="text-align: center; padding: 2rem; color: #64748b;">
+                        <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.3;"></i>
+                        <div>Nenhum investidor cadastrado ainda</div>
+                    </div>
+                    
+                    <table th:unless="${#lists.isEmpty(enterpriseInvestors)}" class="table">
+                        <thead>
+                            <tr>
+                                <th>Investidor</th>
+                                <th>Valor Investido</th>
+                                <th>Participação</th>
+                                <th>Data de Entrada</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="ei : ${enterpriseInvestors}">
+                                <td>
+                                    <a th:href="@{/investors/{id}(id=${ei.investorId})}" 
+                                       th:text="${ei.investor.name}"
+                                       style="color: #EC6618; text-decoration: none;">Investidor</a>
+                                </td>
+                                <td>R$ <span th:text="${#numbers.formatDecimal(ei.investmentAmount, 0, 'POINT', 2, 'COMMA')}">0</span></td>
+                                <td><span th:text="${#numbers.formatDecimal(ei.shareholdingPercentage, 2, 'COMMA', 2, 'COMMA')}">0</span>%</td>
+                                <td th:text="${#temporals.format(ei.investmentDate, 'dd/MM/yyyy')}">01/01/2024</td>
+                                <td>
+                                    <form th:action="@{/enterprises/{enterpriseId}/investors/{investorId}/remove(enterpriseId=${enterprise.id},investorId=${ei.investorId})}" 
+                                          method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Tem certeza que deseja remover este investidor?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Investor Modal -->
+            <div id="addInvestorModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+                <div class="card" style="width: 500px; max-width: 90%;">
+                    <div class="card-header">
+                        <h3>Adicionar Investidor</h3>
+                    </div>
+                    <form th:action="@{/enterprises/{id}/investors(id=${enterprise.id})}" method="post">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="investorId">Investidor</label>
+                                <select id="investorId" name="investorId" class="form-select" required>
+                                    <option value="">Selecione um investidor</option>
+                                    <option th:each="investor : ${availableInvestors}" 
+                                            th:value="${investor.id}"
+                                            th:text="${investor.name + ' (Disponível: R$ ' + #numbers.formatDecimal(investor.availableFunds, 0, 'POINT', 2, 'COMMA') + ')'}">
+                                        Investidor
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="investmentAmount">Valor do Investimento</label>
+                                <input type="number" 
+                                       id="investmentAmount" 
+                                       name="investmentAmount" 
+                                       class="form-input" 
+                                       step="0.01" 
+                                       th:min="${enterprise.minimumInvestment}"
+                                       th:max="${enterprise.availableFundingAmount}"
+                                       required>
+                                <small class="form-text text-muted">
+                                    Mínimo: R$ <span th:text="${#numbers.formatDecimal(enterprise.minimumInvestment, 0, 'POINT', 2, 'COMMA')}">0</span> |
+                                    Máximo: R$ <span th:text="${#numbers.formatDecimal(enterprise.availableFundingAmount, 0, 'POINT', 2, 'COMMA')}">0</span>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('addInvestorModal').style.display='none'">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Adicionar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Documents Section -->
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <h3>
+                        <i class="fas fa-file-pdf"></i>
+                        Documentação do Projeto
+                    </h3>
+                </div>
+                <div class="card-body" id="documents-section">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Carregando documentos...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- HTMX Config -->
+    <script>
+        htmx.config.globalViewTransitions = true;
+    </script>
+
+    <!-- Script para carregar documentos do empreendimento -->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const enterpriseId = /*[[${enterprise.id}]]*/ 0;
+            loadEnterpriseDocuments(enterpriseId);
+        });
+
+        function loadEnterpriseDocuments(enterpriseId) {
+            const container = document.getElementById('documents-section');
+
+            fetch('/api/v1/files/enterprise/' + enterpriseId)
+                .then(response => response.json())
+                .then(files => {
+                    if (files.length === 0) {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 2rem; color: #64748b;">
+                                <i class="fas fa-file-pdf" style="font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.3;"></i>
+                                <div>Nenhum documento anexado a este empreendimento.</div>
+                                <div style="font-size: 0.875rem; margin-top: 0.5rem;">
+                                    <a href="/enterprises/${enterpriseId}/edit" style="color: #EC6618;">Editar empreendimento</a> para anexar documentos.
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let html = '<div class="files-list">';
+                    files.forEach(file => {
+                        const fileIcon = getFileIcon(file.contentType);
+                        const fileSize = formatFileSize(file.fileSize);
+                        html += `
+                            <div class="file-item" style="display: flex; align-items: center; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; margin-bottom: 0.75rem; background: #f8fafc;">
+                                <i class="${fileIcon}" style="font-size: 2rem; color: #ef4444; margin-right: 1rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 1rem;">${escapeHtml(file.originalFileName)}</div>
+                                    <div style="font-size: 0.875rem; color: #64748b;">${fileSize} • Enviado em ${formatDate(file.uploadDate)}</div>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <a href="/api/v1/files/${file.id}" class="btn btn-secondary" target="_blank" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/api/v1/files/${file.id}" class="btn btn-primary" download title="Download">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar documentos:', error);
+                    container.innerHTML = '<p style="color: #64748b; text-align: center; padding: 2rem;">Nenhum documento anexado.</p>';
+                });
+        }
+
+        function getFileIcon(contentType) {
+            if (contentType && contentType.includes('pdf')) return 'fas fa-file-pdf';
+            if (contentType && contentType.includes('word')) return 'fas fa-file-word';
+            if (contentType && contentType.includes('excel')) return 'fas fa-file-excel';
+            if (contentType && contentType.includes('image')) return 'fas fa-file-image';
+            return 'fas fa-file';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

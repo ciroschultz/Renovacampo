@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+PROP-VAL-003,Enter invalid coordinates,Properties,Validation,Medium,Validation,/properties/new,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution
+PROP-SEARCH-001,Search by property name,Properties,Search,Medium,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-SEARCH-002,Filter by property type,Properties,Search,Medium,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-SEARCH-003,Filter by state,Properties,Search,Medium,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-SEARCH-004,Clear all filters,Properties,Search,Low,Functional,/properties,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-FILE-001,Upload property photo,Properties,File Upload,High,Functional,/properties/{id}/edit,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-FILE-002,Upload property document,Properties,File Upload,High,Functional,/properties/{id}/edit,2025-06-05 22:44:48,MANUAL,,0,,Requires manual testing
+PROP-FILE-003,Upload invalid file type,Properties,File Upload,Medium,Validation,/properties/{id}/edit,2025-06-05 22:44:48,MANUAL,,0,,Validation test requires manual execution
+PROP-FILE-004,Upload oversized file,Properties,File Upload,Medium,Validation,/properties/{id}/edit,2025-06-05 22:44:49,MANUAL,,0,,Validation test requires manual execution
+PROP-FILE-005,Delete uploaded file,Properties,File Upload,Medium,Functional,/properties/{id}/edit,2025-06-05 22:44:49,MANUAL,,0,,Requires manual testing

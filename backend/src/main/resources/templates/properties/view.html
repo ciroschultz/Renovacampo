@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${property.name} + ' - RenovaCampo'">Propriedade - RenovaCampo</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('properties')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1 th:text="${property.name}">Nome da Propriedade</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                        <span class="tag" th:text="${property.type}">Tipo</span>
+                        <span style="color: #64748b;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span th:text="${property.city + ', ' + property.state}">Cidade, Estado</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="page-header-actions">
+                    <a th:href="@{/properties/{id}/edit(id=${property.id})}" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i>
+                        Editar
+                    </a>
+                    <a href="/properties" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <!-- Status de Publicação -->
+            <div class="card" style="margin-bottom: 1.5rem; border-left: 4px solid #EC6618;">
+                <div class="card-body" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem;">
+                    <div>
+                        <h4 style="margin: 0 0 0.25rem 0; color: #374151;">
+                            <i class="fas fa-globe"></i> Publicação no Site
+                        </h4>
+                        <p style="margin: 0; color: #64748b; font-size: 0.875rem;">
+                            Ao ativar, esta terra aparecerá na seção "Terras Disponíveis" do site público.
+                        </p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span th:id="'approval-status-' + ${property.id}"
+                              th:class="${property.approved} ? 'status-badge status-completed' : 'status-badge status-planning'"
+                              th:text="${property.approved} ? 'Publicada' : 'Aguardando Aprovação'">
+                            Status
+                        </span>
+                        <label class="toggle-switch">
+                            <input type="checkbox"
+                                   th:id="'approval-toggle-' + ${property.id}"
+                                   th:checked="${property.approved}"
+                                   th:onclick="'togglePropertyApproval(' + ${property.id} + ')'">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2" style="align-items: start;">
+                <!-- Property Details -->
+                <div>
+                    <!-- Basic Info -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Informações Básicas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div>
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Descrição:</label>
+                                    <p th:text="${property.description}" style="color: #64748b; margin: 0;">Descrição da propriedade</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Área Total:</label>
+                                        <p style="margin: 0;">
+                                            <span th:text="${property.totalArea}">0</span> hectares
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Área Disponível:</label>
+                                        <p style="margin: 0;">
+                                            <span th:if="${property.availableArea}" 
+                                                  th:text="${property.availableArea + ' hectares'}">0 hectares</span>
+                                            <span th:unless="${property.availableArea}" 
+                                                  style="color: #64748b;">Não informado</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Localização</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1" style="gap: 1rem;">
+                                <div th:if="${property.address}">
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Endereço:</label>
+                                    <p th:text="${property.address}" style="color: #64748b; margin: 0;">Endereço</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Cidade:</label>
+                                        <p th:text="${property.city}" style="margin: 0;">Cidade</p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Estado:</label>
+                                        <p th:text="${property.state}" style="margin: 0;">Estado</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2" 
+                                     th:if="${property.latitude != null and property.longitude != null}">
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Latitude:</label>
+                                        <p th:text="${property.latitude}" style="margin: 0;">-</p>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.25rem;">Longitude:</label>
+                                        <p th:text="${property.longitude}" style="margin: 0;">-</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Map -->
+                                <div th:if="${property.latitude != null and property.longitude != null}" style="margin-top: 1rem;">
+                                    <label style="font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Localização no Mapa:</label>
+                                    <div id="property-map" style="height: 300px; border-radius: 0.5rem; border: 1px solid #e2e8f0;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photos and Documents -->
+                <div>
+                    <!-- Photos Section -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3>Fotos da Propriedade</h3>
+                        </div>
+                        <div class="card-body" id="photos-section">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Carregando fotos...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Documents Section -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Documentos</h3>
+                        </div>
+                        <div class="card-body" id="documents-section">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Carregando documentos...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dados Extras do Formulário -->
+            <div class="card" style="margin-top: 1.5rem;" th:if="${property.additionalData != null and !property.additionalData.isEmpty()}">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3><i class="fas fa-clipboard-list"></i> Dados do Formulário</h3>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdditionalData()">
+                        <i class="fas fa-eye" id="toggle-icon"></i>
+                        <span id="toggle-text">Mostrar</span>
+                    </button>
+                </div>
+                <div class="card-body" id="additional-data-section" style="display: none;">
+                    <div id="additional-data-content"></div>
+                </div>
+                <script th:inline="javascript">
+                    var additionalDataRaw = /*[[${property.additionalData}]]*/ '{}';
+                </script>
+            </div>
+        </div>
+    </main>
+
+        <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Function to load fragments
+        function loadFragments() {
+            // Load photos fragment
+            htmx.ajax('GET', '/api/v1/photos/property/' + [[${property.id}]] + '/fragment', {
+                target: '#photos-section',
+                swap: 'innerHTML'
+            });
+            
+            // First load documents quickly with minimal data
+            htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment?quick=true', {
+                target: '#documents-section', 
+                swap: 'innerHTML'
+            });
+            
+            // Then load full document details after a short delay
+            setTimeout(() => {
+                htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment', {
+                    target: '#documents-section', 
+                    swap: 'innerHTML'
+                });
+            }, 500);
+        }
+        
+        // Initialize map
+        function initializeMap() {
+            const lat = [[${property.latitude}]];
+            const lon = [[${property.longitude}]];
+            const propertyName = "[[${property.name}]]";
+            
+            console.log('Map initialization - lat:', lat, 'lon:', lon);
+            
+            if (lat !== null && lon !== null && document.getElementById('property-map')) {
+                try {
+                    // Initialize the map
+                    const map = L.map('property-map').setView([lat, lon], 15);
+                    
+                    // Add OpenStreetMap tiles
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        maxZoom: 19
+                    }).addTo(map);
+                    
+                    // Create custom icon for property marker
+                    const propertyIcon = L.divIcon({
+                        className: 'custom-marker',
+                        html: '<div style="background: #EC6618; border: 3px solid white; border-radius: 50%; width: 20px; height: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+                    
+                    // Add marker for the property
+                    L.marker([lat, lon], {icon: propertyIcon})
+                        .addTo(map)
+                        .bindPopup(`<strong>${propertyName}</strong><br>Lat: ${lat}<br>Lon: ${lon}`)
+                        .openPopup();
+                        
+                    console.log('Map initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing map:', error);
+                }
+            } else {
+                console.log('Map not initialized - missing coordinates or map element');
+            }
+        }
+        
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFragments();
+            // Add small delay to ensure map container is ready
+            setTimeout(initializeMap, 100);
+        });
+        
+        // Also load when page becomes visible (in case of navigation)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                loadFragments();
+                setTimeout(initializeMap, 100);
+            }
+        });
+        
+        // Load when navigating back to page
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                loadFragments();
+                setTimeout(initializeMap, 100);
+            }
+        });
+
+        // Toggle additional data visibility
+        function toggleAdditionalData() {
+            const section = document.getElementById('additional-data-section');
+            const icon = document.getElementById('toggle-icon');
+            const text = document.getElementById('toggle-text');
+
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+                icon.className = 'fas fa-eye-slash';
+                text.textContent = 'Ocultar';
+                renderAdditionalData();
+            } else {
+                section.style.display = 'none';
+                icon.className = 'fas fa-eye';
+                text.textContent = 'Mostrar';
+            }
+        }
+
+        // Render additional data as formatted HTML
+        function renderAdditionalData() {
+            const container = document.getElementById('additional-data-content');
+            if (container.innerHTML !== '') return; // Already rendered
+
+            try {
+                if (typeof additionalDataRaw === 'undefined' || !additionalDataRaw || additionalDataRaw === 'null') {
+                    container.innerHTML = '<p style="color: #64748b;">Nenhum dado adicional disponível.</p>';
+                    return;
+                }
+
+                const data = JSON.parse(additionalDataRaw);
+                container.innerHTML = renderFormattedData(data);
+            } catch (e) {
+                console.error('Error parsing additional data:', e);
+                container.innerHTML = '<p style="color: #ef4444;">Erro ao carregar dados adicionais: ' + escapeHtml(e.message) + '</p>';
+            }
+        }
+
+        // Formatar valor para exibição (lida com objetos, arrays e strings JSON)
+        function formatValue(value) {
+            if (value === null || value === undefined || value === '') return '-';
+
+            // Se for string, verificar se é JSON
+            if (typeof value === 'string') {
+                // Tentar parsear como JSON (para campos como producao_atual)
+                if (value.startsWith('[') || value.startsWith('{')) {
+                    try {
+                        const parsed = JSON.parse(value);
+                        return formatValue(parsed);
+                    } catch (e) {
+                        return escapeHtml(value);
+                    }
+                }
+                return escapeHtml(value);
+            }
+
+            // Se for array
+            if (Array.isArray(value)) {
+                if (value.length === 0) return '-';
+                // Array de objetos (como producao_atual)
+                if (typeof value[0] === 'object') {
+                    let html = '<ul style="margin: 0.25rem 0; padding-left: 1.25rem;">';
+                    value.forEach(item => {
+                        const itemText = Object.entries(item)
+                            .map(([k, v]) => formatLabel(k) + ': ' + escapeHtml(String(v)))
+                            .join(' | ');
+                        html += '<li style="margin-bottom: 0.25rem;">' + itemText + '</li>';
+                    });
+                    html += '</ul>';
+                    return html;
+                }
+                // Array simples
+                return escapeHtml(value.join(', '));
+            }
+
+            // Se for objeto
+            if (typeof value === 'object') {
+                const entries = Object.entries(value);
+                if (entries.length === 0) return '-';
+                return entries.map(([k, v]) => formatLabel(k) + ': ' + escapeHtml(String(v))).join(', ');
+            }
+
+            return escapeHtml(String(value));
+        }
+
+        // Verificar se campo tem valor válido
+        function hasValue(value) {
+            if (value === null || value === undefined) return false;
+            if (typeof value === 'string') return value.trim() !== '';
+            if (Array.isArray(value)) return value.length > 0;
+            if (typeof value === 'object') return Object.keys(value).length > 0;
+            return true;
+        }
+
+        // Render data in a more organized format with sections
+        function renderFormattedData(data) {
+            const sections = {
+                'Proprietário': ['nome_prop', 'cpf_cnpj', 'email', 'telefone', 'end_resid', 'horário_contato'],
+                'Propriedade': ['nome_propriedade', 'end_prop', 'área_total', 'área_disp', 'geolink', 'upload_kml', 'matricula', 'sit_registral'],
+                'Documentos': ['doc_matricula', 'doc_ccir', 'doc_cer', 'arrend_vigente', 'onus', 'arrend_text', 'arrend_upload', 'onus_text'],
+                'Solo & Uso': ['uso_atual', 'ultimas_culturas', 'soil_análise', 'soil_data', 'soil_files', 'obs_erosao'],
+                'Água & Infraestrutura': ['água_fontes', 'outorga', 'vazao', 'outorga_num', 'outorga_upload', 'irrigacao'],
+                'Benfeitorias': ['benfe', 'estado_cercas', 'estado_estradas', 'compensacoes', 'comp_text'],
+                'Ambiental': ['reserva_legal', 'apps', 'reserva_files', 'apps_text', 'apps_upload', 'pend_env', 'pend_text'],
+                'Produção': ['producao_atual', 'offtake', 'rendimento', 'certificacoes'],
+                'Modelo de Arrendamento': ['modalidade_interesse', 'aluguel_proposto', 'aluguel_formula', 'modal2_participa', 'valuation', 'prazo_min', 'autoriza_visita', 'condicoes_essenciais'],
+                'Confirmação': ['trab_regulares', 'comunidades', 'conflitos', 'conflitos_text', 'fotos', 'mapa_upload', 'outros_docs', 'declaro', 'assinatura', 'data_assinatura', 'consent_imagem']
+            };
+
+            let html = '';
+            const usedKeys = new Set();
+
+            for (const [sectionName, fields] of Object.entries(sections)) {
+                const sectionFields = fields.filter(f => hasValue(data[f]));
+                if (sectionFields.length === 0) continue;
+
+                html += '<div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">';
+                html += '<h4 style="color: #EC6618; margin: 0 0 0.75rem 0; font-size: 0.95rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">' + sectionName + '</h4>';
+                html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem;">';
+
+                for (const field of sectionFields) {
+                    usedKeys.add(field);
+                    html += '<div style="padding: 0.25rem 0;">';
+                    html += '<span style="font-weight: 600; color: #014C34; font-size: 0.85rem;">' + formatLabel(field) + ':</span> ';
+                    html += '<span style="color: #374151;">' + formatValue(data[field]) + '</span>';
+                    html += '</div>';
+                }
+
+                html += '</div></div>';
+            }
+
+            // Render any remaining fields not in predefined sections
+            const remainingFields = Object.keys(data).filter(k => !usedKeys.has(k) && hasValue(data[k]) && k !== 'timestamp');
+            if (remainingFields.length > 0) {
+                html += '<div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">';
+                html += '<h4 style="color: #64748b; margin: 0 0 0.75rem 0; font-size: 0.95rem;">Outros Dados</h4>';
+                for (const field of remainingFields) {
+                    html += '<div style="padding: 0.25rem 0;">';
+                    html += '<span style="font-weight: 600; color: #374151; font-size: 0.85rem;">' + formatLabel(field) + ':</span> ';
+                    html += '<span style="color: #64748b;">' + formatValue(data[field]) + '</span>';
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+
+            return html || '<p style="color: #64748b;">Nenhum dado adicional disponível.</p>';
+        }
+
+        // Recursively render object as HTML
+        function renderObject(obj, level) {
+            if (obj === null || obj === undefined) return '<span style="color: #64748b;">-</span>';
+            if (typeof obj !== 'object') return escapeHtml(String(obj));
+            if (Array.isArray(obj)) return obj.map(item => escapeHtml(String(item))).join(', ');
+
+            let html = '<div class="additional-data-group" style="margin-left: ' + (level * 1) + 'rem;">';
+            for (const [key, value] of Object.entries(obj)) {
+                const label = formatLabel(key);
+                if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                    html += '<div class="data-section" style="margin-bottom: 1rem; padding: 0.75rem; background: #f8fafc; border-radius: 0.5rem;">';
+                    html += '<h4 style="color: #014C34; margin: 0 0 0.5rem 0; font-size: 0.9rem;"><i class="fas fa-folder"></i> ' + label + '</h4>';
+                    html += renderObject(value, level + 1);
+                    html += '</div>';
+                } else {
+                    const displayValue = Array.isArray(value) ? value.join(', ') : (value || '-');
+                    html += '<div class="data-item" style="display: flex; margin-bottom: 0.5rem;">';
+                    html += '<span style="font-weight: 600; color: #374151; min-width: 180px;">' + label + ':</span>';
+                    html += '<span style="color: #64748b;">' + escapeHtml(String(displayValue)) + '</span>';
+                    html += '</div>';
+                }
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // Format field name to readable label
+        function formatLabel(key) {
+            const labels = {
+                // Proprietário
+                'nome_prop': 'Nome do Proprietário', 'cpf_cnpj': 'CPF/CNPJ', 'email': 'E-mail',
+                'telefone': 'Telefone', 'end_resid': 'Endereço Residencial', 'horário_contato': 'Melhor Horário para Contato',
+                // Propriedade
+                'nome_propriedade': 'Nome da Propriedade', 'end_prop': 'Endereço da Propriedade',
+                'área_total': 'Área Total (ha)', 'área_disp': 'Área Disponível (ha)',
+                'geolink': 'Geolocalização', 'upload_kml': 'Arquivo KML/GEOJSON',
+                'matricula': 'Matrícula do Imóvel', 'sit_registral': 'Situação Registral',
+                // Documentos
+                'doc_matricula': 'Certidão de Matrícula', 'doc_ccir': 'CCIR', 'doc_cer': 'Certidões',
+                'arrend_vigente': 'Arrendamento Vigente', 'onus': 'Ônus/Penhora/Hipoteca',
+                'arrend_text': 'Detalhes do Arrendamento', 'arrend_upload': 'Doc. Arrendamento',
+                'onus_text': 'Detalhes do Ônus',
+                // Solo & Uso
+                'uso_atual': 'Uso Atual', 'ultimas_culturas': 'Últimas Culturas (5 anos)',
+                'soil_análise': 'Análise de Solo', 'soil_data': 'Data Última Análise',
+                'soil_files': 'Arquivos de Análise', 'obs_erosao': 'Observações (Erosão/Salinização)',
+                // Água & Infra
+                'água_fontes': 'Fontes de Água', 'outorga': 'Outorga de Água',
+                'vazao': 'Capacidade/Vazão', 'outorga_num': 'Nº da Outorga',
+                'outorga_upload': 'Doc. Outorga', 'irrigacao': 'Irrigação Instalada',
+                // Benfeitorias
+                'benfe': 'Benfeitorias', 'estado_cercas': 'Estado das Cercas',
+                'estado_estradas': 'Estado das Estradas', 'compensacoes': 'Compensações',
+                'comp_text': 'Detalhes das Compensações',
+                // Ambiental
+                'reserva_legal': 'Reserva Legal', 'apps': 'APPs',
+                'reserva_files': 'Doc. Reserva Legal', 'apps_text': 'Descrição das APPs',
+                'apps_upload': 'Doc. APPs', 'pend_env': 'Pendências Ambientais',
+                'pend_text': 'Detalhes das Pendências',
+                // Produção
+                'producao_atual': 'Produção Atual', 'offtake': 'Comprador/Off-take',
+                'rendimento': 'Rendimento Anual', 'certificacoes': 'Certificações',
+                // Modelo
+                'modalidade_interesse': 'Modalidade de Interesse', 'aluguel_proposto': 'Aluguel Proposto',
+                'aluguel_formula': 'Fórmula de Correção', 'modal2_participa': 'Interesse como Sócio',
+                'valuation': 'Expectativa de Valuation', 'prazo_min': 'Prazo Mínimo (anos)',
+                'autoriza_visita': 'Autoriza Visitas Técnicas', 'condicoes_essenciais': 'Condições Essenciais',
+                // Confirmação
+                'trab_regulares': 'Trabalhadores Regulares', 'comunidades': 'Comunidades Próximas',
+                'conflitos': 'Conflitos Conhecidos', 'conflitos_text': 'Detalhes dos Conflitos',
+                'fotos': 'Fotos', 'mapa_upload': 'Mapa/Sobreposição Aérea',
+                'outros_docs': 'Outros Documentos', 'declaro': 'Declaração',
+                'assinatura': 'Assinatura Digital', 'data_assinatura': 'Data da Assinatura',
+                'consent_imagem': 'Consentimento de Imagens'
+            };
+            return labels[key] || key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Toggle property approval for frontend display
+        function togglePropertyApproval(propertyId) {
+            fetch('/properties/' + propertyId + '/toggle-approval', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.text())
+            .then(status => {
+                const statusBadge = document.getElementById('approval-status-' + propertyId);
+                if (status === 'approved') {
+                    statusBadge.className = 'status-badge status-completed';
+                    statusBadge.textContent = 'Publicada';
+                } else if (status === 'pending') {
+                    statusBadge.className = 'status-badge status-planning';
+                    statusBadge.textContent = 'Aguardando Aprovação';
+                } else {
+                    alert('Erro ao atualizar status');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erro ao atualizar status');
+            });
+        }
+    </script>
+    
+    <style>
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .loading-spinner i {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+
+        .loading-spinner span {
+            font-weight: 500;
+        }
+
+        /* Custom map marker */
+        .custom-marker {
+            background: transparent !important;
+            border: none !important;
+        }
+
+        /* Toggle Switch Styles */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 56px;
+            height: 28px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s;
+            border-radius: 28px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #10b981;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(28px);
+        }
+
+        .toggle-switch input:focus + .toggle-slider {
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+    </style>
+</body>
+</html>

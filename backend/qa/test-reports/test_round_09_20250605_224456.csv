@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,Module,Test Category,Priority,Test Type,Endpoint,Execution Time,Status,Response Code,Response Time (ms),Error Message,Notes
+ENT-NAV-003,Access enterprise details page,Enterprises,Navigation,High,UI,/enterprises/{id},2025-06-05 22:44:55,FAIL,400,14,HTTP 400,
+ENT-NAV-004,Access enterprise edit page,Enterprises,Navigation,High,UI,/enterprises/{id}/edit,2025-06-05 22:44:55,FAIL,400,16,HTTP 400,
+ENT-CRUD-001,Create new enterprise with all fields,Enterprises,CRUD,High,Functional,/enterprises,2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-CRUD-002,Create enterprise with minimum required fields,Enterprises,CRUD,High,Functional,/enterprises,2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-CRUD-003,Edit existing enterprise,Enterprises,CRUD,High,Functional,/enterprises/{id}/edit,2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-CRUD-004,Delete enterprise,Enterprises,CRUD,High,Functional,/enterprises/{id},2025-06-05 22:44:56,MANUAL,,0,,Requires manual testing
+ENT-VAL-001,Submit form with empty required fields,Enterprises,Validation,High,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
+ENT-VAL-002,Select non-existent property or project,Enterprises,Validation,High,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
+ENT-VAL-003,Enter invalid date ranges,Enterprises,Validation,Medium,Validation,/enterprises/new,2025-06-05 22:44:56,MANUAL,,0,,Validation test requires manual execution
