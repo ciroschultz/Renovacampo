@@ -482,7 +482,10 @@
 
                         <div class="form-actions">
                             <div></div>
-                            <button type="button" class="btn btn-invest" onclick="nextStep()">Próximo <i class="fas fa-arrow-right"></i></button>
+                            <div style="display: flex; gap: 10px;">
+                                <button type="button" class="btn" style="background: #28a745; color: white;" onclick="quickSubmit()"><i class="fas fa-paper-plane"></i> Envio Rápido</button>
+                                <button type="button" class="btn btn-invest" onclick="nextStep()">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
                         </div>
                     </div>
 
@@ -492,8 +495,8 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Valor minimo disponivel (R$) <span class="required">*</span></label>
-                                <input type="text" id="valorMin" required placeholder="R$ 0,00">
+                                <label>Valor minimo disponivel (R$)</label>
+                                <input type="text" id="valorMin" placeholder="R$ 0,00">
                             </div>
                             <div class="form-group">
                                 <label>Valor maximo disponivel (R$)</label>
@@ -754,8 +757,8 @@
 
                         <div class="form-group" style="background: var(--cinza-bg); padding: 20px; border-radius: 8px;">
                             <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" id="declaraInvest" required style="width: auto; margin-top: 4px;">
-                                <span>Declaro que as informações prestadas sao verdadeiras e autorizo a Renova Campo a contatar e realizar due diligence. <span class="required">*</span></span>
+                                <input type="checkbox" id="declaraInvest" style="width: auto; margin-top: 4px;">
+                                <span>Declaro que as informações prestadas sao verdadeiras e autorizo a Renova Campo a contatar e realizar due diligence.</span>
                             </label>
                         </div>
 
@@ -775,8 +778,23 @@
                 <div class="success-message" id="successMessage">
                     <i class="fas fa-check-circle"></i>
                     <h2>Cadastro Enviado com Sucesso!</h2>
-                    <p>Obrigado pelo seu interesse em investir na Renova Campo!</p>
-                    <p style="color: var(--texto-claro); margin-top: 15px;">Nossa equipe entrara em contato em breve para apresentar oportunidades de investimento em projetos validados de agricultura regenerativa.</p>
+                    <p style="font-size: 16px; line-height: 1.6; color: #374151;">
+                        Obrigado pelo seu interesse em investir na <strong>Renova Campo</strong>!
+                    </p>
+                    <div style="background: #fff7ed; border-left: 4px solid #EC6618; padding: 15px 20px; border-radius: 0 8px 8px 0; margin: 20px auto; max-width: 500px; text-align: left;">
+                        <p style="margin: 0 0 10px 0; color: #EC6618; font-weight: 600;">
+                            <i class="fas fa-clock"></i> Proximos passos:
+                        </p>
+                        <ul style="margin: 0; padding-left: 20px; color: #374151; line-height: 1.8;">
+                            <li>Nossa equipe ira analisar seu perfil de investimento</li>
+                            <li>Entraremos em contato em ate <strong>48 horas uteis</strong> para apresentar oportunidades compativeis com seu perfil</li>
+                            <li>Voce tera acesso exclusivo a projetos validados de agricultura regenerativa</li>
+                            <li>Oferecemos suporte completo durante todo o processo de investimento</li>
+                        </ul>
+                    </div>
+                    <p style="color: #64748b; font-size: 14px;">
+                        <i class="fas fa-envelope"></i> Duvidas? Entre em contato: <a href="mailto:contato@renovacampo.com.br" style="color: #EC6618;">contato@renovacampo.com.br</a>
+                    </p>
                     <p style="margin-top: 20px;">
                         <a href="../index.html" class="btn btn-invest"><i class="fas fa-home"></i> Voltar para Home</a>
                         <a href="../index.html#projetos" class="btn btn-secondary" style="margin-left: 10px;"><i class="fas fa-th-large"></i> Ver Projetos</a>
@@ -915,42 +933,55 @@
             return true;
         }
 
-        async function submitForm() {
-            if (!validateStep(currentStep)) return;
-
-            const declaracao = document.getElementById('declaraInvest');
-            if (!declaracao.checked) {
-                alert('E necessario concordar com a declaracao.');
-                declaracao.focus();
-                return;
-            }
+        // Envio Rapido - envia apenas os dados preenchidos ate o momento
+        async function quickSubmit() {
+            // Validar apenas campos da primeira secao
+            if (!validateStep(1)) return;
 
             // Collect form data
             const formData = collectFormData();
 
-            // Clean taxId (remove special characters)
-            const taxId = (formData.cpfcnpj || '').replace(/[^\d]/g, '');
+            // Usar o FormMappers para converter os dados corretamente
+            const investorData = FormMappers.mapInvestidorToInvestor(formData);
+            console.log('Dados mapeados para backend (rapido):', investorData);
 
-            // Map to backend format
-            const investorData = {
-                name: formData.nome || 'Investidor',
-                taxId: taxId,
-                email: formData.email || '',
-                phone: formData.telefone || '',
-                address: formData.endereco || '',
-                city: formData.cidade || '',
-                state: formData.estado || '',
-                totalFunds: parseFloat(formData.valorInvestimento) || parseFloat(formData.capacidadeInvestimento) || 0,
-                investedFunds: 0,
-                description: [
-                    formData.perfilRisco ? 'Perfil de risco: ' + formData.perfilRisco : '',
-                    formData.objetivosInvestimento ? 'Objetivos: ' + formData.objetivosInvestimento : '',
-                    formData.experiencia ? 'Experiencia: ' + formData.experiencia : ''
-                ].filter(Boolean).join('. '),
-                active: true,
-                // TODOS os dados do formulario em JSON
-                additionalData: JSON.stringify(formData)
-            };
+            // Show loading
+            const quickBtn = document.querySelector('button[onclick="quickSubmit()"]');
+            const originalText = quickBtn.innerHTML;
+            quickBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            quickBtn.disabled = true;
+
+            try {
+                const response = await InvestorService.create(investorData);
+                console.log('Investidor cadastrado (rapido):', response);
+
+                generateCSV(formData);
+                document.getElementById('investidorForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                localStorage.setItem('renova_investidor_last', JSON.stringify(formData));
+
+            } catch (error) {
+                console.error('Erro ao enviar:', error);
+                generateCSV(formData);
+                localStorage.setItem('renova_investidor_last', JSON.stringify(formData));
+                document.getElementById('investidorForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                alert('Seus dados foram salvos localmente. A conexao com o servidor apresentou problemas, mas entraremos em contato em breve.');
+            } finally {
+                quickBtn.innerHTML = originalText;
+                quickBtn.disabled = false;
+            }
+        }
+
+        async function submitForm() {
+            if (!validateStep(currentStep)) return;
+
+            // Collect form data
+            const formData = collectFormData();
+
+            // Usar o FormMappers para converter os dados corretamente
+            const investorData = FormMappers.mapInvestidorToInvestor(formData);
+            console.log('Dados mapeados para backend:', investorData);
 
             // Show loading
             const submitBtn = document.querySelector('button[onclick="submitForm()"]');
@@ -962,6 +993,27 @@
                 // Send to backend API
                 const response = await InvestorService.create(investorData);
                 console.log('Investidor cadastrado:', response);
+
+                // Obter o ID do investidor criado para upload de arquivos
+                const investorId = response.id;
+
+                if (investorId) {
+                    // Upload de documentos (politica de sustentabilidade)
+                    const politicaInput = document.getElementById('politicaSustent');
+                    if (politicaInput && politicaInput.files && politicaInput.files.length > 0) {
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando documentos...';
+                        const docResults = await InvestorService.uploadMultipleDocuments(investorId, Array.from(politicaInput.files));
+                        console.log('Politica de sustentabilidade enviada:', docResults);
+                    }
+
+                    // Upload de documentos anexos
+                    const anexosInput = document.getElementById('anexoDocs');
+                    if (anexosInput && anexosInput.files && anexosInput.files.length > 0) {
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando anexos...';
+                        const anexosResults = await InvestorService.uploadMultipleDocuments(investorId, Array.from(anexosInput.files));
+                        console.log('Documentos anexos enviados:', anexosResults);
+                    }
+                }
 
                 // Generate CSV as backup
                 generateCSV(formData);
@@ -995,24 +1047,30 @@
             const form = document.getElementById('investidorForm');
             const data = { timestamp: new Date().toISOString() };
 
+            console.log('Coletando dados do formulário de investidor...');
             const inputs = form.querySelectorAll('input, select, textarea');
+            console.log('Total de campos encontrados:', inputs.length);
+
             inputs.forEach(input => {
-                if (input.id) {
+                if (input.id && input.id !== '') {
                     if (input.type === 'checkbox') {
                         data[input.id] = input.checked ? 'Sim' : 'Nao';
                     } else if (input.type === 'file') {
-                        data[input.id] = input.files.length > 0
-                            ? Array.from(input.files).map(f => f.name).join('; ')
-                            : '';
-                    } else if (input.multiple) {
-                        const vals = Array.from(input.options).filter(o => o.selected).map(o => o.value);
-                        data[input.id] = vals.join('; ');
+                        if (input.files && input.files.length > 0) {
+                            data[input.id] = Array.from(input.files).map(f => f.name).join('; ');
+                        }
+                    } else if (input.multiple && input.tagName === 'SELECT') {
+                        const vals = Array.from(input.selectedOptions).map(o => o.value);
+                        if (vals.length > 0) {
+                            data[input.id] = vals.join('; ');
+                        }
                     } else {
                         data[input.id] = input.value;
                     }
                 }
             });
 
+            console.log('Dados coletados:', data);
             return data;
         }
 

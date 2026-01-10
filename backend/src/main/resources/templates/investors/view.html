@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${investor.name} + ' - RenovaCampo'">Investidor - RenovaCampo</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+
+    <style>
+        [id^="fund-progress-bar"] {
+            height: 100% !important;
+            background: #014C34 !important;
+        }
+
+        .info-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section h3 {
+            color: #014C34;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-section h3 i {
+            color: #EC6618;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid #014C34;
+        }
+
+        .info-item.full-width {
+            grid-column: span 2;
+        }
+
+        .info-item .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-item .value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .info-item .value.highlight {
+            color: #014C34;
+            font-weight: 600;
+        }
+
+        .info-item .value.money {
+            color: #EC6618;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0.125rem;
+        }
+
+        .badge-green {
+            background: rgba(1, 76, 52, 0.1);
+            color: #014C34;
+        }
+
+        .badge-blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .badge-orange {
+            background: rgba(236, 102, 24, 0.1);
+            color: #EC6618;
+        }
+
+        .document-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #EC6618;
+        }
+
+        .document-item:hover {
+            background: #f0fdf4;
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .document-info i {
+            font-size: 1.25rem;
+            color: #014C34;
+        }
+
+        .document-name {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .document-type {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            background: #014C34;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-download:hover {
+            background: #016b4a;
+            color: white;
+        }
+
+        .no-data {
+            color: #94a3b8;
+            font-style: italic;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Shared Header -->
+    <div th:replace="~{fragments/header :: header('investors')}"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="investor-avatar" style="width: 60px; height: 60px; background: #EC6618; opacity: 0.7; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.5rem;">
+                            <span th:text="${#strings.substring(investor.name, 0, 1)}">I</span>
+                        </div>
+                        <div>
+                            <h1 th:text="${investor.name}">Nome do Investidor</h1>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                                <span th:class="${investor.active} ? 'status-badge status-active' : 'status-badge status-inactive'"
+                                      th:text="${investor.active} ? 'Ativo' : 'Inativo'">Status</span>
+                                <span style="color: #64748b;" th:if="${investor.city != null and investor.city != ''}">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span th:text="${investor.city + ', ' + investor.state}">Cidade, Estado</span>
+                                </span>
+                                <span style="color: #64748b;">
+                                    <i class="fas fa-id-card"></i>
+                                    <span th:text="${investor.taxId}">CPF/CNPJ</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-header-actions">
+                    <a th:href="@{/investors/{id}/edit(id=${investor.id})}" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i>
+                        Editar Perfil
+                    </a>
+                    <a href="/investors" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-3" style="gap: 2rem;">
+
+                <!-- Main Info -->
+                <div class="grid-col-span-2">
+                    <!-- Financial Overview -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">
+                                <i class="fas fa-chart-line"></i>
+                                Visao Financeira
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 2rem;">
+                                <div class="stat-card" style="padding: 1.5rem; position: relative;">
+                                    <div class="stat-icon" style="position: absolute; top: 1rem; right: 1rem; font-size: 2rem; opacity: 0.2;"><i class="fas fa-piggy-bank"></i></div>
+                                    <div style="margin-top: 0.5rem;">
+                                        <div class="stat-value" style="color: #000000; font-size: 1.25rem; font-weight: 700; word-break: break-word;" th:text="${#numbers.formatCurrency(investor.totalFunds)}">R$ 0,00</div>
+                                        <div class="stat-label" style="margin-top: 0.25rem;">Total de Fundos</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card" style="padding: 1.5rem; position: relative;">
+                                    <div class="stat-icon" style="position: absolute; top: 1rem; right: 1rem; font-size: 2rem; opacity: 0.2;"><i class="fas fa-chart-pie"></i></div>
+                                    <div style="margin-top: 0.5rem;">
+                                        <div class="stat-value" style="color: #dc2626; font-size: 1.25rem; font-weight: 700; word-break: break-word;" th:text="${#numbers.formatCurrency(investor.investedFunds)}">R$ 0,00</div>
+                                        <div class="stat-label" style="margin-top: 0.25rem;">Investido</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card" style="padding: 1.5rem; position: relative;">
+                                    <div class="stat-icon" style="position: absolute; top: 1rem; right: 1rem; font-size: 2rem; opacity: 0.2;"><i class="fas fa-wallet"></i></div>
+                                    <div style="margin-top: 0.5rem;">
+                                        <div class="stat-value" style="color: #059669; font-size: 1.25rem; font-weight: 700; word-break: break-word;" th:text="${#numbers.formatCurrency(investor.availableFunds)}">R$ 0,00</div>
+                                        <div class="stat-label" style="margin-top: 0.25rem;">Disponivel</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Progress Bar -->
+                            <div th:if="${investor.totalFunds > 0}" style="margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-weight: 600;">Utilizacao dos Fundos</span>
+                                    <span th:text="${#numbers.formatPercent(investor.investedFunds / investor.totalFunds, 1, 1)}" style="font-weight: 600; color: #EC6618;">0%</span>
+                                </div>
+                                <div id="fund-progress-container" style="width: 100%; background-color: #f1f5f9; border-radius: 0.5rem; height: 12px; overflow: hidden;">
+                                    <div id="fund-progress-bar" style="border-radius: 0.5rem;"
+                                         th:style="'width: ' + ${(investor.investedFunds / investor.totalFunds) * 100} + '%'"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados do Formulario - Parsed from additionalData -->
+                    <div class="card" style="margin-bottom: 2rem;" id="additional-data-card">
+                        <div class="card-header">
+                            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">
+                                <i class="fas fa-clipboard-list" style="color: #EC6618;"></i>
+                                Dados do Formulario
+                            </h2>
+                        </div>
+                        <div class="card-body" id="additional-data-content">
+                            <!-- Will be populated by JavaScript -->
+                            <p class="no-data">Carregando dados...</p>
+                        </div>
+                    </div>
+
+                    <!-- Documentos Anexados -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">
+                                <i class="fas fa-file-alt" style="color: #EC6618;"></i>
+                                Documentos Anexados
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <ul class="document-list" id="document-list">
+                                <li class="document-item">
+                                    <div class="document-info">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <div>
+                                            <div class="document-name">Carregando documentos...</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div th:if="${investor.description != null and investor.description != ''}" class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;">
+                                <i class="fas fa-info-circle"></i>
+                                Descricao
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <p th:text="${investor.description}" style="margin: 0; line-height: 1.6;">Descricao do investidor</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Sidebar -->
+                <div>
+                    <!-- Contact Info -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">
+                                <i class="fas fa-address-book"></i>
+                                Informacoes de Contato
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="space-y-3">
+                                <div style="margin-bottom: 1rem;">
+                                    <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.25rem;">
+                                        <i class="fas fa-envelope" style="width: 16px;"></i>
+                                        Email
+                                    </div>
+                                    <div style="font-weight: 500;" th:text="${investor.email}">email@example.com</div>
+                                </div>
+
+                                <div style="margin-bottom: 1rem;">
+                                    <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.25rem;">
+                                        <i class="fas fa-phone" style="width: 16px;"></i>
+                                        Telefone
+                                    </div>
+                                    <div style="font-weight: 500;" th:text="${investor.phone}">Telefone</div>
+                                </div>
+
+                                <div style="margin-bottom: 1rem;">
+                                    <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.25rem;">
+                                        <i class="fas fa-home" style="width: 16px;"></i>
+                                        Endereco
+                                    </div>
+                                    <div style="font-weight: 500;" th:text="${investor.address}">Endereco</div>
+                                    <div th:if="${investor.city != null and investor.city != ''}" style="font-size: 0.875rem; color: #64748b;" th:text="${investor.city + ', ' + investor.state}">Cidade, Estado</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Datas -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">
+                                <i class="fas fa-calendar"></i>
+                                Datas
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="margin-bottom: 1rem;">
+                                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.25rem;">
+                                    <i class="fas fa-calendar-plus" style="width: 16px;"></i>
+                                    Data de Cadastro
+                                </div>
+                                <div style="font-weight: 500;" th:text="${#temporals.format(investor.createDate, 'dd/MM/yyyy HH:mm')}">Data</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.25rem;">
+                                    <i class="fas fa-calendar-check" style="width: 16px;"></i>
+                                    Ultima Atualizacao
+                                </div>
+                                <div style="font-weight: 500;" th:text="${#temporals.format(investor.updateDate, 'dd/MM/yyyy HH:mm')}">Data</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Script para parsear additionalData -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const additionalDataRaw = /*[[${investor.additionalData}]]*/ null;
+        const investorId = /*[[${investor.id}]]*/ 0;
+
+        // Labels amigaveis para os campos
+        const fieldLabels = {
+            'tipoInvestidor': 'Tipo de Investidor',
+            'representante': 'Representante',
+            'pais': 'Pais',
+            'ramo': 'Ramo de Atuacao',
+            'valorMin': 'Valor Minimo de Investimento',
+            'valorMax': 'Valor Maximo de Investimento',
+            'horizonte': 'Horizonte de Investimento',
+            'tipoRetorno': 'Tipo de Retorno Esperado',
+            'risco': 'Perfil de Risco',
+            'expectativaRetorno': 'Expectativa de Retorno (%)',
+            'retornoRazoavel': 'Retorno Razoavel',
+            'tiposProjeto': 'Tipos de Projeto de Interesse',
+            'regioesInteresse': 'Regioes de Interesse',
+            'tamanhoMin': 'Tamanho Minimo do Projeto (ha)',
+            'envolvimento': 'Nivel de Envolvimento',
+            'criteriosAdicionais': 'Criterios Adicionais',
+            'metasESG': 'Metas ESG',
+            'certificacoesReq': 'Certificacoes Requeridas',
+            'cobeneficios': 'Co-beneficios Desejados',
+            'politicaSustent': 'Politica de Sustentabilidade',
+            'compromissoLongo': 'Compromisso de Longo Prazo (anos)',
+            'relatorios': 'Frequencia de Relatorios',
+            'interesseCarbono': 'Interesse em Carbono',
+            'acaoCarbono': 'Acao com Carbono',
+            'metodoVenda': 'Metodo de Venda/Uso',
+            'retornoPorT': 'Retorno Esperado por Tonelada',
+            'mrv': 'MRV (Monitoramento, Relato e Verificacao)',
+            'riscosCarbono': 'Riscos de Carbono',
+            'prazoGarantia': 'Prazo de Garantia (meses)',
+            'docsDisponiveis': 'Documentos Disponiveis',
+            'dueDiligence': 'Due Diligence',
+            'restricoesLocais': 'Restricoes Locais',
+            'contaPagamento': 'Conta para Pagamento',
+            'anexoDocs': 'Documentos Anexados',
+            'declaraInvest': 'Declaracao de Investidor',
+            'observacoesInvest': 'Observacoes do Investidor'
+        };
+
+        // Campos que devem ser exibidos como badges
+        const badgeFields = ['tiposProjeto', 'regioesInteresse', 'certificacoesReq'];
+
+        // Campos que sao valores monetarios
+        const moneyFields = ['valorMin', 'valorMax'];
+
+        // Campos que devem ser destacados
+        const highlightFields = ['expectativaRetorno', 'horizonte', 'risco'];
+
+        // Campos a ignorar
+        const ignoreFields = ['timestamp', 'nome', 'cpfcnpj', 'email', 'telefone', 'endereco'];
+
+        function parseAdditionalData() {
+            const container = document.getElementById('additional-data-content');
+
+            if (!additionalDataRaw) {
+                container.innerHTML = '<p class="no-data">Nenhum dado adicional disponivel.</p>';
+                return;
+            }
+
+            try {
+                const data = JSON.parse(additionalDataRaw);
+                let html = '';
+
+                // Agrupar campos por categoria
+                const categories = {
+                    'Perfil de Investimento': ['tipoInvestidor', 'representante', 'pais', 'ramo', 'valorMin', 'valorMax', 'horizonte', 'tipoRetorno', 'risco', 'expectativaRetorno'],
+                    'Preferencias de Projeto': ['tiposProjeto', 'regioesInteresse', 'tamanhoMin', 'envolvimento', 'criteriosAdicionais'],
+                    'ESG e Sustentabilidade': ['metasESG', 'certificacoesReq', 'cobeneficios', 'politicaSustent'],
+                    'Mercado de Carbono': ['interesseCarbono', 'acaoCarbono', 'metodoVenda', 'retornoPorT', 'mrv', 'riscosCarbono'],
+                    'Termos e Condicoes': ['compromissoLongo', 'relatorios', 'prazoGarantia', 'docsDisponiveis', 'dueDiligence', 'restricoesLocais'],
+                    'Observacoes': ['observacoesInvest', 'retornoRazoavel']
+                };
+
+                for (const [category, fields] of Object.entries(categories)) {
+                    const categoryFields = fields.filter(f => data[f] && data[f] !== '');
+
+                    if (categoryFields.length > 0) {
+                        html += `<div class="info-section">`;
+                        html += `<h3><i class="fas fa-folder-open"></i> ${category}</h3>`;
+                        html += `<div class="info-grid">`;
+
+                        for (const field of categoryFields) {
+                            const value = data[field];
+                            const label = fieldLabels[field] || field;
+                            const isFullWidth = field === 'observacoesInvest' || field === 'criteriosAdicionais' || field === 'metasESG' || field === 'restricoesLocais' || field === 'dueDiligence' || field === 'retornoRazoavel';
+
+                            html += `<div class="info-item${isFullWidth ? ' full-width' : ''}">`;
+                            html += `<div class="label">${label}</div>`;
+
+                            if (badgeFields.includes(field)) {
+                                const items = value.split(';').map(v => v.trim()).filter(v => v);
+                                html += `<div class="value">`;
+                                items.forEach(item => {
+                                    const badgeClass = field === 'tiposProjeto' ? 'badge-green' : field === 'regioesInteresse' ? 'badge-blue' : 'badge-orange';
+                                    html += `<span class="badge ${badgeClass}">${item}</span>`;
+                                });
+                                html += `</div>`;
+                            } else if (moneyFields.includes(field)) {
+                                html += `<div class="value money">${value}</div>`;
+                            } else if (highlightFields.includes(field)) {
+                                const displayValue = field === 'expectativaRetorno' ? `${value}% a.a.` : value;
+                                html += `<div class="value highlight">${displayValue}</div>`;
+                            } else {
+                                html += `<div class="value">${value}</div>`;
+                            }
+
+                            html += `</div>`;
+                        }
+
+                        html += `</div></div>`;
+                    }
+                }
+
+                container.innerHTML = html || '<p class="no-data">Nenhum dado adicional disponivel.</p>';
+
+            } catch (e) {
+                console.error('Erro ao parsear additionalData:', e);
+                container.innerHTML = '<p class="no-data">Erro ao carregar dados adicionais.</p>';
+            }
+        }
+
+        function loadDocuments() {
+            const docList = document.getElementById('document-list');
+            const documents = [];
+
+            // Parsear documentos do additionalData
+            if (additionalDataRaw) {
+                try {
+                    const data = JSON.parse(additionalDataRaw);
+                    if (data.politicaSustent) {
+                        documents.push({ name: data.politicaSustent, type: 'Politica de Sustentabilidade' });
+                    }
+                    if (data.anexoDocs) {
+                        documents.push({ name: data.anexoDocs, type: 'Documento Anexo' });
+                    }
+                } catch (e) {}
+            }
+
+            // Tentar carregar documentos do backend
+            fetch(`/api/v1/files/investor/${investorId}`)
+                .then(response => {
+                    if (response.ok) return response.json();
+                    return [];
+                })
+                .then(files => {
+                    files.forEach(file => {
+                        documents.push({
+                            id: file.id,
+                            name: file.originalFileName,
+                            type: file.fileType,
+                            size: file.fileSize,
+                            url: `/api/v1/files/${file.id}`
+                        });
+                    });
+                    renderDocuments(documents);
+                })
+                .catch(() => {
+                    renderDocuments(documents);
+                });
+        }
+
+        function renderDocuments(documents) {
+            const docList = document.getElementById('document-list');
+
+            if (documents.length === 0) {
+                docList.innerHTML = `
+                    <li class="document-item">
+                        <div class="document-info">
+                            <i class="fas fa-info-circle" style="color: #94a3b8;"></i>
+                            <div>
+                                <div class="document-name no-data">Nenhum documento anexado</div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+                return;
+            }
+
+            docList.innerHTML = documents.map(doc => {
+                const icon = getFileIcon(doc.name);
+                const downloadBtn = doc.url ? `<a href="${doc.url}" class="btn-download" target="_blank"><i class="fas fa-download"></i> Baixar</a>` : '';
+                const sizeText = doc.size ? ` - ${formatFileSize(doc.size)}` : '';
+
+                return `
+                    <li class="document-item">
+                        <div class="document-info">
+                            <i class="fas fa-file-${icon}"></i>
+                            <div>
+                                <div class="document-name">${doc.name}</div>
+                                <div class="document-type">${doc.type}${sizeText}</div>
+                            </div>
+                        </div>
+                        ${downloadBtn}
+                    </li>
+                `;
+            }).join('');
+        }
+
+        function getFileIcon(filename) {
+            if (!filename) return 'alt';
+            const ext = filename.split('.').pop().toLowerCase();
+            if (ext === 'pdf') return 'pdf';
+            if (['doc', 'docx'].includes(ext)) return 'word';
+            if (['xls', 'xlsx'].includes(ext)) return 'excel';
+            if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) return 'image';
+            return 'alt';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // Executar quando a pagina carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            parseAdditionalData();
+            loadDocuments();
+        });
+        /*]]>*/
+    </script>
+
+    <style>
+        .investor-avatar {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+
+        .grid-col-span-2 {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-col-span-2 {
+                grid-column: span 1;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-item.full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</body>
+</html>

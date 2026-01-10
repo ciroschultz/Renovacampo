@@ -41,13 +41,16 @@ const FormMappers = {
         // Separar cidade e estado do endereco
         const location = this.parseLocation(formData.end_prop || '');
 
+        // Construir descricao com todas as informacoes extras
+        const description = this.buildPropertyDescription(formData);
+
         // Dados basicos para colunas especificas
         const baseData = {
-            name: formData.nome_propiedade || formData.nome_prop || 'Propriedade sem nome',
-            description: formData.ultimas_culturas || formData.obs_erosao || '',
-            totalArea: parseInt(formData.area_total) || 0,
-            availableArea: parseInt(formData.area_disp) || null,
-            type: formData.sit_registral || 'Rural',
+            name: formData.nome_propriedade || formData.nome_prop || 'Propriedade sem nome',
+            description: description,
+            totalArea: parseInt(formData.área_total || formData.area_total) || 0,
+            availableArea: parseInt(formData.área_disp || formData.area_disp) || null,
+            type: formData.uso_atual || 'Rural',
             address: formData.end_prop || '',
             city: location.city,
             state: location.state,
@@ -55,13 +58,44 @@ const FormMappers = {
             longitude: longitude
         };
 
-        // Coletar TODOS os dados extras para o campo additionalData
-        const additionalData = this.extractAdditionalData(formData, this.PROPERTY_BASE_FIELDS);
-
-        // Adicionar additionalData como JSON string
-        baseData.additionalData = JSON.stringify(additionalData);
-
         return baseData;
+    },
+
+    /**
+     * Constroi descricao formatada com todas as informacoes extras do formulario de terra
+     */
+    buildPropertyDescription(formData) {
+        const lines = [];
+
+        // Dados do proprietario
+        if (formData.nome) lines.push(`Proprietário: ${formData.nome}`);
+        if (formData.cpf_cnpj) lines.push(`CPF/CNPJ: ${formData.cpf_cnpj}`);
+        if (formData.email) lines.push(`Email: ${formData.email}`);
+        if (formData.telefone) lines.push(`Telefone: ${formData.telefone}`);
+        if (formData.end_resid) lines.push(`Endereço Residencial: ${formData.end_resid}`);
+        if (formData.horário_contato) lines.push(`Horário para Contato: ${formData.horário_contato}`);
+
+        // Dados da propriedade
+        if (formData.matricula) lines.push(`Matrícula: ${formData.matricula}`);
+        if (formData.sit_registral) lines.push(`Situação Registral: ${formData.sit_registral}`);
+        if (formData.uso_atual) lines.push(`Uso Atual: ${formData.uso_atual}`);
+        if (formData.água_fontes) lines.push(`Fontes de Água: ${formData.água_fontes}`);
+        if (formData.benfeitorias) lines.push(`Benfeitorias: ${formData.benfeitorias}`);
+
+        // Modalidade e valores
+        if (formData.modalidade) lines.push(`Modalidade: ${formData.modalidade}`);
+        if (formData.aluguel) lines.push(`Valor Aluguel: ${formData.aluguel}`);
+        if (formData.prazo_min) lines.push(`Prazo Mínimo: ${formData.prazo_min}`);
+
+        // Autorizacao e assinatura
+        if (formData.autoriza_visita) lines.push(`Autoriza Visita: ${formData.autoriza_visita}`);
+        if (formData.assinatura) lines.push(`Assinatura: ${formData.assinatura}`);
+        if (formData.data_assinatura) lines.push(`Data: ${formData.data_assinatura}`);
+
+        // Geolocalizacao
+        if (formData.geolink) lines.push(`Geolocalização: ${formData.geolink}`);
+
+        return lines.join('. ');
     },
 
     /**
@@ -185,15 +219,51 @@ const FormMappers = {
         const taxId = (formData.cpfcnpj || formData.cpf || formData.cnpj || '')
             .replace(/[^\d]/g, '');
 
-        // Parsear valores monetarios (remover R$ e pontos)
+        // Parsear valores monetarios - suporta formato brasileiro e americano
+        // Ex: "R$ 10,000.00" ou "R$ 10.000,00"
         const parseMoneyValue = (val) => {
             if (!val) return 0;
-            const cleaned = String(val).replace(/[R$\s.]/g, '').replace(',', '.');
+            let cleaned = String(val);
+            // Remover R$ e espacos
+            cleaned = cleaned.replace(/R\$\s*/g, '').trim();
+
+            // Detectar formato: se tem virgula depois de ponto, e formato brasileiro
+            // Se tem ponto depois de virgula, e formato americano
+            const lastComma = cleaned.lastIndexOf(',');
+            const lastDot = cleaned.lastIndexOf('.');
+
+            if (lastComma > lastDot) {
+                // Formato brasileiro: 10.000,00
+                cleaned = cleaned.replace(/\./g, '').replace(',', '.');
+            } else {
+                // Formato americano: 10,000.00
+                cleaned = cleaned.replace(/,/g, '');
+            }
+
             return parseFloat(cleaned) || 0;
         };
 
-        // Parsear endereco para cidade e estado
-        const location = this.parseLocation(formData.endereco || '');
+        // Parsear endereco para cidade e estado - suporta mais formatos
+        const location = this.parseInvestorLocation(formData.endereco || '');
+
+        // Extrair estado das regioes de interesse se nao tiver no endereco
+        let state = location.state;
+        if (!state && formData.regioesInteresse) {
+            const regioes = formData.regioesInteresse.split(';');
+            const estadosPorRegiao = {
+                'Norte': 'AM',
+                'Nordeste': 'BA',
+                'Centro-Oeste': 'GO',
+                'Sudeste': 'SP',
+                'Sul': 'PR'
+            };
+            for (const regiao of regioes) {
+                if (estadosPorRegiao[regiao.trim()]) {
+                    state = estadosPorRegiao[regiao.trim()];
+                    break;
+                }
+            }
+        }
 
         // Dados basicos para colunas especificas
         const baseData = {
@@ -205,14 +275,14 @@ const FormMappers = {
             // Endereco
             address: formData.endereco || '',
             city: location.city,
-            state: location.state,
+            state: state,
 
             // Valores financeiros - usar valor maximo como totalFunds
             totalFunds: parseMoneyValue(formData.valorMax) || parseMoneyValue(formData.valorMin) || 0,
             investedFunds: 0, // Inicia com zero
 
-            // Descricao/Observacoes
-            description: formData.observacoesInvest || formData.descricao || formData.perfilInvestidor || '',
+            // Descricao/Observacoes - combinar campos relevantes
+            description: this.buildInvestorDescription(formData),
 
             // Status
             active: true
@@ -225,6 +295,51 @@ const FormMappers = {
         baseData.additionalData = JSON.stringify(additionalData);
 
         return baseData;
+    },
+
+    /**
+     * Parseia endereco de investidor para cidade e estado
+     * Suporta formatos: "Cidade - MG", "Cidade_MG", "Cidade/MG", "Cidade, MG"
+     */
+    parseInvestorLocation(address) {
+        if (!address) return { city: '', state: '' };
+
+        // Tentar extrair estado do final (2 letras maiusculas)
+        const stateMatch = address.match(/[,\-_\/\s]+([A-Za-z]{2})\s*$/);
+        if (stateMatch) {
+            const state = stateMatch[1].toUpperCase();
+            const city = address.replace(stateMatch[0], '').trim();
+            return { city, state };
+        }
+
+        // Tentar separar por delimitadores comuns
+        const parts = address.split(/[,\-_\/]+/);
+        if (parts.length >= 2) {
+            const lastPart = parts[parts.length - 1].trim();
+            if (lastPart.length === 2) {
+                return {
+                    city: parts.slice(0, -1).join(' ').trim(),
+                    state: lastPart.toUpperCase()
+                };
+            }
+        }
+
+        return { city: address.trim(), state: '' };
+    },
+
+    /**
+     * Constroi descricao do investidor com dados relevantes
+     */
+    buildInvestorDescription(formData) {
+        const parts = [];
+
+        if (formData.tipoInvestidor) parts.push(`Tipo: ${formData.tipoInvestidor}`);
+        if (formData.ramo) parts.push(`Ramo: ${formData.ramo}`);
+        if (formData.horizonte) parts.push(`Horizonte: ${formData.horizonte}`);
+        if (formData.risco) parts.push(`Risco: ${formData.risco}`);
+        if (formData.observacoesInvest) parts.push(formData.observacoesInvest);
+
+        return parts.join('. ') || '';
     },
 
     /**

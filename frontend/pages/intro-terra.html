@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Minha Terra - Renova Campo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .intro-page {
+            padding-top: 80px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #f8fdf8 0%, #ffffff 100%);
+        }
+
+        .intro-hero {
+            position: relative;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .intro-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(1, 76, 52, 0.92) 0%, rgba(0, 107, 79, 0.88) 100%),
+                        url('../imagens/imagens gerais/imagem geral 7.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .intro-hero .container {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .hero-content h1 {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .hero-content h1 span { color: #FFA726; }
+
+        .hero-content p {
+            color: rgba(255,255,255,0.9);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 10px 18px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-box .number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFA726;
+        }
+
+        .stat-box .label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 2px;
+        }
+
+        .stat-box .meta-tag {
+            font-size: 8px;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .hero-image { display: flex; justify-content: center; }
+
+        .hero-image img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .intro-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            color: #014C34;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 14px;
+            color: #64748b;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        /* Modalidades */
+        .modalidades-section { margin-bottom: 50px; }
+
+        .modalidades-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .modalidade-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .modalidade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: #014C34;
+        }
+
+        .modalidade-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .modalidade-icon i { font-size: 24px; color: #014C34; }
+
+        .modalidade-card h3 {
+            font-size: 17px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .modalidade-card p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .modalidade-features {
+            text-align: left;
+            padding: 12px;
+            background: #f8fdf8;
+            border-radius: 10px;
+        }
+
+        .modalidade-features li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 12px;
+            color: #374151;
+        }
+
+        .modalidade-features li i { color: #00875A; font-size: 12px; }
+
+        /* Beneficios */
+        .beneficios-section {
+            background: linear-gradient(135deg, #014C34, #006B4F);
+            border-radius: 20px;
+            padding: 35px 40px;
+            margin-bottom: 50px;
+        }
+
+        .beneficios-section h2 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        .beneficios-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .beneficio-item {
+            display: flex;
+            gap: 15px;
+            padding: 18px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .beneficio-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(3px);
+        }
+
+        .beneficio-item .icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,167,38,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .beneficio-item .icon i { font-size: 18px; color: #FFA726; }
+        .beneficio-item h4 { color: #fff; font-size: 14px; margin-bottom: 4px; font-weight: 600; }
+        .beneficio-item p { color: rgba(255,255,255,0.8); font-size: 12px; line-height: 1.5; }
+
+        /* Processo */
+        .processo-section { margin-bottom: 50px; }
+
+        .processo-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .processo-timeline::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 30px;
+            bottom: 30px;
+            width: 2px;
+            background: linear-gradient(180deg, #014C34, #00875A);
+        }
+
+        .processo-step {
+            display: flex;
+            gap: 20px;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #014C34, #00875A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(1,76,52,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-left: 3px solid #014C34;
+        }
+
+        .step-content h4 { font-size: 15px; color: #014C34; margin-bottom: 6px; font-weight: 600; }
+        .step-content p { color: #64748b; font-size: 13px; line-height: 1.5; }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .info-card.tip {
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border-left: 3px solid #FFA726;
+        }
+
+        .info-card.contact {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-left: 3px solid #2196F3;
+        }
+
+        .info-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .info-card.tip h4 { color: #E65100; }
+        .info-card.contact h4 { color: #1565C0; }
+        .info-card p { font-size: 13px; line-height: 1.5; }
+        .info-card.tip p { color: #BF360C; }
+        .info-card.contact p { color: #0D47A1; }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, #014C34, #006B4F);
+            border-radius: 16px;
+            padding: 35px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('../imagens/imagens gerais/imagem geral 8.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+        }
+
+        .cta-section > * { position: relative; z-index: 1; }
+        .cta-section h3 { font-size: 22px; color: #fff; margin-bottom: 10px; font-weight: 700; }
+        .cta-section p { font-size: 14px; color: rgba(255,255,255,0.9); margin-bottom: 20px; max-width: 450px; margin-left: auto; margin-right: auto; }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 35px;
+            background: #fff;
+            color: #014C34;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+        }
+
+        @media (max-width: 992px) {
+            .intro-hero .container { grid-template-columns: 1fr; text-align: center; }
+            .hero-stats { justify-content: center; }
+            .hero-image { display: none; }
+            .modalidades-grid, .beneficios-grid, .info-cards { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 26px; }
+            .hero-stats { flex-direction: column; gap: 10px; }
+            .processo-timeline::before { display: none; }
+            .processo-step { flex-direction: column; }
+            .step-number { width: 40px; height: 40px; font-size: 16px; }
+            .beneficios-section { padding: 25px 20px; }
+            .cta-section { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="logo">
+                    <img src="../imagens/logo renova campo.png" alt="Renova Campo" class="logo-img">
+                </a>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="../index.html#inicio">Início</a></li>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                    </ul>
+                </nav>
+                <div class="header-buttons">
+                    <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                    <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+                </div>
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="intro-page">
+        <section class="intro-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Transforme sua <span>Terra</span> em uma Fonte de Renda Sustentável</h1>
+                    <p>Conectamos proprietários de terras com investidores e produtores comprometidos com a agricultura regenerativa. Escolha a modalidade ideal para você.</p>
+                    <div class="hero-stats">
+                        <div class="stat-box">
+                            <span class="meta-tag">meta</span>
+                            <div class="number">15+</div>
+                            <div class="label">Propriedades</div>
+                        </div>
+                        <div class="stat-box">
+                            <span class="meta-tag">meta</span>
+                            <div class="number">5.000+</div>
+                            <div class="label">Hectares</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="number">48h</div>
+                            <div class="label">Retorno</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="../imagens/imagens gerais/imagem geral 9.jpg" alt="Agricultura Regenerativa">
+                </div>
+            </div>
+        </section>
+
+        <div class="intro-content">
+            <!-- Modalidades -->
+            <section class="modalidades-section">
+                <div class="section-header">
+                    <h2>Escolha a Modalidade Ideal para Você</h2>
+                    <p>Oferecemos diferentes formas de parceria para atender às suas necessidades</p>
+                </div>
+
+                <div class="modalidades-grid">
+                    <div class="modalidade-card">
+                        <div class="modalidade-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                        <h3>Receber Aluguel</h3>
+                        <p>Arrende sua terra e receba uma renda fixa mensal ou anual, sem se preocupar com a operação.</p>
+                        <ul class="modalidade-features">
+                            <li><i class="fas fa-check"></i> Renda garantida e previsível</li>
+                            <li><i class="fas fa-check"></i> Contrato de longo prazo</li>
+                            <li><i class="fas fa-check"></i> Sem envolvimento operacional</li>
+                            <li><i class="fas fa-check"></i> Valorização da propriedade</li>
+                        </ul>
+                    </div>
+
+                    <div class="modalidade-card">
+                        <div class="modalidade-icon"><i class="fas fa-handshake"></i></div>
+                        <h3>Ser Sócio</h3>
+                        <p>Entre como sócio no empreendimento e compartilhe os resultados do projeto na sua terra.</p>
+                        <ul class="modalidade-features">
+                            <li><i class="fas fa-check"></i> Participação nos lucros</li>
+                            <li><i class="fas fa-check"></i> Potencial de ganhos maiores</li>
+                            <li><i class="fas fa-check"></i> Acompanhamento do projeto</li>
+                            <li><i class="fas fa-check"></i> Decisões em conjunto</li>
+                        </ul>
+                    </div>
+
+                    <div class="modalidade-card">
+                        <div class="modalidade-icon"><i class="fas fa-seedling"></i></div>
+                        <h3>Aplicar Seu Projeto</h3>
+                        <p>Tem uma ideia? Desenvolva seu próprio projeto de agricultura regenerativa na sua terra.</p>
+                        <ul class="modalidade-features">
+                            <li><i class="fas fa-check"></i> Captação de investimentos</li>
+                            <li><i class="fas fa-check"></i> Suporte técnico especializado</li>
+                            <li><i class="fas fa-check"></i> Conexão com o mercado</li>
+                            <li><i class="fas fa-check"></i> Autonomia total</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Beneficios -->
+            <section class="beneficios-section">
+                <h2>Por que Cadastrar sua Terra na Renova Campo?</h2>
+                <div class="beneficios-grid">
+                    <div class="beneficio-item">
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <div>
+                            <h4>Rede de Parceiros Qualificados</h4>
+                            <p>Acesso a investidores e produtores comprometidos com práticas sustentáveis.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <div class="icon"><i class="fas fa-leaf"></i></div>
+                        <div>
+                            <h4>Valorização Ambiental</h4>
+                            <p>Projetos de regeneração melhoram o solo e aumentam o valor da propriedade.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <h4>Segurança Jurídica</h4>
+                            <p>Assessoria completa em contratos e documentação para proteger seus interesses.</p>
+                        </div>
+                    </div>
+                    <div class="beneficio-item">
+                        <div class="icon"><i class="fas fa-chart-line"></i></div>
+                        <div>
+                            <h4>Monitoramento e Relatórios Periódicos</h4>
+                            <p>Acompanhamos todos os projetos e geramos relatórios para você.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Processo -->
+            <section class="processo-section">
+                <div class="section-header">
+                    <h2>Como Funciona o Processo?</h2>
+                    <p>Um caminho simples e transparente até a parceria ideal</p>
+                </div>
+
+                <div class="processo-timeline">
+                    <div class="processo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Preencha o Questionário</h4>
+                            <p>Responda sobre sua propriedade: localização, tamanho, recursos hídricos e preferências. Quanto mais detalhes, melhor.</p>
+                        </div>
+                    </div>
+                    <div class="processo-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Análise e Contato</h4>
+                            <p>Nossa equipe analisa e entra em contato em até <strong>48 horas úteis</strong> para tirar dúvidas e apresentar opções.</p>
+                        </div>
+                    </div>
+                    <div class="processo-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Apresentação das Condições</h4>
+                            <p>Apresentamos propostas detalhadas com valores, prazos e responsabilidades de cada modalidade.</p>
+                        </div>
+                    </div>
+                    <div class="processo-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Início da Parceria</h4>
+                            <p>Após formalização, sua propriedade será conectada com investidores e você acompanha o desenvolvimento.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Info Cards -->
+            <div class="info-cards">
+                <div class="info-card tip">
+                    <h4><i class="fas fa-lightbulb"></i> Dica Importante</h4>
+                    <p>Preencha com o <strong>máximo de informações possível</strong>. Fotos, documentos e análises de solo aceleram o processo e aumentam suas chances.</p>
+                </div>
+                <div class="info-card contact">
+                    <h4><i class="fas fa-headset"></i> Suporte Garantido</h4>
+                    <p>Após o envio, entramos em contato em até <strong>48 horas úteis</strong>. Não se preocupe se não tiver todas as respostas!</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <section class="cta-section">
+                <h3>Pronto para Começar?</h3>
+                <p>O questionário leva aproximadamente 15-20 minutos. Você pode salvar e continuar depois.</p>
+                <a href="cadastro-terra.html" class="btn-cta">
+                    <i class="fas fa-play-circle"></i> Iniciar Questionário
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <img src="../imagens/Logo front end rodape.jpeg" alt="Renova Campo" class="footer-logo-img">
+                    </a>
+                    <p>Conectando proprietários de terras, produtores e investidores para uma agricultura regenerativa e sustentável.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-envelope"></i> contato@renovacampo.com.br</li>
+                        <li><i class="fas fa-phone"></i> (11) 9 8448-9104</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Renova Campo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.querySelector('.nav');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                this.querySelector('i').classList.toggle('fa-bars');
+                this.querySelector('i').classList.toggle('fa-times');
+            });
+        }
+    </script>
+</body>
+</html>

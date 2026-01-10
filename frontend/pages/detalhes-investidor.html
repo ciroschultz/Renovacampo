@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Investidor - Renova Campo</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <style>
+        .detail-page {
+            padding-top: 100px;
+            min-height: 100vh;
+            background-color: var(--fundo);
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, rgba(0, 79, 59, 0.9) 0%, rgba(0, 107, 79, 0.9) 100%),
+                        url('../imagens/imagens gerais/imagem geral 10.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 60px 0;
+            margin-bottom: 40px;
+        }
+
+        .detail-header h1 {
+            color: var(--branco);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .detail-header .breadcrumb {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+        }
+
+        .detail-header .breadcrumb a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .detail-header .breadcrumb a:hover {
+            color: var(--branco);
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .detail-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .detail-card {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--sombra);
+            margin-bottom: 20px;
+        }
+
+        .detail-card h2 {
+            color: var(--verde-principal);
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--cinza-claro);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-card h2 i {
+            color: var(--laranja);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .info-grid.single-col {
+            grid-template-columns: 1fr;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: var(--cinza-bg);
+            border-radius: 8px;
+        }
+
+        .info-item.full-width {
+            grid-column: span 2;
+        }
+
+        .info-item .label {
+            font-size: 12px;
+            color: var(--texto-claro);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--texto);
+        }
+
+        .info-item .value.highlight {
+            color: var(--verde-principal);
+        }
+
+        .info-item .value.money {
+            color: var(--laranja);
+            font-size: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .badge-green {
+            background: rgba(0, 135, 90, 0.1);
+            color: var(--verde-principal);
+        }
+
+        .badge-orange {
+            background: rgba(255, 167, 38, 0.1);
+            color: var(--laranja);
+        }
+
+        .badge-blue {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background: rgba(0, 135, 90, 0.1);
+            color: var(--verde-principal);
+        }
+
+        .status-badge.inactive {
+            background: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+
+        .document-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: var(--cinza-bg);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .document-item:hover {
+            background: #e8f5e9;
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .document-info i {
+            font-size: 24px;
+            color: var(--verde-principal);
+        }
+
+        .document-name {
+            font-weight: 500;
+            color: var(--texto);
+        }
+
+        .document-size {
+            font-size: 12px;
+            color: var(--texto-claro);
+        }
+
+        .btn-download {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--verde-principal);
+            color: var(--branco);
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-download:hover {
+            background: var(--verde-escuro);
+        }
+
+        .sidebar-card {
+            background: var(--branco);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--sombra);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-card h3 {
+            color: var(--verde-principal);
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--cinza-claro);
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 135, 90, 0.1);
+            color: var(--verde-principal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-info .label {
+            font-size: 12px;
+            color: var(--texto-claro);
+        }
+
+        .contact-info .value {
+            font-weight: 500;
+            color: var(--texto);
+        }
+
+        .investment-summary {
+            background: linear-gradient(135deg, var(--verde-principal), var(--verde-claro));
+            border-radius: var(--border-radius);
+            padding: 25px;
+            color: var(--branco);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .investment-summary h3 {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .investment-summary .amount {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .investment-summary .range {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading i {
+            font-size: 48px;
+            color: var(--verde-principal);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #F44336;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--branco);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="logo">
+                    <img src="../imagens/logo renova campo.png" alt="Renova Campo" class="logo-img">
+                </a>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="../index.html#inicio">Início</a></li>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                    </ul>
+                </nav>
+                <div class="header-buttons">
+                    <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                    <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+                </div>
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="detail-page">
+        <div class="detail-header">
+            <div class="container">
+                <a href="../index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+                <h1 id="investorName">Carregando...</h1>
+                <p class="breadcrumb">
+                    <a href="../index.html">Início</a> /
+                    <a href="#">Investidores</a> /
+                    <span id="breadcrumbName">Detalhes</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="loadingState" class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Carregando informações do investidor...</p>
+            </div>
+
+            <div id="errorState" class="error-message" style="display: none;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 20px;"></i>
+                <h2>Investidor não encontrado</h2>
+                <p>Não foi possível carregar as informações do investidor.</p>
+                <a href="../index.html" class="btn btn-primary" style="margin-top: 20px;">Voltar ao Início</a>
+            </div>
+
+            <div id="contentState" class="detail-content" style="display: none;">
+                <!-- Coluna Principal -->
+                <div class="main-column">
+                    <!-- Dados Pessoais -->
+                    <div class="detail-card">
+                        <h2><i class="fas fa-user"></i> Dados do Investidor</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="label">Nome</div>
+                                <div class="value" id="nome">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">CPF/CNPJ</div>
+                                <div class="value" id="cpfCnpj">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Tipo</div>
+                                <div class="value" id="tipoInvestidor">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Status</div>
+                                <div class="value" id="status">-</div>
+                            </div>
+                            <div class="info-item full-width">
+                                <div class="label">Endereço</div>
+                                <div class="value" id="endereco">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perfil de Investimento -->
+                    <div class="detail-card">
+                        <h2><i class="fas fa-chart-pie"></i> Perfil de Investimento</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="label">Valor Mínimo</div>
+                                <div class="value money" id="valorMin">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Valor Máximo</div>
+                                <div class="value money" id="valorMax">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Horizonte</div>
+                                <div class="value" id="horizonte">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Tipo de Retorno</div>
+                                <div class="value" id="tipoRetorno">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Perfil de Risco</div>
+                                <div class="value" id="risco">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Expectativa de Retorno</div>
+                                <div class="value highlight" id="expectativaRetorno">-</div>
+                            </div>
+                            <div class="info-item full-width">
+                                <div class="label">Tipos de Projeto de Interesse</div>
+                                <div class="value" id="tiposProjeto">-</div>
+                            </div>
+                            <div class="info-item full-width">
+                                <div class="label">Regiões de Interesse</div>
+                                <div class="value" id="regioesInteresse">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Critérios ESG e Sustentabilidade -->
+                    <div class="detail-card">
+                        <h2><i class="fas fa-leaf"></i> Critérios ESG e Sustentabilidade</h2>
+                        <div class="info-grid">
+                            <div class="info-item full-width">
+                                <div class="label">Metas ESG</div>
+                                <div class="value" id="metasESG">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Certificações Requeridas</div>
+                                <div class="value" id="certificacoesReq">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Co-benefícios</div>
+                                <div class="value" id="cobeneficios">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Interesse em Carbono</div>
+                                <div class="value" id="interesseCarbono">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Ação com Carbono</div>
+                                <div class="value" id="acaoCarbono">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Observações -->
+                    <div class="detail-card">
+                        <h2><i class="fas fa-comment-alt"></i> Observações</h2>
+                        <div class="info-grid single-col">
+                            <div class="info-item">
+                                <div class="label">Observações do Investidor</div>
+                                <div class="value" id="observacoes">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Critérios Adicionais</div>
+                                <div class="value" id="criteriosAdicionais">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Restrições Locais</div>
+                                <div class="value" id="restricoesLocais">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Documentos -->
+                    <div class="detail-card">
+                        <h2><i class="fas fa-file-alt"></i> Documentos Anexados</h2>
+                        <ul class="document-list" id="documentList">
+                            <li class="document-item">
+                                <div class="document-info">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <div>
+                                        <div class="document-name">Carregando documentos...</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar-column">
+                    <!-- Resumo do Investimento -->
+                    <div class="investment-summary">
+                        <h3>Capacidade de Investimento</h3>
+                        <div class="amount" id="investmentAmount">-</div>
+                        <div class="range" id="investmentRange">-</div>
+                    </div>
+
+                    <!-- Contato -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-address-book"></i> Contato</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-info">
+                                <div class="label">E-mail</div>
+                                <div class="value" id="email">-</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div class="contact-info">
+                                <div class="label">Telefone</div>
+                                <div class="value" id="telefone">-</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-info">
+                                <div class="label">Localização</div>
+                                <div class="value" id="localizacao">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Datas -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-calendar"></i> Informações</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-calendar-plus"></i>
+                            <div class="contact-info">
+                                <div class="label">Data de Cadastro</div>
+                                <div class="value" id="dataCadastro">-</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="contact-info">
+                                <div class="label">Última Atualização</div>
+                                <div class="value" id="dataAtualizacao">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <img src="../imagens/Logo front end rodape.jpeg" alt="Renova Campo" class="footer-logo-img">
+                    </a>
+                    <p>Conectando proprietários de terras, produtores e investidores para uma agricultura regenerativa e sustentável.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                        <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                        <li><a href="../index.html#simulador">Simulador</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-envelope"></i> contato@renovacampo.com.br</li>
+                        <li><i class="fas fa-phone"></i> (11) 9 8448-9104</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Renova Campo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.querySelector('.nav');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                this.querySelector('i').classList.toggle('fa-bars');
+                this.querySelector('i').classList.toggle('fa-times');
+            });
+        }
+
+        // Obter ID do investidor da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const investorId = urlParams.get('id');
+
+        // Elementos
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const contentState = document.getElementById('contentState');
+
+        // Carregar dados do investidor
+        async function loadInvestorDetails() {
+            if (!investorId) {
+                showError();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/v1/investors/${investorId}`);
+
+                if (!response.ok) {
+                    throw new Error('Investidor não encontrado');
+                }
+
+                const investor = await response.json();
+                displayInvestorData(investor);
+
+            } catch (error) {
+                console.error('Erro ao carregar investidor:', error);
+                showError();
+            }
+        }
+
+        function displayInvestorData(investor) {
+            // Parsear additionalData
+            let additionalData = {};
+            if (investor.additionalData) {
+                try {
+                    additionalData = JSON.parse(investor.additionalData);
+                } catch (e) {
+                    console.error('Erro ao parsear additionalData:', e);
+                }
+            }
+
+            // Header
+            document.getElementById('investorName').textContent = investor.name || 'Investidor';
+            document.getElementById('breadcrumbName').textContent = investor.name || 'Detalhes';
+
+            // Dados básicos
+            document.getElementById('nome').textContent = investor.name || '-';
+            document.getElementById('cpfCnpj').textContent = additionalData.cpfcnpj || investor.taxId || '-';
+            document.getElementById('tipoInvestidor').textContent = additionalData.tipoInvestidor || 'Pessoa Física';
+
+            // Status
+            const statusEl = document.getElementById('status');
+            if (investor.active) {
+                statusEl.innerHTML = '<span class="status-badge active"><i class="fas fa-check-circle"></i> Ativo</span>';
+            } else {
+                statusEl.innerHTML = '<span class="status-badge inactive"><i class="fas fa-times-circle"></i> Inativo</span>';
+            }
+
+            document.getElementById('endereco').textContent = investor.address || additionalData.endereco || '-';
+
+            // Perfil de Investimento
+            document.getElementById('valorMin').textContent = additionalData.valorMin || '-';
+            document.getElementById('valorMax').textContent = additionalData.valorMax || '-';
+            document.getElementById('horizonte').textContent = additionalData.horizonte || '-';
+            document.getElementById('tipoRetorno').textContent = additionalData.tipoRetorno || '-';
+            document.getElementById('risco').textContent = additionalData.risco || '-';
+            document.getElementById('expectativaRetorno').textContent = additionalData.expectativaRetorno ? `${additionalData.expectativaRetorno}% a.a.` : '-';
+
+            // Tipos de projeto (badges)
+            const tiposProjetoEl = document.getElementById('tiposProjeto');
+            if (additionalData.tiposProjeto) {
+                const tipos = additionalData.tiposProjeto.split(';').map(t => t.trim());
+                tiposProjetoEl.innerHTML = tipos.map(t => `<span class="badge badge-green">${t}</span>`).join(' ');
+            } else {
+                tiposProjetoEl.textContent = '-';
+            }
+
+            // Regiões de interesse (badges)
+            const regioesEl = document.getElementById('regioesInteresse');
+            if (additionalData.regioesInteresse) {
+                const regioes = additionalData.regioesInteresse.split(';').map(r => r.trim());
+                regioesEl.innerHTML = regioes.map(r => `<span class="badge badge-blue">${r}</span>`).join(' ');
+            } else {
+                regioesEl.textContent = '-';
+            }
+
+            // ESG
+            document.getElementById('metasESG').textContent = additionalData.metasESG || '-';
+            document.getElementById('certificacoesReq').textContent = additionalData.certificacoesReq || '-';
+            document.getElementById('cobeneficios').textContent = additionalData.cobeneficios || '-';
+            document.getElementById('interesseCarbono').textContent = additionalData.interesseCarbono || '-';
+            document.getElementById('acaoCarbono').textContent = additionalData.acaoCarbono || '-';
+
+            // Observações
+            document.getElementById('observacoes').textContent = additionalData.observacoesInvest || '-';
+            document.getElementById('criteriosAdicionais').textContent = additionalData.criteriosAdicionais || '-';
+            document.getElementById('restricoesLocais').textContent = additionalData.restricoesLocais || '-';
+
+            // Sidebar - Contato
+            document.getElementById('email').textContent = investor.email || '-';
+            document.getElementById('telefone').textContent = investor.phone || additionalData.telefone || '-';
+            document.getElementById('localizacao').textContent = additionalData.pais || 'Brasil';
+
+            // Sidebar - Investimento
+            document.getElementById('investmentAmount').textContent = additionalData.valorMax || '-';
+            document.getElementById('investmentRange').textContent = additionalData.valorMin ? `Mínimo: ${additionalData.valorMin}` : '';
+
+            // Datas
+            if (investor.createDate) {
+                document.getElementById('dataCadastro').textContent = new Date(investor.createDate).toLocaleDateString('pt-BR');
+            }
+            if (investor.updateDate) {
+                document.getElementById('dataAtualizacao').textContent = new Date(investor.updateDate).toLocaleDateString('pt-BR');
+            }
+
+            // Documentos
+            loadInvestorDocuments(investor.id, additionalData);
+
+            // Mostrar conteúdo
+            loadingState.style.display = 'none';
+            contentState.style.display = 'grid';
+        }
+
+        async function loadInvestorDocuments(investorId, additionalData) {
+            const docList = document.getElementById('documentList');
+            const documents = [];
+
+            // Documentos do additionalData
+            if (additionalData.politicaSustent) {
+                documents.push({
+                    name: additionalData.politicaSustent,
+                    type: 'Política de Sustentabilidade'
+                });
+            }
+            if (additionalData.anexoDocs) {
+                documents.push({
+                    name: additionalData.anexoDocs,
+                    type: 'Documento Anexo'
+                });
+            }
+
+            // Tentar carregar documentos do backend
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/v1/files/investor/${investorId}`);
+                if (response.ok) {
+                    const files = await response.json();
+                    files.forEach(file => {
+                        documents.push({
+                            id: file.id,
+                            name: file.originalFileName,
+                            type: file.fileType,
+                            size: file.fileSize,
+                            url: `${CONFIG.API_BASE_URL}/api/v1/files/${file.id}`
+                        });
+                    });
+                }
+            } catch (e) {
+                console.log('Não foi possível carregar documentos do backend');
+            }
+
+            // Renderizar lista de documentos
+            if (documents.length > 0) {
+                docList.innerHTML = documents.map(doc => `
+                    <li class="document-item">
+                        <div class="document-info">
+                            <i class="fas fa-file-${getFileIcon(doc.name)}"></i>
+                            <div>
+                                <div class="document-name">${doc.name}</div>
+                                <div class="document-size">${doc.type}${doc.size ? ' - ' + formatFileSize(doc.size) : ''}</div>
+                            </div>
+                        </div>
+                        ${doc.url ? `<a href="${doc.url}" class="btn-download" target="_blank"><i class="fas fa-download"></i> Baixar</a>` : ''}
+                    </li>
+                `).join('');
+            } else {
+                docList.innerHTML = '<li class="document-item"><div class="document-info"><i class="fas fa-info-circle"></i><div><div class="document-name">Nenhum documento anexado</div></div></div></li>';
+            }
+        }
+
+        function getFileIcon(filename) {
+            if (!filename) return 'alt';
+            const ext = filename.split('.').pop().toLowerCase();
+            if (ext === 'pdf') return 'pdf';
+            if (['doc', 'docx'].includes(ext)) return 'word';
+            if (['xls', 'xlsx'].includes(ext)) return 'excel';
+            if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) return 'image';
+            return 'alt';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function showError() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'block';
+        }
+
+        // Iniciar carregamento
+        loadInvestorDetails();
+    </script>
+</body>
+</html>
