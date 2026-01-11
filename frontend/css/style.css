@@ -1463,6 +1463,16 @@ section {
         grid-template-columns: 1fr;
     }
 
+    .simulador-grid {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .simulador-form,
+    .simulador-resultado {
+        width: 100%;
+    }
+
     .footer-grid {
         grid-template-columns: repeat(2, 1fr);
     }

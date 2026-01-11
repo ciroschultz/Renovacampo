@@ -669,9 +669,62 @@
                     <a href="login.html" class="btn btn-outline-orange">Entrar</a>
                     <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
                 </div>
+
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="../index.html#inicio">Início</a></li>
+                <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                <li><a href="../index.html#simulador">Simulador</a></li>
+                <li><a href="quem-somos.html">Quem Somos</a></li>
+                <li><a href="../index.html#depoimentos">Depoimentos</a></li>
+                <li><a href="parcerias.html">Parcerias</a></li>
+            </ul>
+            <div class="mobile-menu-buttons">
+                <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
             </div>
         </div>
     </header>
+
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    });
+                });
+            }
+        });
+    </script>
 
     <div class="page-content">
         <!-- Hero -->
@@ -970,7 +1023,7 @@
                 <div class="footer-contact">
                     <h4>Contato</h4>
                     <ul class="contact-list">
-                        <li><i class="fas fa-map-marker-alt"></i> Sao Paulo - SP</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Rua Dr João Maia 145, Aclimação - SP</li>
                         <li><i class="fas fa-envelope"></i> contato@renovacampo.com.br</li>
                     </ul>
 
