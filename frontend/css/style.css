@@ -29,6 +29,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -36,6 +37,7 @@ body {
     background-color: var(--fundo);
     color: var(--texto);
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .container {
@@ -300,6 +302,11 @@ img {
     font-size: 24px;
     color: var(--verde-principal);
     cursor: pointer;
+    padding: 8px;
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+    margin-right: 15px;
 }
 
 /* ========================================
@@ -1404,6 +1411,20 @@ section {
 }
 
 @media (max-width: 768px) {
+    .header-content {
+        padding: 10px 0;
+    }
+
+    .logo-img {
+        height: 35px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .hero h1 {
         font-size: 32px;
     }
