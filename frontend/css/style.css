@@ -1474,7 +1474,35 @@ section {
         gap: 30px;
     }
 
-    .simulador-form,
+    .simulador-form {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        margin: 0;
+    }
+
+    .simulador-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .simulador-form .input-prefix {
+        width: 100%;
+    }
+
+    .simulador-form .input-prefix input {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .simulador-form .periodo-options {
+        flex-wrap: wrap;
+    }
+
+    .simulador-form .periodo-btn {
+        flex: 1 1 45%;
+        min-width: 0;
+    }
+
     .simulador-resultado {
         width: 100%;
         box-sizing: border-box;
