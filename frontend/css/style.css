@@ -1388,13 +1388,15 @@ section {
 .mobile-menu {
     display: none;
     position: fixed;
-    top: 70px;
+    top: 60px;
     left: 0;
     right: 0;
+    bottom: 0;
     background-color: var(--branco);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     z-index: 999;
-    padding: 20px;
+    padding: 15px;
+    overflow-y: auto;
 }
 
 .mobile-menu.active {
@@ -1408,14 +1410,14 @@ section {
 }
 
 .mobile-menu ul li {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .mobile-menu ul li a {
     display: block;
-    padding: 12px 15px;
+    padding: 10px 12px;
     color: var(--texto);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     border-radius: 8px;
     transition: var(--transition);
@@ -1429,14 +1431,15 @@ section {
 .mobile-menu-buttons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 20px;
+    gap: 8px;
+    margin-top: 15px;
+    padding-top: 15px;
     border-top: 1px solid var(--cinza-claro);
 }
 
 .mobile-menu-buttons .btn {
     text-align: center;
+    padding: 10px 20px;
 }
 
 @media (max-width: 1024px) {
