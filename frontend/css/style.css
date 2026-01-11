@@ -1464,13 +1464,15 @@ section {
     }
 
     .simulador-grid {
-        max-width: 500px;
+        max-width: 100%;
         margin: 0 auto;
+        padding: 0 15px;
     }
 
     .simulador-form,
     .simulador-resultado {
         width: 100%;
+        box-sizing: border-box;
     }
 
     .footer-grid {
