@@ -1463,16 +1463,22 @@ section {
         grid-template-columns: 1fr;
     }
 
+    .simulador .container {
+        padding: 0 20px;
+    }
+
     .simulador-grid {
         max-width: 100%;
-        margin: 0 auto;
-        padding: 0 15px;
+        margin: 0;
+        padding: 0;
+        gap: 30px;
     }
 
     .simulador-form,
     .simulador-resultado {
         width: 100%;
         box-sizing: border-box;
+        padding: 25px;
     }
 
     .footer-grid {
