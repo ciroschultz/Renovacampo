@@ -170,47 +170,39 @@
                     <!-- Photos Section -->
                     <div class="card" style="margin-bottom: 1.5rem;">
                         <div class="card-header">
-                            <h3>Fotos da Propriedade</h3>
+                            <h3><i class="fas fa-images" style="color: #EC6618;"></i> Fotos da Propriedade</h3>
                         </div>
                         <div class="card-body" id="photos-section">
-                            <div class="loading-spinner">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                <span>Carregando fotos...</span>
-                            </div>
+                            <p class="no-data">Carregando fotos...</p>
                         </div>
                     </div>
 
                     <!-- Documents Section -->
                     <div class="card">
                         <div class="card-header">
-                            <h3>Documentos</h3>
+                            <h3><i class="fas fa-file-alt" style="color: #EC6618;"></i> Documentos</h3>
                         </div>
                         <div class="card-body" id="documents-section">
-                            <div class="loading-spinner">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                <span>Carregando documentos...</span>
-                            </div>
+                            <p class="no-data">Carregando documentos...</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Dados Extras do Formulário -->
+            <!-- Dados Extras do Formulário - Exibidos automaticamente -->
             <div class="card" style="margin-top: 1.5rem;" th:if="${property.additionalData != null and !property.additionalData.isEmpty()}">
-                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3><i class="fas fa-clipboard-list"></i> Dados do Formulário</h3>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdditionalData()">
-                        <i class="fas fa-eye" id="toggle-icon"></i>
-                        <span id="toggle-text">Mostrar</span>
-                    </button>
+                <div class="card-header">
+                    <h3><i class="fas fa-clipboard-list" style="color: #EC6618;"></i> Dados do Formulário</h3>
                 </div>
-                <div class="card-body" id="additional-data-section" style="display: none;">
-                    <div id="additional-data-content"></div>
+                <div class="card-body" id="additional-data-content">
+                    <p class="no-data">Carregando dados...</p>
                 </div>
-                <script th:inline="javascript">
-                    var additionalDataRaw = /*[[${property.additionalData}]]*/ '{}';
-                </script>
             </div>
+
+            <script th:inline="javascript">
+                var additionalDataRaw = /*[[${property.additionalData}]]*/ null;
+                var propertyId = /*[[${property.id}]]*/ 0;
+            </script>
         </div>
     </main>
 
@@ -219,27 +211,146 @@
 
     <!-- Scripts -->
     <script>
-        // Function to load fragments
-        function loadFragments() {
-            // Load photos fragment
-            htmx.ajax('GET', '/api/v1/photos/property/' + [[${property.id}]] + '/fragment', {
-                target: '#photos-section',
-                swap: 'innerHTML'
-            });
-            
-            // First load documents quickly with minimal data
-            htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment?quick=true', {
-                target: '#documents-section', 
-                swap: 'innerHTML'
-            });
-            
-            // Then load full document details after a short delay
-            setTimeout(() => {
-                htmx.ajax('GET', '/api/v1/files/property/' + [[${property.id}]] + '/fragment', {
-                    target: '#documents-section', 
-                    swap: 'innerHTML'
+        // Labels amigaveis para os campos do formulario
+        const fieldLabels = {
+            'nome_prop': 'Nome do Proprietario',
+            'cpf_cnpj': 'CPF/CNPJ',
+            'email': 'E-mail',
+            'telefone': 'Telefone',
+            'end_resid': 'Endereco Residencial',
+            'horário_contato': 'Melhor Horario para Contato',
+            'nome_propriedade': 'Nome da Propriedade',
+            'end_prop': 'Endereco da Propriedade',
+            'área_total': 'Area Total (ha)',
+            'área_disp': 'Area Disponivel (ha)',
+            'geolink': 'Geolocalizacao',
+            'matricula': 'Matricula do Imovel',
+            'sit_registral': 'Situacao Registral',
+            'uso_atual': 'Uso Atual',
+            'ultimas_culturas': 'Ultimas Culturas',
+            'água_fontes': 'Fontes de Agua',
+            'outorga': 'Outorga de Agua',
+            'irrigacao': 'Irrigacao',
+            'benfe': 'Benfeitorias',
+            'reserva_legal': 'Reserva Legal',
+            'apps': 'APPs',
+            'modalidade_interesse': 'Modalidade de Interesse',
+            'aluguel_proposto': 'Aluguel Proposto',
+            'prazo_min': 'Prazo Minimo (anos)',
+            'autoriza_visita': 'Autoriza Visitas Tecnicas',
+            'condicoes_essenciais': 'Condicoes Essenciais',
+            'assinatura': 'Assinatura Digital',
+            'data_assinatura': 'Data da Assinatura'
+        };
+
+        // Campos a ignorar na exibicao
+        const ignoreFields = ['timestamp', 'fotos', 'doc_matricula', 'doc_ccir', 'doc_cer', 'arrend_upload', 'soil_files', 'outorga_upload', 'reserva_files', 'apps_upload', 'mapa_upload', 'outros_docs', 'upload_kml'];
+
+        // Carregar fotos da propriedade
+        function loadPhotos() {
+            const container = document.getElementById('photos-section');
+
+            fetch('/api/v1/photos/property/' + propertyId)
+                .then(response => response.ok ? response.json() : [])
+                .then(photos => {
+                    if (photos.length === 0) {
+                        container.innerHTML = '<p class="no-data">Nenhuma foto cadastrada.</p>';
+                        return;
+                    }
+
+                    let html = '<div class="photos-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">';
+                    photos.forEach(photo => {
+                        html += `
+                            <div class="photo-item" style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <a href="/api/v1/photos/${photo.id}" target="_blank">
+                                    <img src="/api/v1/photos/${photo.id}" alt="${photo.originalFileName}"
+                                         style="width: 100%; height: 120px; object-fit: cover;">
+                                </a>
+                                <div style="padding: 0.5rem; background: #f8fafc; font-size: 0.75rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    ${photo.originalFileName}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    container.innerHTML = html;
+                })
+                .catch(() => {
+                    container.innerHTML = '<p class="no-data">Erro ao carregar fotos.</p>';
                 });
-            }, 500);
+        }
+
+        // Carregar documentos da propriedade
+        function loadDocuments() {
+            const container = document.getElementById('documents-section');
+
+            fetch('/api/v1/files/property/' + propertyId)
+                .then(response => response.ok ? response.json() : [])
+                .then(files => {
+                    const documents = files.filter(f => f.fileType === 'DOCUMENT');
+
+                    if (documents.length === 0) {
+                        container.innerHTML = '<p class="no-data">Nenhum documento cadastrado.</p>';
+                        return;
+                    }
+
+                    let html = '<ul class="document-list" style="list-style: none; padding: 0; margin: 0;">';
+                    documents.forEach(doc => {
+                        const sizeKB = Math.round(doc.fileSize / 1024);
+                        html += `
+                            <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: #f8fafc; border-radius: 6px; margin-bottom: 0.5rem; border-left: 3px solid #EC6618;">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <i class="fas fa-file-pdf" style="font-size: 1.25rem; color: #014C34;"></i>
+                                    <div>
+                                        <div style="font-weight: 500; color: #1e293b;">${doc.originalFileName}</div>
+                                        <div style="font-size: 0.75rem; color: #64748b;">${sizeKB} KB</div>
+                                    </div>
+                                </div>
+                                <a href="/api/v1/files/${doc.id}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.5rem 1rem; background: #014C34; color: white; border-radius: 4px; font-size: 0.8rem; text-decoration: none;">
+                                    <i class="fas fa-download"></i> Baixar
+                                </a>
+                            </li>
+                        `;
+                    });
+                    html += '</ul>';
+                    container.innerHTML = html;
+                })
+                .catch(() => {
+                    container.innerHTML = '<p class="no-data">Erro ao carregar documentos.</p>';
+                });
+        }
+
+        // Carregar dados adicionais do formulario
+        function loadAdditionalData() {
+            const container = document.getElementById('additional-data-content');
+
+            if (!additionalDataRaw) {
+                container.innerHTML = '<p class="no-data">Nenhum dado adicional disponivel.</p>';
+                return;
+            }
+
+            try {
+                const data = JSON.parse(additionalDataRaw);
+                let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">';
+
+                for (const [key, value] of Object.entries(data)) {
+                    if (ignoreFields.includes(key) || !value || value === '') continue;
+
+                    const label = fieldLabels[key] || key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
+                    html += `
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 6px; border-left: 3px solid #014C34;">
+                            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem;">${label}</div>
+                            <div style="font-weight: 500; color: #1e293b;">${value}</div>
+                        </div>
+                    `;
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Erro ao parsear additionalData:', e);
+                container.innerHTML = '<p class="no-data">Erro ao carregar dados adicionais.</p>';
+            }
         }
         
         // Initialize map
@@ -286,258 +397,12 @@
         
         // Load on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadFragments();
+            loadPhotos();
+            loadDocuments();
+            loadAdditionalData();
             // Add small delay to ensure map container is ready
             setTimeout(initializeMap, 100);
         });
-        
-        // Also load when page becomes visible (in case of navigation)
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                loadFragments();
-                setTimeout(initializeMap, 100);
-            }
-        });
-        
-        // Load when navigating back to page
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                loadFragments();
-                setTimeout(initializeMap, 100);
-            }
-        });
-
-        // Toggle additional data visibility
-        function toggleAdditionalData() {
-            const section = document.getElementById('additional-data-section');
-            const icon = document.getElementById('toggle-icon');
-            const text = document.getElementById('toggle-text');
-
-            if (section.style.display === 'none') {
-                section.style.display = 'block';
-                icon.className = 'fas fa-eye-slash';
-                text.textContent = 'Ocultar';
-                renderAdditionalData();
-            } else {
-                section.style.display = 'none';
-                icon.className = 'fas fa-eye';
-                text.textContent = 'Mostrar';
-            }
-        }
-
-        // Render additional data as formatted HTML
-        function renderAdditionalData() {
-            const container = document.getElementById('additional-data-content');
-            if (container.innerHTML !== '') return; // Already rendered
-
-            try {
-                if (typeof additionalDataRaw === 'undefined' || !additionalDataRaw || additionalDataRaw === 'null') {
-                    container.innerHTML = '<p style="color: #64748b;">Nenhum dado adicional disponível.</p>';
-                    return;
-                }
-
-                const data = JSON.parse(additionalDataRaw);
-                container.innerHTML = renderFormattedData(data);
-            } catch (e) {
-                console.error('Error parsing additional data:', e);
-                container.innerHTML = '<p style="color: #ef4444;">Erro ao carregar dados adicionais: ' + escapeHtml(e.message) + '</p>';
-            }
-        }
-
-        // Formatar valor para exibição (lida com objetos, arrays e strings JSON)
-        function formatValue(value) {
-            if (value === null || value === undefined || value === '') return '-';
-
-            // Se for string, verificar se é JSON
-            if (typeof value === 'string') {
-                // Tentar parsear como JSON (para campos como producao_atual)
-                if (value.startsWith('[') || value.startsWith('{')) {
-                    try {
-                        const parsed = JSON.parse(value);
-                        return formatValue(parsed);
-                    } catch (e) {
-                        return escapeHtml(value);
-                    }
-                }
-                return escapeHtml(value);
-            }
-
-            // Se for array
-            if (Array.isArray(value)) {
-                if (value.length === 0) return '-';
-                // Array de objetos (como producao_atual)
-                if (typeof value[0] === 'object') {
-                    let html = '<ul style="margin: 0.25rem 0; padding-left: 1.25rem;">';
-                    value.forEach(item => {
-                        const itemText = Object.entries(item)
-                            .map(([k, v]) => formatLabel(k) + ': ' + escapeHtml(String(v)))
-                            .join(' | ');
-                        html += '<li style="margin-bottom: 0.25rem;">' + itemText + '</li>';
-                    });
-                    html += '</ul>';
-                    return html;
-                }
-                // Array simples
-                return escapeHtml(value.join(', '));
-            }
-
-            // Se for objeto
-            if (typeof value === 'object') {
-                const entries = Object.entries(value);
-                if (entries.length === 0) return '-';
-                return entries.map(([k, v]) => formatLabel(k) + ': ' + escapeHtml(String(v))).join(', ');
-            }
-
-            return escapeHtml(String(value));
-        }
-
-        // Verificar se campo tem valor válido
-        function hasValue(value) {
-            if (value === null || value === undefined) return false;
-            if (typeof value === 'string') return value.trim() !== '';
-            if (Array.isArray(value)) return value.length > 0;
-            if (typeof value === 'object') return Object.keys(value).length > 0;
-            return true;
-        }
-
-        // Render data in a more organized format with sections
-        function renderFormattedData(data) {
-            const sections = {
-                'Proprietário': ['nome_prop', 'cpf_cnpj', 'email', 'telefone', 'end_resid', 'horário_contato'],
-                'Propriedade': ['nome_propriedade', 'end_prop', 'área_total', 'área_disp', 'geolink', 'upload_kml', 'matricula', 'sit_registral'],
-                'Documentos': ['doc_matricula', 'doc_ccir', 'doc_cer', 'arrend_vigente', 'onus', 'arrend_text', 'arrend_upload', 'onus_text'],
-                'Solo & Uso': ['uso_atual', 'ultimas_culturas', 'soil_análise', 'soil_data', 'soil_files', 'obs_erosao'],
-                'Água & Infraestrutura': ['água_fontes', 'outorga', 'vazao', 'outorga_num', 'outorga_upload', 'irrigacao'],
-                'Benfeitorias': ['benfe', 'estado_cercas', 'estado_estradas', 'compensacoes', 'comp_text'],
-                'Ambiental': ['reserva_legal', 'apps', 'reserva_files', 'apps_text', 'apps_upload', 'pend_env', 'pend_text'],
-                'Produção': ['producao_atual', 'offtake', 'rendimento', 'certificacoes'],
-                'Modelo de Arrendamento': ['modalidade_interesse', 'aluguel_proposto', 'aluguel_formula', 'modal2_participa', 'valuation', 'prazo_min', 'autoriza_visita', 'condicoes_essenciais'],
-                'Confirmação': ['trab_regulares', 'comunidades', 'conflitos', 'conflitos_text', 'fotos', 'mapa_upload', 'outros_docs', 'declaro', 'assinatura', 'data_assinatura', 'consent_imagem']
-            };
-
-            let html = '';
-            const usedKeys = new Set();
-
-            for (const [sectionName, fields] of Object.entries(sections)) {
-                const sectionFields = fields.filter(f => hasValue(data[f]));
-                if (sectionFields.length === 0) continue;
-
-                html += '<div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">';
-                html += '<h4 style="color: #EC6618; margin: 0 0 0.75rem 0; font-size: 0.95rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">' + sectionName + '</h4>';
-                html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem;">';
-
-                for (const field of sectionFields) {
-                    usedKeys.add(field);
-                    html += '<div style="padding: 0.25rem 0;">';
-                    html += '<span style="font-weight: 600; color: #014C34; font-size: 0.85rem;">' + formatLabel(field) + ':</span> ';
-                    html += '<span style="color: #374151;">' + formatValue(data[field]) + '</span>';
-                    html += '</div>';
-                }
-
-                html += '</div></div>';
-            }
-
-            // Render any remaining fields not in predefined sections
-            const remainingFields = Object.keys(data).filter(k => !usedKeys.has(k) && hasValue(data[k]) && k !== 'timestamp');
-            if (remainingFields.length > 0) {
-                html += '<div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">';
-                html += '<h4 style="color: #64748b; margin: 0 0 0.75rem 0; font-size: 0.95rem;">Outros Dados</h4>';
-                for (const field of remainingFields) {
-                    html += '<div style="padding: 0.25rem 0;">';
-                    html += '<span style="font-weight: 600; color: #374151; font-size: 0.85rem;">' + formatLabel(field) + ':</span> ';
-                    html += '<span style="color: #64748b;">' + formatValue(data[field]) + '</span>';
-                    html += '</div>';
-                }
-                html += '</div>';
-            }
-
-            return html || '<p style="color: #64748b;">Nenhum dado adicional disponível.</p>';
-        }
-
-        // Recursively render object as HTML
-        function renderObject(obj, level) {
-            if (obj === null || obj === undefined) return '<span style="color: #64748b;">-</span>';
-            if (typeof obj !== 'object') return escapeHtml(String(obj));
-            if (Array.isArray(obj)) return obj.map(item => escapeHtml(String(item))).join(', ');
-
-            let html = '<div class="additional-data-group" style="margin-left: ' + (level * 1) + 'rem;">';
-            for (const [key, value] of Object.entries(obj)) {
-                const label = formatLabel(key);
-                if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-                    html += '<div class="data-section" style="margin-bottom: 1rem; padding: 0.75rem; background: #f8fafc; border-radius: 0.5rem;">';
-                    html += '<h4 style="color: #014C34; margin: 0 0 0.5rem 0; font-size: 0.9rem;"><i class="fas fa-folder"></i> ' + label + '</h4>';
-                    html += renderObject(value, level + 1);
-                    html += '</div>';
-                } else {
-                    const displayValue = Array.isArray(value) ? value.join(', ') : (value || '-');
-                    html += '<div class="data-item" style="display: flex; margin-bottom: 0.5rem;">';
-                    html += '<span style="font-weight: 600; color: #374151; min-width: 180px;">' + label + ':</span>';
-                    html += '<span style="color: #64748b;">' + escapeHtml(String(displayValue)) + '</span>';
-                    html += '</div>';
-                }
-            }
-            html += '</div>';
-            return html;
-        }
-
-        // Format field name to readable label
-        function formatLabel(key) {
-            const labels = {
-                // Proprietário
-                'nome_prop': 'Nome do Proprietário', 'cpf_cnpj': 'CPF/CNPJ', 'email': 'E-mail',
-                'telefone': 'Telefone', 'end_resid': 'Endereço Residencial', 'horário_contato': 'Melhor Horário para Contato',
-                // Propriedade
-                'nome_propriedade': 'Nome da Propriedade', 'end_prop': 'Endereço da Propriedade',
-                'área_total': 'Área Total (ha)', 'área_disp': 'Área Disponível (ha)',
-                'geolink': 'Geolocalização', 'upload_kml': 'Arquivo KML/GEOJSON',
-                'matricula': 'Matrícula do Imóvel', 'sit_registral': 'Situação Registral',
-                // Documentos
-                'doc_matricula': 'Certidão de Matrícula', 'doc_ccir': 'CCIR', 'doc_cer': 'Certidões',
-                'arrend_vigente': 'Arrendamento Vigente', 'onus': 'Ônus/Penhora/Hipoteca',
-                'arrend_text': 'Detalhes do Arrendamento', 'arrend_upload': 'Doc. Arrendamento',
-                'onus_text': 'Detalhes do Ônus',
-                // Solo & Uso
-                'uso_atual': 'Uso Atual', 'ultimas_culturas': 'Últimas Culturas (5 anos)',
-                'soil_análise': 'Análise de Solo', 'soil_data': 'Data Última Análise',
-                'soil_files': 'Arquivos de Análise', 'obs_erosao': 'Observações (Erosão/Salinização)',
-                // Água & Infra
-                'água_fontes': 'Fontes de Água', 'outorga': 'Outorga de Água',
-                'vazao': 'Capacidade/Vazão', 'outorga_num': 'Nº da Outorga',
-                'outorga_upload': 'Doc. Outorga', 'irrigacao': 'Irrigação Instalada',
-                // Benfeitorias
-                'benfe': 'Benfeitorias', 'estado_cercas': 'Estado das Cercas',
-                'estado_estradas': 'Estado das Estradas', 'compensacoes': 'Compensações',
-                'comp_text': 'Detalhes das Compensações',
-                // Ambiental
-                'reserva_legal': 'Reserva Legal', 'apps': 'APPs',
-                'reserva_files': 'Doc. Reserva Legal', 'apps_text': 'Descrição das APPs',
-                'apps_upload': 'Doc. APPs', 'pend_env': 'Pendências Ambientais',
-                'pend_text': 'Detalhes das Pendências',
-                // Produção
-                'producao_atual': 'Produção Atual', 'offtake': 'Comprador/Off-take',
-                'rendimento': 'Rendimento Anual', 'certificacoes': 'Certificações',
-                // Modelo
-                'modalidade_interesse': 'Modalidade de Interesse', 'aluguel_proposto': 'Aluguel Proposto',
-                'aluguel_formula': 'Fórmula de Correção', 'modal2_participa': 'Interesse como Sócio',
-                'valuation': 'Expectativa de Valuation', 'prazo_min': 'Prazo Mínimo (anos)',
-                'autoriza_visita': 'Autoriza Visitas Técnicas', 'condicoes_essenciais': 'Condições Essenciais',
-                // Confirmação
-                'trab_regulares': 'Trabalhadores Regulares', 'comunidades': 'Comunidades Próximas',
-                'conflitos': 'Conflitos Conhecidos', 'conflitos_text': 'Detalhes dos Conflitos',
-                'fotos': 'Fotos', 'mapa_upload': 'Mapa/Sobreposição Aérea',
-                'outros_docs': 'Outros Documentos', 'declaro': 'Declaração',
-                'assinatura': 'Assinatura Digital', 'data_assinatura': 'Data da Assinatura',
-                'consent_imagem': 'Consentimento de Imagens'
-            };
-            return labels[key] || key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-        }
-
-        // Escape HTML to prevent XSS
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
 
         // Toggle property approval for frontend display
         function togglePropertyApproval(propertyId) {
@@ -591,6 +456,11 @@
         .custom-marker {
             background: transparent !important;
             border: none !important;
+        }
+
+        .no-data {
+            color: #94a3b8;
+            font-style: italic;
         }
 
         /* Toggle Switch Styles */
