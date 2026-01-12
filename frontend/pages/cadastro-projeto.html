@@ -1080,21 +1080,9 @@
             // Collect form data
             const formData = collectFormData();
 
-            // Map to backend format
-            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
-            const projectData = {
-                name: formData.titulo || 'Projeto - ' + (formData.nome || 'Cadastro rápido'),
-                category: formData.tipo || 'Agricultura Regenerativa',
-                description: '', // Deixar vazio para preenchimento manual
-                startDate: null,
-                estimatedEndDate: null,
-                priority: 'MEDIUM',
-                status: 'PLANNING',
-                totalEstimatedCosts: 0,
-                totalInvestment: 0,
-                estimatedReturnOverInvestment: 0,
-                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
-            };
+            // Usar FormMappers para converter os dados corretamente
+            const projectData = FormMappers.mapProjetoToProject(formData);
+            console.log('Dados mapeados para backend (rapido):', projectData);
 
             // Show loading
             const quickBtn = document.querySelector('button[onclick="quickSubmit()"]');
@@ -1131,37 +1119,9 @@
             // Collect form data
             const formData = collectFormData();
 
-            // Funcao para parsear valores monetarios (remover R$ e pontos)
-            function parseMoneyValue(val) {
-                if (!val) return 0;
-                const cleaned = String(val).replace(/[R$\s.]/g, '').replace(',', '.');
-                return parseFloat(cleaned) || 0;
-            }
-
-            // Calcular data estimada de fim baseada na duracao
-            let estimatedEndDate = null;
-            if (formData.inicioPrev && formData.duracao) {
-                const startDate = new Date(formData.inicioPrev);
-                startDate.setMonth(startDate.getMonth() + parseInt(formData.duracao));
-                estimatedEndDate = startDate.toISOString().split('T')[0];
-            }
-
-            // Map to backend format
-            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
-            // Todos os dados do formulario vao para additionalData
-            const projectData = {
-                name: formData.titulo || 'Projeto - ' + (formData.nome || 'Sem nome'),
-                category: formData.tipo || 'Agricultura Regenerativa',
-                description: '', // Deixar vazio para preenchimento manual
-                startDate: formData.inicioPrev || null,
-                estimatedEndDate: estimatedEndDate,
-                priority: 'MEDIUM',
-                status: 'PLANNING',
-                totalEstimatedCosts: parseMoneyValue(formData.custoTotal),
-                totalInvestment: parseMoneyValue(formData.valorSolicitado),
-                estimatedReturnOverInvestment: parseFloat(formData.retornoEstim) || 0,
-                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
-            };
+            // Usar FormMappers para converter os dados corretamente
+            const projectData = FormMappers.mapProjetoToProject(formData);
+            console.log('Dados mapeados para backend:', projectData);
 
             // Show loading
             const submitBtn = document.querySelector('button[onclick="submitForm()"]');
@@ -1232,14 +1192,6 @@
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
-        }
-
-        function mapPriority(prioridade) {
-            const map = {
-                'baixa': 'LOW', 'media': 'MEDIUM', 'alta': 'HIGH', 'critica': 'CRITICAL',
-                'low': 'LOW', 'medium': 'MEDIUM', 'high': 'HIGH', 'critical': 'CRITICAL'
-            };
-            return map[(prioridade || '').toLowerCase()] || 'MEDIUM';
         }
 
         function collectFormData() {

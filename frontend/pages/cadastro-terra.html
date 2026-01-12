@@ -1178,21 +1178,9 @@
             // Collect form data
             const formData = collectFormData();
 
-            // Map to backend format
-            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
-            const propertyData = {
-                name: formData.nome_propriedade || 'Propriedade - ' + (formData.nome_prop || 'Cadastro rápido'),
-                description: '', // Deixar vazio para preenchimento manual
-                totalArea: parseInt(formData.área_total) || 0,
-                availableArea: parseInt(formData.área_disp) || null,
-                type: formData.uso_atual || 'Rural',
-                address: formData.end_prop || '',
-                city: extractCity(formData.end_prop) || '',
-                state: extractState(formData.end_prop) || '',
-                latitude: null,
-                longitude: null,
-                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
-            };
+            // Usar FormMappers para converter os dados corretamente
+            const propertyData = FormMappers.mapTerraToProperty(formData);
+            console.log('Dados mapeados para backend (rapido):', propertyData);
 
             // Show loading
             const quickBtn = document.querySelector('button[onclick="quickSubmit()"]');
@@ -1229,33 +1217,9 @@
             // Collect form data
             const formData = collectFormData();
 
-            // Extrair coordenadas do geolink
-            let latitude = null;
-            let longitude = null;
-            if (formData.geolink) {
-                const coordMatch = formData.geolink.match(/(-?\d+\.?\d*),\s*(-?\d+\.?\d*)/);
-                if (coordMatch) {
-                    latitude = parseFloat(coordMatch[1]);
-                    longitude = parseFloat(coordMatch[2]);
-                }
-            }
-
-            // Map to backend format
-            // IMPORTANTE: description fica VAZIO para preenchimento manual posterior
-            // Todos os dados do formulario vao para additionalData
-            const propertyData = {
-                name: formData.nome_propriedade || 'Propriedade - ' + (formData.nome_prop || 'Sem nome'),
-                description: '', // Deixar vazio para preenchimento manual
-                totalArea: parseInt(formData.área_total) || 0,
-                availableArea: parseInt(formData.área_disp) || null,
-                type: formData.uso_atual || 'Rural',
-                address: formData.end_prop || '',
-                city: extractCity(formData.end_prop) || '',
-                state: extractState(formData.end_prop) || '',
-                latitude: latitude,
-                longitude: longitude,
-                additionalData: JSON.stringify(formData) // TODOS os dados do formulario
-            };
+            // Usar FormMappers para converter os dados corretamente
+            const propertyData = FormMappers.mapTerraToProperty(formData);
+            console.log('Dados mapeados para backend:', propertyData);
 
             // Show loading
             const submitBtn = document.querySelector('button[onclick="submitForm()"]');

@@ -2,10 +2,8 @@
  * Configuracoes do Renova Campo
  */
 const CONFIG = {
-    // URL base da API - altere para producao quando necessario
-    // Desenvolvimento: http://localhost:8080
-    // Producao: http://sistema.renovacampo.com.br:8080
-    API_BASE_URL: 'http://localhost:8080',
+    // URL base da API - vazio para usar caminho relativo (funciona em dev e producao)
+    API_BASE_URL: '',
 
     // Endpoints da API
     ENDPOINTS: {

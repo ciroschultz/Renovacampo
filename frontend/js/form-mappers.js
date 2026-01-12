@@ -58,6 +58,12 @@ const FormMappers = {
             longitude: longitude
         };
 
+        // Coletar TODOS os dados extras para o campo additionalData
+        const additionalData = this.extractAdditionalData(formData, this.PROPERTY_BASE_FIELDS);
+
+        // Adicionar additionalData como JSON string
+        baseData.additionalData = JSON.stringify(additionalData);
+
         return baseData;
     },
 
@@ -67,8 +73,8 @@ const FormMappers = {
     buildPropertyDescription(formData) {
         const lines = [];
 
-        // Dados do proprietario
-        if (formData.nome) lines.push(`Proprietário: ${formData.nome}`);
+        // Dados do proprietario (campos do cadastro-terra.html)
+        if (formData.nome_prop) lines.push(`Proprietário: ${formData.nome_prop}`);
         if (formData.cpf_cnpj) lines.push(`CPF/CNPJ: ${formData.cpf_cnpj}`);
         if (formData.email) lines.push(`Email: ${formData.email}`);
         if (formData.telefone) lines.push(`Telefone: ${formData.telefone}`);
@@ -80,12 +86,27 @@ const FormMappers = {
         if (formData.sit_registral) lines.push(`Situação Registral: ${formData.sit_registral}`);
         if (formData.uso_atual) lines.push(`Uso Atual: ${formData.uso_atual}`);
         if (formData.água_fontes) lines.push(`Fontes de Água: ${formData.água_fontes}`);
-        if (formData.benfeitorias) lines.push(`Benfeitorias: ${formData.benfeitorias}`);
+        if (formData.benfe) lines.push(`Benfeitorias: ${formData.benfe}`);
+        if (formData.ultimas_culturas) lines.push(`Últimas Culturas: ${formData.ultimas_culturas}`);
+
+        // Recursos hídricos
+        if (formData.outorga) lines.push(`Outorga: ${formData.outorga}`);
+        if (formData.irrigacao) lines.push(`Irrigação: ${formData.irrigacao}`);
+        if (formData.vazao) lines.push(`Vazão: ${formData.vazao}`);
+
+        // Ambiental
+        if (formData.reserva_legal) lines.push(`Reserva Legal: ${formData.reserva_legal}`);
+        if (formData.apps) lines.push(`APPs: ${formData.apps}`);
+
+        // Produção
+        if (formData.rendimento) lines.push(`Rendimento: ${formData.rendimento}`);
+        if (formData.certificacoes) lines.push(`Certificações: ${formData.certificacoes}`);
 
         // Modalidade e valores
-        if (formData.modalidade) lines.push(`Modalidade: ${formData.modalidade}`);
-        if (formData.aluguel) lines.push(`Valor Aluguel: ${formData.aluguel}`);
-        if (formData.prazo_min) lines.push(`Prazo Mínimo: ${formData.prazo_min}`);
+        if (formData.modalidade_interesse) lines.push(`Modalidade: ${formData.modalidade_interesse}`);
+        if (formData.aluguel_proposto) lines.push(`Valor Aluguel: R$ ${formData.aluguel_proposto}`);
+        if (formData.prazo_min) lines.push(`Prazo Mínimo: ${formData.prazo_min} anos`);
+        if (formData.condicoes_essenciais) lines.push(`Condições: ${formData.condicoes_essenciais}`);
 
         // Autorizacao e assinatura
         if (formData.autoriza_visita) lines.push(`Autoriza Visita: ${formData.autoriza_visita}`);
