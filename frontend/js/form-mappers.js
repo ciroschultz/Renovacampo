@@ -41,8 +41,8 @@ const FormMappers = {
         // Separar cidade e estado do endereco
         const location = this.parseLocation(formData.end_prop || '');
 
-        // Construir descricao com todas as informacoes extras
-        const description = this.buildPropertyDescription(formData);
+        // Descricao curta - apenas nome do proprietario e propriedade
+        const description = `Proprietário: ${formData.nome_prop || 'Não informado'}. Propriedade: ${formData.nome_propriedade || 'Não informada'}.`;
 
         // Dados basicos para colunas especificas
         const baseData = {
@@ -58,8 +58,15 @@ const FormMappers = {
             longitude: longitude
         };
 
-        // Coletar TODOS os dados extras para o campo additionalData
-        const additionalData = this.extractAdditionalData(formData, this.PROPERTY_BASE_FIELDS);
+        // TODOS os dados do formulario vao para additionalData (exceto arquivos)
+        const additionalData = {};
+        for (const [key, value] of Object.entries(formData)) {
+            // Ignorar campos vazios, funcoes e arquivos
+            if (value === null || value === undefined || value === '') continue;
+            if (typeof value === 'function') continue;
+            if (key === 'timestamp') continue;
+            additionalData[key] = value;
+        }
 
         // Adicionar additionalData como JSON string
         baseData.additionalData = JSON.stringify(additionalData);
