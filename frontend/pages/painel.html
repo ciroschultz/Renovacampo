@@ -791,20 +791,26 @@
         </main>
     </div>
 
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
     <script>
-        // Recuperar email do login
-        const userEmail = localStorage.getItem('renovacampo_user_email') || 'usuario@email.com';
+        // Recuperar dados do login
+        const userEmail = localStorage.getItem('renovacampo_user_email') || '';
+        const userCpf = localStorage.getItem('renovacampo_user_cpf') || '';
+
+        // Limpar CPF para comparacao (apenas numeros)
+        const userCpfClean = userCpf.replace(/\D/g, '');
 
         // Extrair nome do email
-        const userName = userEmail.split('@')[0]
+        const userName = userEmail ? userEmail.split('@')[0]
             .replace(/[._-]/g, ' ')
-            .replace(/\b\w/g, l => l.toUpperCase());
+            .replace(/\b\w/g, l => l.toUpperCase()) : 'Usuario';
 
         // Inicial para o avatar
         const userInitial = userName.charAt(0).toUpperCase();
 
         // Atualizar elementos da pagina
-        document.getElementById('userEmail').textContent = userEmail;
+        document.getElementById('userEmail').textContent = userEmail || 'Nao logado';
         document.getElementById('userName').textContent = userName;
         document.getElementById('userInitial').textContent = userInitial;
 
@@ -823,16 +829,255 @@
         // Funcao de logout
         function logout() {
             localStorage.removeItem('renovacampo_user_email');
+            localStorage.removeItem('renovacampo_user_cpf');
             window.location.href = 'login.html';
         }
 
         // Verificar se usuario esta logado
-        if (!localStorage.getItem('renovacampo_user_email')) {
-            // Se nao estiver logado, ainda permite ver a pagina mas com dados demo
-            document.getElementById('userEmail').textContent = 'demo@renovacampo.com.br';
-            document.getElementById('userName').textContent = 'Usuario Demo';
-            document.getElementById('userInitial').textContent = 'D';
+        if (!userEmail || !userCpf) {
+            // Se nao estiver logado, redirecionar para login
+            window.location.href = 'login.html';
         }
+
+        // Variaveis para armazenar dados do usuario
+        let minhasTerras = [];
+        let meusProjetos = [];
+        let meusInvestimentos = [];
+
+        // Funcao para verificar se um item pertence ao usuario
+        function pertenceAoUsuario(item) {
+            if (!item.additionalData) return false;
+
+            try {
+                const data = typeof item.additionalData === 'string'
+                    ? JSON.parse(item.additionalData)
+                    : item.additionalData;
+
+                // Verificar email
+                const itemEmail = (data.email || data.contatoEmail || '').toLowerCase().trim();
+                const userEmailLower = userEmail.toLowerCase().trim();
+
+                // Verificar CPF/CNPJ
+                const itemCpf = (data.cpf || data.cpfCnpj || data.documento || '').replace(/\D/g, '');
+
+                return itemEmail === userEmailLower || itemCpf === userCpfClean;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Funcao para verificar investidor pelo CPF
+        function investidorPertenceAoUsuario(investor) {
+            const investorCpf = (investor.taxId || '').replace(/\D/g, '');
+            const investorEmail = (investor.email || '').toLowerCase().trim();
+
+            return investorCpf === userCpfClean || investorEmail === userEmail.toLowerCase().trim();
+        }
+
+        // Carregar dados do usuario
+        async function carregarDados() {
+            try {
+                // Buscar todas as propriedades
+                const properties = await PropertyService.getAll();
+                minhasTerras = properties.filter(pertenceAoUsuario);
+
+                // Buscar todos os projetos
+                const projects = await ProjectService.getAll();
+                meusProjetos = projects.filter(pertenceAoUsuario);
+
+                // Buscar todos os investidores
+                const investors = await InvestorService.getAll();
+                meusInvestimentos = investors.filter(investidorPertenceAoUsuario);
+
+                // Atualizar interface
+                atualizarInterface();
+
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        }
+
+        // Atualizar interface com os dados
+        function atualizarInterface() {
+            // Atualizar contadores nos cards de estatisticas
+            const statCards = document.querySelectorAll('.stat-card-value');
+            if (statCards[0]) statCards[0].textContent = minhasTerras.length;
+            if (statCards[1]) statCards[1].textContent = meusProjetos.length;
+
+            // Calcular total investido
+            let totalInvestido = 0;
+            meusInvestimentos.forEach(inv => {
+                totalInvestido += inv.availableFunds || 0;
+            });
+            if (statCards[2]) statCards[2].textContent = 'R$ ' + totalInvestido.toLocaleString('pt-BR');
+
+            // Atualizar badges no menu
+            const badges = document.querySelectorAll('.menu-item .badge');
+            if (badges[0]) badges[0].textContent = minhasTerras.length;
+            if (badges[1]) badges[1].textContent = meusProjetos.length;
+
+            // Atualizar secao de projetos
+            atualizarSecaoProjetos();
+
+            // Atualizar lista de atividades
+            atualizarAtividades();
+        }
+
+        // Atualizar secao de projetos
+        function atualizarSecaoProjetos() {
+            const projectsCard = document.querySelector('.card .card-body');
+
+            if (meusProjetos.length === 0 && minhasTerras.length === 0 && meusInvestimentos.length === 0) {
+                // Manter estado vazio
+                return;
+            }
+
+            let html = '';
+
+            // Mostrar terras
+            if (minhasTerras.length > 0) {
+                html += '<h4 style="margin-bottom: 15px; color: #014C34;"><i class="fas fa-map"></i> Minhas Terras</h4>';
+                html += '<div style="margin-bottom: 20px;">';
+                minhasTerras.forEach(terra => {
+                    const data = typeof terra.additionalData === 'string' ? JSON.parse(terra.additionalData) : terra.additionalData;
+                    html += `
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; background: #f8fafc; border-radius: 8px; margin-bottom: 10px;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #014C34;">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong>${terra.title || data.nomePropriedade || 'Terra ' + terra.id}</strong>
+                                <p style="font-size: 12px; color: #64748b; margin: 0;">${terra.totalArea || 0} hectares - ${terra.city || ''}, ${terra.state || ''}</p>
+                            </div>
+                            <a href="detalhes-terra.html?id=${terra.id}" class="btn btn-secondary" style="font-size: 12px; padding: 8px 15px;">Ver</a>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            // Mostrar projetos
+            if (meusProjetos.length > 0) {
+                html += '<h4 style="margin-bottom: 15px; color: #EC6618;"><i class="fas fa-seedling"></i> Meus Projetos</h4>';
+                html += '<div style="margin-bottom: 20px;">';
+                meusProjetos.forEach(projeto => {
+                    const data = typeof projeto.additionalData === 'string' ? JSON.parse(projeto.additionalData) : projeto.additionalData;
+                    html += `
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; background: #fff7ed; border-radius: 8px; margin-bottom: 10px;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #fed7aa, #fdba74); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #c2410c;">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong>${projeto.name || data.nomeProjeto || 'Projeto ' + projeto.id}</strong>
+                                <p style="font-size: 12px; color: #64748b; margin: 0;">${projeto.category || 'Agricultura'} - ${projeto.status || 'Em analise'}</p>
+                            </div>
+                            <a href="detalhes-empreendimento.html?id=${projeto.id}" class="btn btn-secondary" style="font-size: 12px; padding: 8px 15px;">Ver</a>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            // Mostrar investimentos
+            if (meusInvestimentos.length > 0) {
+                html += '<h4 style="margin-bottom: 15px; color: #3b82f6;"><i class="fas fa-chart-line"></i> Meus Investimentos</h4>';
+                html += '<div>';
+                meusInvestimentos.forEach(inv => {
+                    html += `
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; background: #eff6ff; border-radius: 8px; margin-bottom: 10px;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #bfdbfe, #93c5fd); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #1d4ed8;">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong>${inv.name || 'Investidor'}</strong>
+                                <p style="font-size: 12px; color: #64748b; margin: 0;">Disponivel: R$ ${(inv.availableFunds || 0).toLocaleString('pt-BR')}</p>
+                            </div>
+                            <span class="status-badge ${inv.active ? 'active' : 'pending'}">${inv.active ? 'Ativo' : 'Pendente'}</span>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            if (html) {
+                projectsCard.innerHTML = html;
+            }
+        }
+
+        // Atualizar lista de atividades
+        function atualizarAtividades() {
+            const activityList = document.querySelector('.activity-list');
+            if (!activityList) return;
+
+            let activities = [];
+
+            // Adicionar terras as atividades
+            minhasTerras.forEach(terra => {
+                activities.push({
+                    icon: 'fas fa-map',
+                    iconClass: 'green',
+                    text: `Terra "${terra.title || 'Sem nome'}" cadastrada`,
+                    date: terra.createdAt || new Date().toISOString()
+                });
+            });
+
+            // Adicionar projetos as atividades
+            meusProjetos.forEach(projeto => {
+                activities.push({
+                    icon: 'fas fa-seedling',
+                    iconClass: 'orange',
+                    text: `Projeto "${projeto.name || 'Sem nome'}" cadastrado`,
+                    date: projeto.createdAt || new Date().toISOString()
+                });
+            });
+
+            // Adicionar investimentos as atividades
+            meusInvestimentos.forEach(inv => {
+                activities.push({
+                    icon: 'fas fa-hand-holding-usd',
+                    iconClass: 'blue',
+                    text: `Cadastro de investidor realizado`,
+                    date: inv.createdAt || new Date().toISOString()
+                });
+            });
+
+            // Ordenar por data (mais recentes primeiro)
+            activities.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Limitar a 5 atividades
+            activities = activities.slice(0, 5);
+
+            if (activities.length === 0) {
+                activities.push({
+                    icon: 'fas fa-info-circle',
+                    iconClass: 'blue',
+                    text: 'Nenhuma atividade ainda. Comece cadastrando uma terra ou projeto!',
+                    date: new Date().toISOString()
+                });
+            }
+
+            // Gerar HTML
+            let html = '';
+            activities.forEach(act => {
+                const dataFormatada = new Date(act.date).toLocaleDateString('pt-BR');
+                html += `
+                    <li class="activity-item">
+                        <div class="activity-icon ${act.iconClass}">
+                            <i class="${act.icon}"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p>${act.text}</p>
+                            <span>${dataFormatada}</span>
+                        </div>
+                    </li>
+                `;
+            });
+
+            activityList.innerHTML = html;
+        }
+
+        // Carregar dados ao iniciar
+        carregarDados();
     </script>
 </body>
 </html>

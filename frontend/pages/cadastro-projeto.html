@@ -1319,7 +1319,11 @@
             let v = e.target.value.replace(/\D/g, '');
             if (!v) { e.target.value = ''; return; }
             const num = (Number(v) / 100).toFixed(2);
-            e.target.value = 'R$ ' + num.replace(/\B(?=(\d{3})+(?!\d))/g, '.').replace('.', ',').replace(/,(\d{2})$/, ',$1');
+            // Formatar para R$ X.XXX,XX
+            const parts = num.split('.');
+            const intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            const decPart = parts[1];
+            e.target.value = 'R$ ' + intPart + ',' + decPart;
         }
 
         ['custoTotal', 'custoHa', 'valorSolicitado'].forEach(id => {

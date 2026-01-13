@@ -461,6 +461,8 @@
 
             .detail-header h1 {
                 font-size: 22px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
 
             .detail-card {
@@ -477,6 +479,21 @@
 
             .progress-section {
                 padding: 20px 15px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .info-item {
+                padding: 15px;
+            }
+
+            .info-item .value {
+                font-size: 16px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
 
             .financial-grid {
@@ -502,6 +519,14 @@
 
             .sidebar-card h3 {
                 font-size: 16px;
+            }
+
+            .invest-card {
+                padding: 20px 15px;
+            }
+
+            .invest-amount {
+                font-size: 22px;
             }
 
             .container {
@@ -538,6 +563,26 @@
 
             .detail-content {
                 grid-template-columns: 1fr;
+            }
+
+            .progress-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .document-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .document-item .doc-icon {
+                margin-right: 0;
+            }
+
+            .document-item .doc-actions {
+                width: 100%;
+                justify-content: center;
             }
         }
 

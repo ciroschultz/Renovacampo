@@ -316,10 +316,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Senha</label>
+                        <label for="cpf">CPF/CNPJ (usado no cadastro)</label>
                         <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
                         </div>
                     </div>
 
@@ -327,7 +327,6 @@
                         <label>
                             <input type="checkbox" name="remember"> Lembrar de mim
                         </label>
-                        <a href="#">Esqueceu a senha?</a>
                     </div>
 
                     <button type="submit" class="btn btn-primary login-btn">
@@ -335,58 +334,47 @@
                     </button>
                 </form>
 
-                <div class="login-divider">
-                    <span>ou continue com</span>
-                </div>
-
-                <div class="social-login">
-                    <button class="social-btn google">
-                        <i class="fab fa-google"></i> Google
-                    </button>
-                    <button class="social-btn facebook">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </button>
-                </div>
-
                 <p class="login-footer">
-                    Ainda no tem uma conta? <a href="cadastro.html">Cadastre-se</a>
+                    Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se</a>
+                </p>
+
+                <p style="text-align: center; font-size: 12px; color: #999; margin-top: 20px;">
+                    Use o mesmo e-mail e CPF/CNPJ que você utilizou no cadastro de Terra, Projeto ou Investidor.
                 </p>
             </div>
         </div>
     </div>
 
+    <script src="../js/config.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Máscara CPF/CNPJ
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+            } else {
+                v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/, '$1.$2.$3/$4-$5');
+            }
+            e.target.value = v.replace(/[-./]$/, '');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value.trim();
+            const cpf = document.getElementById('cpf').value.trim();
 
-            if (email && password) {
-                // Salvar email no localStorage para usar no painel
-                localStorage.setItem('renovacampo_user_email', email);
-
-                // Mostrar feedback visual
+            if (email && cpf) {
                 const btn = document.querySelector('.login-btn');
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
                 btn.disabled = true;
 
-                // Simular delay de autenticacao
-                setTimeout(function() {
-                    window.location.href = 'painel.html';
-                }, 1000);
+                // Salvar credenciais para usar no painel
+                localStorage.setItem('renovacampo_user_email', email);
+                localStorage.setItem('renovacampo_user_cpf', cpf);
+
+                // Redirecionar para o painel
+                window.location.href = 'painel.html';
             }
-        });
-
-        // Login com Google (simulado)
-        document.querySelector('.social-btn.google').addEventListener('click', function() {
-            localStorage.setItem('renovacampo_user_email', 'usuario@gmail.com');
-            window.location.href = 'painel.html';
-        });
-
-        // Login com Facebook (simulado)
-        document.querySelector('.social-btn.facebook').addEventListener('click', function() {
-            localStorage.setItem('renovacampo_user_email', 'usuario@facebook.com');
-            window.location.href = 'painel.html';
         });
     </script>
 </body>

@@ -28,8 +28,9 @@ const FormMappers = {
      */
     mapTerraToProperty(formData) {
         // Extrair coordenadas do geolink se fornecido
-        let latitude = null;
-        let longitude = null;
+        // Coordenadas padrão: São Paulo centro (caso não preenchido)
+        let latitude = -23.550520;
+        let longitude = -46.633308;
         if (formData.geolink) {
             const coords = this.extractCoordinates(formData.geolink);
             if (coords) {
