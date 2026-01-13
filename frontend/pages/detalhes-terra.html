@@ -258,8 +258,13 @@
 
         /* Mobile Responsivo */
         @media (max-width: 768px) {
+            html, body {
+                overflow-x: hidden;
+            }
+
             .detail-page {
                 padding-top: 80px;
+                overflow-x: hidden;
             }
 
             .detail-header {
@@ -312,6 +317,9 @@
             .container {
                 padding-left: 15px;
                 padding-right: 15px;
+                max-width: 100%;
+                overflow-x: hidden;
+                box-sizing: border-box;
             }
 
             .btn {
