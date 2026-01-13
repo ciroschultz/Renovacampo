@@ -455,9 +455,9 @@
 
                 <nav class="nav">
                     <ul class="nav-list">
-                        <li><a href="../index.html#inicio">Inicio</a></li>
+                        <li><a href="../index.html#inicio">Início</a></li>
                         <li><a href="../index.html#como-funciona">Como Funciona</a></li>
-                        <li><a href="../index.html#terras">Terras Disponiveis</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
                         <li><a href="../index.html#projetos" class="active">Mural de Projetos</a></li>
                         <li><a href="../index.html#simulador">Simulador</a></li>
                         <li><a href="quem-somos.html">Quem Somos</a></li>
@@ -474,6 +474,22 @@
                 </button>
             </div>
         </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="../index.html#inicio">Início</a></li>
+                <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                <li><a href="../index.html#simulador">Simulador</a></li>
+                <li><a href="quem-somos.html">Quem Somos</a></li>
+            </ul>
+            <div class="mobile-menu-buttons">
+                <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+            </div>
+        </div>
     </header>
 
     <!-- Detail Page -->
@@ -482,7 +498,7 @@
         <div class="detail-header">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="../index.html">Inicio</a> /
+                    <a href="../index.html">Início</a> /
                     <a href="../index.html#projetos">Mural de Projetos</a> /
                     <span id="breadcrumb-name">Detalhes</span>
                 </div>
@@ -504,8 +520,8 @@
             <!-- Error State -->
             <div class="error-container" id="errorState" style="display: none;">
                 <i class="fas fa-exclamation-triangle"></i>
-                <h2>Empreendimento nao encontrado</h2>
-                <p>O empreendimento solicitado nao existe ou foi removido.</p>
+                <h2>Empreendimento não encontrado</h2>
+                <p>O empreendimento solicitado não existe ou foi removido.</p>
                 <a href="../index.html#projetos" class="btn btn-primary" style="margin-top: 20px;">Ver outros projetos</a>
             </div>
 
@@ -515,7 +531,7 @@
                 <div class="main-content">
                     <!-- Progress -->
                     <div class="detail-card">
-                        <h2><i class="fas fa-chart-line"></i> Progresso de Captacao</h2>
+                        <h2><i class="fas fa-chart-line"></i> Progresso de Captação</h2>
 
                         <div class="progress-section">
                             <div class="progress-header">
@@ -534,7 +550,7 @@
 
                     <!-- Financial Info -->
                     <div class="detail-card">
-                        <h2><i class="fas fa-coins"></i> Informacoes Financeiras</h2>
+                        <h2><i class="fas fa-coins"></i> Informações Financeiras</h2>
 
                         <div class="info-grid">
                             <div class="info-item">
@@ -546,11 +562,11 @@
                                 <div class="value orange" id="expectedReturn">--%</div>
                             </div>
                             <div class="info-item">
-                                <div class="label">Investimento Minimo</div>
+                                <div class="label">Investimento Mínimo</div>
                                 <div class="value" id="minInvestment">R$ --</div>
                             </div>
                             <div class="info-item">
-                                <div class="label">Prazo de Captacao</div>
+                                <div class="label">Prazo de Captação</div>
                                 <div class="value" id="fundingDeadline">--</div>
                             </div>
                         </div>
@@ -560,13 +576,13 @@
                     <div class="detail-card">
                         <h2><i class="fas fa-align-left"></i> Sobre o Empreendimento</h2>
                         <p class="description" id="description">
-                            Carregando descricao...
+                            Carregando descrição...
                         </p>
                     </div>
 
                     <!-- Documents -->
                     <div class="detail-card" id="documentsCard" style="display: none;">
-                        <h2><i class="fas fa-file-pdf"></i> Documentacao do Projeto</h2>
+                        <h2><i class="fas fa-file-pdf"></i> Documentação do Projeto</h2>
                         <div id="documentsContainer">
                             <div class="loading-docs">
                                 <i class="fas fa-spinner fa-spin"></i> Carregando documentos...
@@ -580,15 +596,15 @@
                         <div class="timeline" id="timeline">
                             <div class="timeline-item">
                                 <div class="date" id="launchDate">--</div>
-                                <div class="title">Lancamento</div>
+                                <div class="title">Lançamento</div>
                             </div>
                             <div class="timeline-item">
                                 <div class="date" id="fundingEndDate">--</div>
-                                <div class="title">Fim da Captacao</div>
+                                <div class="title">Fim da Captação</div>
                             </div>
                             <div class="timeline-item pending">
                                 <div class="date" id="completionDate">--</div>
-                                <div class="title">Previsao de Conclusao</div>
+                                <div class="title">Previsão de Conclusão</div>
                             </div>
                         </div>
                     </div>
@@ -605,12 +621,12 @@
                         </div>
                         <div class="invest-details">
                             <p>
-                                <span>Investimento minimo</span>
+                                <span>Investimento mínimo</span>
                                 <strong id="minInvestSidebar">R$ 1.000</strong>
                             </p>
                             <p>
                                 <span>Vagas restantes</span>
-                                <strong id="remainingSlots">Disponiveis</strong>
+                                <strong id="remainingSlots">Disponíveis</strong>
                             </p>
                         </div>
                         <a href="intro-investidor.html" class="btn-invest">
@@ -625,16 +641,16 @@
                             <i class="fas fa-home"></i>
                             <div>
                                 <strong id="propertyName">Nome da Propriedade</strong>
-                                <small id="propertyLocation">Localizacao</small>
+                                <small id="propertyLocation">Localização</small>
                             </div>
                         </a>
                     </div>
 
                     <!-- Contact Card -->
                     <div class="sidebar-card">
-                        <h3><i class="fas fa-question-circle"></i> Duvidas?</h3>
+                        <h3><i class="fas fa-question-circle"></i> Dúvidas?</h3>
                         <p style="margin-bottom: 20px; color: var(--texto-claro);">
-                            Nossa equipe esta pronta para ajudar com suas duvidas sobre este empreendimento.
+                            Nossa equipe está pronta para ajudar com suas dúvidas sobre este empreendimento.
                         </p>
                         <a href="https://wa.me/5511984489104" class="btn btn-primary btn-block" target="_blank">
                             <i class="fab fa-whatsapp"></i> Falar com Consultor
@@ -663,7 +679,7 @@
                     <h4>Menu</h4>
                     <ul>
                         <li><a href="../index.html#como-funciona">Como Funciona</a></li>
-                        <li><a href="../index.html#terras">Terras Disponiveis</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
                         <li><a href="../index.html#projetos">Mural de Projetos</a></li>
                         <li><a href="../index.html#simulador">Simulador</a></li>
                     </ul>
@@ -763,7 +779,7 @@
             const statusMap = {
                 'PLANNING': { text: 'Planejamento', class: 'planning' },
                 'ACTIVE': { text: 'Ativo', class: 'active' },
-                'COMPLETED': { text: 'Concluido', class: 'completed' },
+                'COMPLETED': { text: 'Concluído', class: 'completed' },
                 'SUSPENDED': { text: 'Suspenso', class: 'planning' },
                 'CANCELLED': { text: 'Cancelado', class: 'planning' }
             };
@@ -818,7 +834,7 @@
                     document.getElementById('propertyLink').href = `detalhes-terra.html?id=${propertyId}`;
                 }
             } catch (error) {
-                console.log('Propriedade vinculada nao encontrada');
+                console.log('Propriedade vinculada não encontrada');
             }
         }
 
@@ -898,13 +914,29 @@
 
         // Mobile menu
         const menuToggle = document.getElementById('menuToggle');
-        const nav = document.querySelector('.nav');
-        if (menuToggle) {
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', function() {
-                nav.classList.toggle('active');
-                const icon = this.querySelector('i');
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
+                mobileMenu.classList.toggle('active');
+
+                const icon = menuToggle.querySelector('i');
+                if (mobileMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
             });
         }
     </script>

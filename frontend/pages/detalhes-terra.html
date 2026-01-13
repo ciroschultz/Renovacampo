@@ -229,7 +229,7 @@
             margin-left: 10px;
         }
 
-        .status-badge.disponivel {
+        .status-badge.disponível {
             background: #d4edda;
             color: #155724;
         }
@@ -268,9 +268,9 @@
 
                 <nav class="nav">
                     <ul class="nav-list">
-                        <li><a href="../index.html#inicio">Inicio</a></li>
+                        <li><a href="../index.html#inicio">Início</a></li>
                         <li><a href="../index.html#como-funciona">Como Funciona</a></li>
-                        <li><a href="../index.html#terras" class="active">Terras Disponiveis</a></li>
+                        <li><a href="../index.html#terras" class="active">Terras Disponíveis</a></li>
                         <li><a href="../index.html#projetos">Mural de Projetos</a></li>
                         <li><a href="../index.html#simulador">Simulador</a></li>
                         <li><a href="quem-somos.html">Quem Somos</a></li>
@@ -287,6 +287,22 @@
                 </button>
             </div>
         </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="../index.html#inicio">Início</a></li>
+                <li><a href="../index.html#como-funciona">Como Funciona</a></li>
+                <li><a href="../index.html#terras">Terras Disponíveis</a></li>
+                <li><a href="../index.html#projetos">Mural de Projetos</a></li>
+                <li><a href="../index.html#simulador">Simulador</a></li>
+                <li><a href="quem-somos.html">Quem Somos</a></li>
+            </ul>
+            <div class="mobile-menu-buttons">
+                <a href="login.html" class="btn btn-outline-orange">Entrar</a>
+                <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+            </div>
+        </div>
     </header>
 
     <!-- Detail Page -->
@@ -295,14 +311,14 @@
         <div class="detail-header">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="../index.html">Inicio</a> /
-                    <a href="../index.html#terras">Terras Disponiveis</a> /
+                    <a href="../index.html">Início</a> /
+                    <a href="../index.html#terras">Terras Disponíveis</a> /
                     <span id="breadcrumb-name">Detalhes</span>
                 </div>
                 <h1 id="property-title">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Carregando...</span>
-                    <span class="status-badge disponivel">Disponivel</span>
+                    <span class="status-badge disponível">Disponível</span>
                 </h1>
             </div>
         </div>
@@ -317,8 +333,8 @@
             <!-- Error State -->
             <div class="error-container" id="errorState" style="display: none;">
                 <i class="fas fa-exclamation-triangle"></i>
-                <h2>Propriedade nao encontrada</h2>
-                <p>A propriedade solicitada nao existe ou foi removida.</p>
+                <h2>Propriedade não encontrada</h2>
+                <p>A propriedade solicitada não existe ou foi removida.</p>
                 <a href="../index.html#terras" class="btn btn-primary" style="margin-top: 20px;">Ver outras terras</a>
             </div>
 
@@ -342,11 +358,11 @@
 
                         <div class="info-grid">
                             <div class="info-item">
-                                <div class="label">Area Total</div>
+                                <div class="label">Área Total</div>
                                 <div class="value highlight" id="totalArea">-- ha</div>
                             </div>
                             <div class="info-item">
-                                <div class="label">Area Disponivel</div>
+                                <div class="label">Área Disponível</div>
                                 <div class="value" id="availableArea">-- ha</div>
                             </div>
                             <div class="info-item">
@@ -354,12 +370,12 @@
                                 <div class="value" id="propertyType">--</div>
                             </div>
                             <div class="info-item">
-                                <div class="label">Localizacao</div>
+                                <div class="label">Localização</div>
                                 <div class="value" id="location">--</div>
                             </div>
                         </div>
 
-                        <h2 style="margin-top: 30px;"><i class="fas fa-align-left"></i> Descricao</h2>
+                        <h2 style="margin-top: 30px;"><i class="fas fa-align-left"></i> Descrição</h2>
                         <p class="description" id="description">
                             Carregando descricao...
                         </p>
@@ -388,7 +404,7 @@
 
                     <!-- Location Card -->
                     <div class="sidebar-card">
-                        <h3><i class="fas fa-map-marker-alt"></i> Localizacao</h3>
+                        <h3><i class="fas fa-map-marker-alt"></i> Localização</h3>
                         <div class="contact-info">
                             <p><i class="fas fa-map-pin"></i> <span id="address">--</span></p>
                             <p><i class="fas fa-city"></i> <span id="cityState">--</span></p>
@@ -431,7 +447,7 @@
                     <h4>Menu</h4>
                     <ul>
                         <li><a href="../index.html#como-funciona">Como Funciona</a></li>
-                        <li><a href="../index.html#terras">Terras Disponiveis</a></li>
+                        <li><a href="../index.html#terras">Terras Disponíveis</a></li>
                         <li><a href="../index.html#projetos">Mural de Projetos</a></li>
                         <li><a href="../index.html#simulador">Simulador</a></li>
                     </ul>
@@ -504,10 +520,10 @@
             document.getElementById('location').textContent = `${prop.city || ''}, ${prop.state || ''}`;
 
             // Description
-            document.getElementById('description').textContent = prop.description || 'Propriedade disponivel para arrendamento. Entre em contato para mais informacoes.';
+            document.getElementById('description').textContent = prop.description || 'Propriedade disponível para arrendamento. Entre em contato para mais informações.';
 
             // Address
-            document.getElementById('address').textContent = prop.address || 'Endereco nao informado';
+            document.getElementById('address').textContent = prop.address || 'Endereço não informado';
             document.getElementById('cityState').textContent = `${prop.city || ''} - ${prop.state || ''}`;
 
             // Tags
@@ -589,7 +605,7 @@
                 } else {
                     // No photos - use placeholder
                     mainPhoto.src = '../imagens/imagens gerais/terra-placeholder.jpg';
-                    thumbsContainer.innerHTML = '<p style="color: var(--texto-claro); font-size: 14px;">Nenhuma foto disponivel</p>';
+                    thumbsContainer.innerHTML = '<p style="color: var(--texto-claro); font-size: 14px;">Nenhuma foto disponível</p>';
                 }
             } catch (error) {
                 console.error('Erro ao carregar fotos:', error);
@@ -604,13 +620,29 @@
 
         // Mobile menu
         const menuToggle = document.getElementById('menuToggle');
-        const nav = document.querySelector('.nav');
-        if (menuToggle) {
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', function() {
-                nav.classList.toggle('active');
-                const icon = this.querySelector('i');
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
+                mobileMenu.classList.toggle('active');
+
+                const icon = menuToggle.querySelector('i');
+                if (mobileMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
             });
         }
     </script>
